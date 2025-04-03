@@ -1,0 +1,4 @@
+vm option
+--module-path lib --add-modules javafx.controls,javafx.fxml,javafx.media -Dprism.order=sw -Dprism.verbose=true
+test
+alice20240103

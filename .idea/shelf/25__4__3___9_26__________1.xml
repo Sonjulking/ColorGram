@@ -1,0 +1,19 @@
+<changelist name="25__4__3__오전_9_26,_업데이트_전에_커밋되지_않은_변경_내용_[변경]1" date="1743639996482" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/25__4__3__오전_9_26,_업데이트_전에_커밋되지_않은_변경_내용_[변경]1/shelved.patch" />
+  <option name="DESCRIPTION" value="25. 4. 3. 오전 9:26, 업데이트 전에 커밋되지 않은 변경 내용 [변경]" />
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/colorgram/modules/user/UserView.class" />
+    <option name="AFTER_PATH" value="out/production/colorgram/modules/user/UserView.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__4__3__오전_9_26,_업데이트_전에_커밋되지_않은_변경_내용_[변경]1/UserView.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/colorgram/Main$1.class" />
+    <option name="AFTER_PATH" value="out/production/colorgram/Main$1.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__4__3__오전_9_26,_업데이트_전에_커밋되지_않은_변경_내용_[변경]1/Main$1.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/colorgram/Main.class" />
+    <option name="AFTER_PATH" value="out/production/colorgram/Main.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__4__3__오전_9_26,_업데이트_전에_커밋되지_않은_변경_내용_[변경]1/Main.class" />
+  </binary>
+</changelist>

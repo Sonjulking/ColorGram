@@ -1,0 +1,44 @@
+<changelist name="25__3__27__오후_3_27,_체크아웃_전에_커밋되지_않은_변경_내용_[변경]" date="1743056878509" recycled="false" toDelete="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/25__3__27__오후_3_27,_체크아웃_전에_커밋되지_않은_변경_내용_[변경]/shelved.patch" />
+  <option name="DESCRIPTION" value="25. 3. 27. 오후 3:27, 체크아웃 전에 커밋되지 않은 변경 내용 [변경]" />
+  <binary>
+    <option name="BEFORE_PATH" value="lib/javafx-swt.jar" />
+    <option name="AFTER_PATH" value="lib/javafx-swt.jar" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__3__27__오후_3_27,_체크아웃_전에_커밋되지_않은_변경_내용_[변경]/javafx-swt.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="lib/javafx.graphics.jar" />
+    <option name="AFTER_PATH" value="lib/javafx.graphics.jar" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__3__27__오후_3_27,_체크아웃_전에_커밋되지_않은_변경_내용_[변경]/javafx.graphics.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="lib/javafx.base.jar" />
+    <option name="AFTER_PATH" value="lib/javafx.base.jar" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__3__27__오후_3_27,_체크아웃_전에_커밋되지_않은_변경_내용_[변경]/javafx.base.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="lib/javafx.fxml.jar" />
+    <option name="AFTER_PATH" value="lib/javafx.fxml.jar" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__3__27__오후_3_27,_체크아웃_전에_커밋되지_않은_변경_내용_[변경]/javafx.fxml.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="lib/javafx.controls.jar" />
+    <option name="AFTER_PATH" value="lib/javafx.controls.jar" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__3__27__오후_3_27,_체크아웃_전에_커밋되지_않은_변경_내용_[변경]/javafx.controls.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="lib/javafx.media.jar" />
+    <option name="AFTER_PATH" value="lib/javafx.media.jar" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__3__27__오후_3_27,_체크아웃_전에_커밋되지_않은_변경_내용_[변경]/javafx.media.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="lib/javafx.swing.jar" />
+    <option name="AFTER_PATH" value="lib/javafx.swing.jar" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__3__27__오후_3_27,_체크아웃_전에_커밋되지_않은_변경_내용_[변경]/javafx.swing.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="lib/javafx.web.jar" />
+    <option name="AFTER_PATH" value="lib/javafx.web.jar" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__3__27__오후_3_27,_체크아웃_전에_커밋되지_않은_변경_내용_[변경]/javafx.web.jar" />
+  </binary>
+</changelist>

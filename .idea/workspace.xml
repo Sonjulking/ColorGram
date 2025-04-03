@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0fa40e02-cece-4bb7-a7f2-c888644ef6ef" name="변경" comment="first commit" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="kkc" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../coding_test" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Sonjulking&quot;
+  }
+}</component>
+  <component name="GitToolBoxStore">
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="master" />
+                    <option name="lastUsedInstant" value="1743641911" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="kkc" />
+                    <option name="lastUsedInstant" value="1743640757" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="master" />
+                    <option name="lastUsedInstant" value="1743664359" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$/../coding_test" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Sonjulking/ColorGram.git&quot;,
+    &quot;accountId&quot;: &quot;63900dc8-3c24-43b3-aa28-61e4839d5a46&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2v9VVRbsLIznT23jhmVPhFrU8wc" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/kkc/project/coding_test",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
+    "vue.rearranger.settings.migration": "true",
+    "애플리케이션.Main.executor": "Run"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\kkc\project\color_gram\lib" />
+      <recent name="C:\kkc\project\color_gram" />
+      <recent name="C:\kkc\project\color_gram\src\assets\user" />
+      <recent name="C:\kkc\project\color_gram\src\assets\common" />
+      <recent name="C:\kkc\project\color_gram\src\assets\chat" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\kkc\project\color_gram\src\assets\player" />
+      <recent name="C:\kkc\project\color_gram\src\modules\board" />
+      <recent name="C:\kkc\project\color_gram\src\database\dao" />
+      <recent name="C:\kkc\project\color_gram\src\modules\chat" />
+      <recent name="C:\kkc\project\color_gram\src\modules\user" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="colorgram" />
+      <option name="VM_PARAMETERS" value="--module-path lib --add-modules javafx.controls,javafx.fxml,javafx.media -Dprism.order=sw -Dprism.verbose=true" />
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+        </ENTRIES>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="애플리케이션.Main" />
+        <item itemvalue="애플리케이션.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.25659.59" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.25659.59" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="0fa40e02-cece-4bb7-a7f2-c888644ef6ef" name="변경" comment="" />
+      <created>1743557299585</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1743557299585</updated>
+      <workItem from="1743557301287" duration="345000" />
+      <workItem from="1743557665081" duration="507000" />
+      <workItem from="1743558284279" duration="1151000" />
+      <workItem from="1743560557975" duration="4065000" />
+      <workItem from="1743569282591" duration="12667000" />
+      <workItem from="1743582631700" duration="1970000" />
+      <workItem from="1743637981604" duration="2418000" />
+      <workItem from="1743640425596" duration="8847000" />
+      <workItem from="1743654544411" duration="7853000" />
+      <workItem from="1743663630046" duration="121000" />
+      <workItem from="1743663760205" duration="35000" />
+      <workItem from="1743663829635" duration="42000" />
+      <workItem from="1743663879079" duration="46000" />
+      <workItem from="1743664009584" duration="494000" />
+    </task>
+    <task id="LOCAL-00001" summary="testCommit;">
+      <option name="closed" value="true" />
+      <created>1743557926526</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1743557926526</updated>
+    </task>
+    <task id="LOCAL-00002" summary="folder commit 240402">
+      <option name="closed" value="true" />
+      <created>1743570569722</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1743570569722</updated>
+    </task>
+    <task id="LOCAL-00003" summary="[feat] PlayerView, PlayerList 중간구현_250402">
+      <option name="closed" value="true" />
+      <created>1743579168592</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1743579168592</updated>
+    </task>
+    <task id="LOCAL-00004" summary="gitignore 추가">
+      <option name="closed" value="true" />
+      <created>1743642034532</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1743642034532</updated>
+    </task>
+    <task id="LOCAL-00005" summary="gitignore 추가">
+      <option name="closed" value="true" />
+      <created>1743642196756</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1743642196756</updated>
+    </task>
+    <task id="LOCAL-00006" summary="[feat] : 채팅구현중">
+      <option name="closed" value="true" />
+      <created>1743643200987</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1743643200987</updated>
+    </task>
+    <task id="LOCAL-00007" summary="[fix] ojdbc8.jar">
+      <option name="closed" value="true" />
+      <created>1743648478351</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1743648478352</updated>
+    </task>
+    <task id="LOCAL-00008" summary="[feat] boardList_250403">
+      <option name="closed" value="true" />
+      <created>1743649162640</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1743649162640</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+    </ignored-roots>
+    <MESSAGE value="testCommit;" />
+    <MESSAGE value="folder commit 240402" />
+    <MESSAGE value="[fix] PlayerView, PlayerList 중간구현_250402" />
+    <MESSAGE value="[feat] PlayerView, PlayerList 중간구현_250402" />
+    <MESSAGE value="gitignore 추가" />
+    <MESSAGE value="[feat] : 채팅구현중" />
+    <MESSAGE value="[fix] ojdbc8.jar" />
+    <MESSAGE value="[feat] boardList_250403" />
+    <option name="LAST_COMMIT_MESSAGE" value="[feat] boardList_250403" />
+  </component>
+</project>
