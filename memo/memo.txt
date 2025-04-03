@@ -15,13 +15,10 @@ git add .
 git commit -m "커밋메시지"
 git push origin master
 
-<<<<<<< HEAD
 git pull origin master
 
 :q
-=======
 
-C:\Users\WD\git\ColorGram
+hhh
 
-open git bash here
->>>>>>> 80489ba11ae6a96d35bebed9a99b318f473d9c78
+
