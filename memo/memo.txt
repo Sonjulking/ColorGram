@@ -2,3 +2,9 @@ vm option
 --module-path lib --add-modules javafx.controls,javafx.fxml,javafx.media -Dprism.order=sw -Dprism.verbose=true
 test
 alice20240103
+
+git init
+git remote add origin https://github.com/Sonjulking/ColorGram.git
+git add .
+git commit -m "커밋메시지"
+git push origin master
