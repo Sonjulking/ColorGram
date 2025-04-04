@@ -1,8 +1,11 @@
 package modules.chat;
 
+//퇴장메세지,
+//입장퇴장, 채팅 메세지 스타일 적용
 
 import java.io.*;
 import java.net.*;
+
 import javafx.application.Platform;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
@@ -33,36 +36,61 @@ public class ChatClient {
     }
 
     public void sendMessage(String message) {
-        if (out != null) {
-            out.println(message);
+        if (out != null && !message.trim().isEmpty()) {
+            out.println(message); // 닉네임 포함 메시지 전송
         }
     }
+
 
     private void receiveMessages() {
         String message;
         try {
             while ((message = in.readLine()) != null) {
-                System.out.println("클라이언트 수신: " + message); // 로그 추가
-                String finalMessage = message;
-                Platform.runLater(() -> {
-                    Label messageLabel = new Label(finalMessage);
-                    
-                    // 퇴장 메시지 강조
-                    if (finalMessage.contains("님이 퇴장하셨습니다.")) {
-                        messageLabel.setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
-                    }
-                    
-                    chatArea.getChildren().add(messageLabel);
-                });
+                System.out.println("클라이언트 수신: " + message);
+
+                // 퇴장 메시지일 경우 별도로 처리
+                if (message.startsWith("[EXIT] ")) {
+                    String exitMessage = message.substring(7); // "[EXIT] " 제거
+                    Platform.runLater(() -> showExitMessage(exitMessage));
+                } else {
+                    String finalMessage = message;
+                    Platform.runLater(() -> {
+                        Label messageLabel = new Label(finalMessage);
+                        chatArea.getChildren().add(messageLabel);
+                    });
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+//    private void receiveMessages() {
+//        String message;
+//        try {
+//            while ((message = in.readLine()) != null) {
+//                String finalMessage = message;
+//                Platform.runLater(() -> {
+//                    Label messageLabel = new Label(finalMessage);
+//                    chatArea.getChildren().add(messageLabel);
+//                });
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    // 퇴장 메시지 스타일링
+    private void showExitMessage(String message) {
+        Label exitLabel = new Label(message);
+        exitLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: red;");
+        chatArea.getChildren().add(exitLabel);
+    }
+
     public void closeConnection() {
         try {
             if (out != null) {
-                out.println("EXIT"); // 서버에게 종료 메시지 보내기
+                out.println("EXIT");
             }
             if (socket != null) {
                 socket.close();

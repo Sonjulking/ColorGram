@@ -13,34 +13,15 @@ public class ChatView extends VBox {
     private VBox chatArea;
     private ChatClient chatClient;
 
-    public ChatView() {
+    // 닉네임을 매개변수로 받도록 수정
+    public ChatView(String nickname) {
+        this.nickname = nickname;
         setPadding(new Insets(10));
         setSpacing(10);
         setAlignment(Pos.CENTER);
 
-        Button enterButton = new Button("입장하기");
-        enterButton.setStyle("-fx-font-size: 16px; -fx-padding: 10px 20px;");
-        enterButton.setOnAction(e -> showNicknameInput());
-
-        getChildren().add(enterButton);
-    }
-
-    private void showNicknameInput() {
-        getChildren().clear();
-
-        Label nicknameLabel = new Label("닉네임을 입력하세요:");
-        TextField nicknameField = new TextField();
-        Button enterChatButton = new Button("입장");
-
-        enterChatButton.setOnAction(e -> {
-            String inputNickname = nicknameField.getText().trim();
-            if (!inputNickname.isEmpty()) {
-                this.nickname = inputNickname;
-                showChatRoom();
-            }
-        });
-
-        getChildren().addAll(nicknameLabel, nicknameField, enterChatButton);
+        // 닉네임을 이미 알고 있으므로 바로 채팅방 표시
+        showChatRoom();
     }
 
     private void showChatRoom() {
@@ -57,25 +38,58 @@ public class ChatView extends VBox {
         messageField.setPromptText("메시지를 입력하세요.");
 
         Button sendButton = new Button("전송");
-        Button plusButton = new Button("+");
-        plusButton.setStyle("-fx-font-size: 14px; -fx-padding: 5px 10px;");
-
-        HBox inputBox = new HBox(5, plusButton, messageField, sendButton);
-        inputBox.setAlignment(Pos.CENTER);
-        inputBox.setPadding(new Insets(5));
-
         sendButton.setOnAction(e -> {
-            sendMessage(messageField.getText());
+            chatClient.sendMessage(messageField.getText());
             messageField.clear();
         });
 
         messageField.setOnAction(e -> {
-            sendMessage(messageField.getText());
+            chatClient.sendMessage(messageField.getText());
             messageField.clear();
         });
 
+        HBox inputBox = new HBox(5, messageField, sendButton);
+        inputBox.setAlignment(Pos.CENTER);
+        inputBox.setPadding(new Insets(5));
+
         getChildren().addAll(chatArea, inputBox);
     }
+
+
+//    private void showChatRoom() {
+//        getChildren().clear();
+//
+//        chatArea = new VBox(5);
+//        chatArea.setPadding(new Insets(10));
+//        chatArea.setStyle("-fx-background-color: #F5F5F5; -fx-border-color: #ddd; -fx-border-radius: 5px;");
+//        chatArea.setPrefHeight(300);
+//
+//        chatClient = new ChatClient("127.0.0.1", 4000, chatArea, nickname);
+//
+//        TextField messageField = new TextField();
+//        messageField.setPromptText("메시지를 입력하세요.");
+//
+//        Button sendButton = new Button("전송");
+//        Button plusButton = new Button("+");
+//        plusButton.setStyle("-fx-font-size: 14px; -fx-padding: 5px 10px;");
+//
+//        HBox inputBox = new HBox(5, plusButton, messageField, sendButton);
+//        inputBox.setAlignment(Pos.CENTER);
+//        inputBox.setPadding(new Insets(5));
+//
+//        sendButton.setOnAction(e -> {
+//            sendMessage(messageField.getText());
+//            messageField.clear();
+//        });
+//
+//        messageField.setOnAction(e -> {
+//            sendMessage(messageField.getText());
+//            messageField.clear();
+//        });
+//
+//        getChildren().addAll(chatArea, inputBox);
+//    }
+
 
     private void sendMessage(String message) {
         if (message.trim().isEmpty()) return;

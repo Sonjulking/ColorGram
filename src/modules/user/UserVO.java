@@ -16,6 +16,14 @@ public class UserVO {
         this.userPassword = userPassword;
     }
 
+    //닉네임 가져오기 TODO : 이거 쓰는거 맞나요?
+    public UserVO(String userNickname, String userId, String userPassword) {
+        super();
+        this.userNickname = userNickname;
+        this.userId = userId;
+        this.userPassword = userPassword;
+    }
+
     public int getUserNo() {
         return userNo;
     }

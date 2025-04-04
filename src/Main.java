@@ -15,6 +15,7 @@ import modules.board.BoardView;
 import modules.chat.ChatView;
 import modules.player.PlayerListView;
 import modules.player.PlayerView;
+import modules.user.UserDAO;
 import modules.user.UserView;
 
 import java.util.Stack;
@@ -80,7 +81,6 @@ public class Main extends Application {
             }
         });
 
-
         // BoardView로 이동하는 공통 콜백 생성
         Runnable boardViewCallback = () -> {
             showBoardView(root);
@@ -104,11 +104,53 @@ public class Main extends Application {
             }
         });
 
+
+        // 채팅 버튼
         chatBtn.setOnAction(e -> {
-            viewHistory.push((Pane) root.getCenter());// 스택저장
-            ChatView chatView = new ChatView();
-            root.setCenter(chatView); // 안에 내용을 chatView로 전환
+            viewHistory.push((Pane) root.getCenter()); // 현재 화면 저장
+
+            if (!UserView.isLogIn()) {
+                // 로그인 상태가 아니면 로그인 화면 표시
+                UserView userView = new UserView();
+
+                userView.setOnLoginSuccess(() -> {
+                    openChatView(root);
+                });
+
+                root.setCenter(userView);
+            } else {
+                // 로그인 상태라면 바로 채팅방으로 이동
+                openChatView(root);
+            }
         });
+
+
+//        chatBtn.setOnAction(e -> {
+//            viewHistory.push((Pane) root.getCenter()); // 현재 화면 저장
+//
+//            if (!UserView.isLogIn()) {
+//                // 로그인 상태가 아니면 로그인 화면 표시
+//                UserView userView = new UserView();
+//
+//                userView.setOnLoginSuccess(() -> {
+//                    String loggedInUserId = UserView.getCurrentUserId();
+//                    UserDAO userDAO = new UserDAO();
+//                    String nickname = userDAO.getNicknameById(loggedInUserId);
+//
+//                    showChatView(root, nickname);
+//                });
+//
+//                root.setCenter(userView);
+//            } else {
+//                // 로그인 상태라면 닉네임을 가져와서 채팅방으로 이동
+//                String loggedInUserId = UserView.getCurrentUserId();
+//                UserDAO userDAO = new UserDAO();
+//                String nickname = userDAO.getNicknameById(loggedInUserId);
+//
+//                showChatView(root, nickname);
+//            }
+//        });
+
         // 화면을 지정하고, 크기도 함꼐 지정
         Scene scene = new Scene(root, 400, 550);
         // window label 지정
@@ -127,8 +169,24 @@ public class Main extends Application {
             }
         });
         root.setCenter(boardListView);
+    }
 
+    private void showChatView(BorderPane root, String nickname) {
+        ChatView chatView = new ChatView(nickname);
+        root.setCenter(chatView);
+    }
 
+    // 닉네임을 가져와서 ChatView를 여는 메소드 분리
+    private void openChatView(BorderPane root) {
+        String loggedInUserId = UserView.getCurrentUserId();
+        UserDAO userDAO = new UserDAO();
+        String nickname = userDAO.getNicknameById(loggedInUserId);
+
+        if (nickname != null && !nickname.isEmpty()) {
+            showChatView(root, nickname);
+        } else {
+            System.out.println("닉네임을 가져오는 데 실패했습니다.");
+        }
     }
 
     public static void main(String[] args) {
