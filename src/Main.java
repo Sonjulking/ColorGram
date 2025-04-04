@@ -152,7 +152,7 @@ public class Main extends Application {
 //        });
 
         // 화면을 지정하고, 크기도 함꼐 지정
-        Scene scene = new Scene(root, 400, 550);
+        Scene scene = new Scene(root, 400, 600);
         // window label 지정
         stage.setTitle("ColorGram");
         stage.setScene(scene); // 윈도우(창)에화면을 붙임.

@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fa40e02-cece-4bb7-a7f2-c888644ef6ef" name="변경" comment="hello memo">
+    <list default="true" id="0fa40e02-cece-4bb7-a7f2-c888644ef6ef" name="변경" comment="[fix] 병합_250404">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/board/BoardListView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/board/BoardListView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/chat/ChatClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/chat/ChatClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/chat/ChatView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/chat/ChatView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/user/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/user/UserDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/user/UserVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/user/UserVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/player/PlayerListView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/player/PlayerListView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/player/PlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/player/PlayerView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,7 +190,7 @@
       <workItem from="1743666090246" duration="197000" />
       <workItem from="1743666300779" duration="153000" />
       <workItem from="1743666463080" duration="2305000" />
-      <workItem from="1743749075604" duration="2939000" />
+      <workItem from="1743749075604" duration="10210000" />
     </task>
     <task id="LOCAL-00001" summary="testCommit;">
       <option name="closed" value="true" />
@@ -283,7 +280,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743669797094</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="[fix] 병합_250404">
+      <option name="closed" value="true" />
+      <created>1743752650193</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1743752650193</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -315,6 +320,7 @@
     <MESSAGE value="second commit" />
     <MESSAGE value="bye jiwon" />
     <MESSAGE value="hello memo" />
-    <option name="LAST_COMMIT_MESSAGE" value="hello memo" />
+    <MESSAGE value="[fix] 병합_250404" />
+    <option name="LAST_COMMIT_MESSAGE" value="[fix] 병합_250404" />
   </component>
 </project>
