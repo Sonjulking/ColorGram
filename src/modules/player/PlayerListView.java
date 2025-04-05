@@ -94,8 +94,8 @@ public class PlayerListView extends VBox {
                     border.setStroke(new LinearGradient(
                             0, 0, 1, 0, true, CycleMethod.NO_CYCLE,
                             new Stop(0.0, leftColor),
-                            new Stop(0.499, leftColor),
-                            new Stop(0.5, rightColor),
+                            new Stop(0.35, leftColor),
+                            new Stop(0.65 , rightColor),
                             new Stop(1.0, rightColor)
                     ));
 
