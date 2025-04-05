@@ -8,8 +8,8 @@ import java.sql.Statement;
 public class ConnectionProvider {
     public static String driver = "oracle.jdbc.driver.OracleDriver";
     public static String url = "jdbc:oracle:thin:@localhost:1521:XE";
-    public static String username = "c##madang";
-    public static String password = "madang";
+    public static String username = "c##kim";
+    public static String password = "kim";
 
     public static Connection getConnection() {
         Connection conn = null;

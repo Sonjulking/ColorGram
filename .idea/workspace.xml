@@ -4,14 +4,34 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fa40e02-cece-4bb7-a7f2-c888644ef6ef" name="변경" comment="hello memo">
+    <list default="true" id="0fa40e02-cece-4bb7-a7f2-c888644ef6ef" name="변경" comment="[merge] chat기능">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/libdecora_sse.dylib" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/libfxplugins.dylib" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/libglass.dylib" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/libglib-lite.dylib" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/libgstreamer-lite.dylib" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/libjavafx_font.dylib" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/libjavafx_iio.dylib" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/libjfxmedia.dylib" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/libjfxmedia_avf.dylib" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/libjfxwebkit.dylib" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/libprism_common.dylib" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/libprism_es2.dylib" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/libprism_sw.dylib" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-swt.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-swt.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx.base.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx.base.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx.controls.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx.controls.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx.fxml.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx.fxml.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx.graphics.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx.graphics.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx.media.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx.media.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx.swing.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx.swing.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx.web.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx.web.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/board/BoardListView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/board/BoardListView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/chat/ChatClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/chat/ChatClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/chat/ChatView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/chat/ChatView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/user/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/user/UserDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/user/UserVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/user/UserVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/database/ConnectionProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/ConnectionProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/player/PlayerListView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/player/PlayerListView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/player/PlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/player/PlayerView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +48,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="kkc" />
+        <entry key="$PROJECT_DIR$" value="DevForMac" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -49,26 +69,26 @@
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="master" />
-                    <option name="lastUsedInstant" value="1743641911" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="kkc" />
-                    <option name="lastUsedInstant" value="1743640757" />
+                    <option name="lastUsedInstant" value="1743664359" />
                   </RecentBranch>
                 </list>
               </option>
-              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$/../coding_test" />
             </RecentBranchesForRepo>
             <RecentBranchesForRepo>
               <option name="branches">
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="master" />
-                    <option name="lastUsedInstant" value="1743664359" />
+                    <option name="lastUsedInstant" value="1743824903" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="DevForMac" />
+                    <option name="lastUsedInstant" value="1743822924" />
                   </RecentBranch>
                 </list>
               </option>
-              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$/../coding_test" />
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
             </RecentBranchesForRepo>
           </list>
         </option>
@@ -78,9 +98,13 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Sonjulking/ColorGram.git&quot;,
-    &quot;accountId&quot;: &quot;63900dc8-3c24-43b3-aa28-61e4839d5a46&quot;
+    &quot;accountId&quot;: &quot;d3e6c104-74cd-40f0-9cf8-be13c0ee53ff&quot;
   }
 }</component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -93,9 +117,10 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/bushw/OneDrive/Desktop/color_gram (3)/src/modules/user/UserVO.java",
+    "last_opened_file_path": "/Users/kkc/project/kosta/lib",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -105,15 +130,20 @@
     "two.files.diff.last.used.file": "C:/Users/bushw/OneDrive/Desktop/color_gram (3)/src/modules/user/UserVO.java",
     "vue.rearranger.settings.migration": "true",
     "애플리케이션.Main.executor": "Run"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "oracle"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib" />
       <recent name="C:\kkc\project\color_gram\lib" />
       <recent name="C:\kkc\project\color_gram" />
       <recent name="C:\kkc\project\color_gram\src\assets\user" />
       <recent name="C:\kkc\project\color_gram\src\assets\common" />
-      <recent name="C:\kkc\project\color_gram\src\assets\chat" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\kkc\project\color_gram\src\assets\player" />
@@ -155,6 +185,7 @@
       <list>
         <item itemvalue="애플리케이션.Main" />
         <item itemvalue="애플리케이션.Main" />
+        <item itemvalue="애플리케이션.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -194,6 +225,8 @@
       <workItem from="1743666300779" duration="153000" />
       <workItem from="1743666463080" duration="2305000" />
       <workItem from="1743749075604" duration="2939000" />
+      <workItem from="1743822690534" duration="583000" />
+      <workItem from="1743823578963" duration="2182000" />
     </task>
     <task id="LOCAL-00001" summary="testCommit;">
       <option name="closed" value="true" />
@@ -283,7 +316,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743669797094</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="[merge] chat기능">
+      <option name="closed" value="true" />
+      <created>1743824942993</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1743824942993</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -315,6 +356,7 @@
     <MESSAGE value="second commit" />
     <MESSAGE value="bye jiwon" />
     <MESSAGE value="hello memo" />
-    <option name="LAST_COMMIT_MESSAGE" value="hello memo" />
+    <MESSAGE value="[merge] chat기능" />
+    <option name="LAST_COMMIT_MESSAGE" value="[merge] chat기능" />
   </component>
 </project>
