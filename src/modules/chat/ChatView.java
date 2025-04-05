@@ -7,7 +7,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-
+import javafx.stage.Stage;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 public class ChatView extends VBox {
     private String nickname;
     private VBox chatArea;
@@ -19,6 +21,7 @@ public class ChatView extends VBox {
         setPadding(new Insets(10));
         setSpacing(10);
         setAlignment(Pos.CENTER);
+        
 
         // 닉네임을 이미 알고 있으므로 바로 채팅방 표시
         showChatRoom();
@@ -30,13 +33,25 @@ public class ChatView extends VBox {
         chatArea = new VBox(5);
         chatArea.setPadding(new Insets(10));
         chatArea.setStyle("-fx-background-color: #F5F5F5; -fx-border-color: #ddd; -fx-border-radius: 5px;");
-        chatArea.setPrefHeight(300);
+        chatArea.setPrefHeight(400);
+        
+        
+     // chatArea를 ScrollPane에 넣기
+        ScrollPane scrollPane = new ScrollPane(chatArea);
+        scrollPane.setFitToWidth(true); // 너비 맞춤
+        scrollPane.setPrefHeight(400); //  높이
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+     // 새로운 메시지가 도착했을 때 자동으로 아래로 스크롤
+        scrollPane.vvalueProperty().bind(chatArea.heightProperty());
 
-        chatClient = new ChatClient("127.0.0.1", 4000, chatArea, nickname);
+//        chatClient = new ChatClient("127.0.0.1", 4000, chatArea, nickname);
+        chatClient = new ChatClient("127.0.0.1", 4000, chatArea, nickname, this);
 
         TextField messageField = new TextField();
         messageField.setPromptText("메시지를 입력하세요.");
-
+        messageField.setPrefWidth(320); // 너비 넓게 설정
+        
         Button sendButton = new Button("전송");
         sendButton.setOnAction(e -> {
             chatClient.sendMessage(messageField.getText());
@@ -52,43 +67,20 @@ public class ChatView extends VBox {
         inputBox.setAlignment(Pos.CENTER);
         inputBox.setPadding(new Insets(5));
 
-        getChildren().addAll(chatArea, inputBox);
-    }
-
-
-//    private void showChatRoom() {
-//        getChildren().clear();
-//
-//        chatArea = new VBox(5);
-//        chatArea.setPadding(new Insets(10));
-//        chatArea.setStyle("-fx-background-color: #F5F5F5; -fx-border-color: #ddd; -fx-border-radius: 5px;");
-//        chatArea.setPrefHeight(300);
-//
-//        chatClient = new ChatClient("127.0.0.1", 4000, chatArea, nickname);
-//
-//        TextField messageField = new TextField();
-//        messageField.setPromptText("메시지를 입력하세요.");
-//
-//        Button sendButton = new Button("전송");
-//        Button plusButton = new Button("+");
-//        plusButton.setStyle("-fx-font-size: 14px; -fx-padding: 5px 10px;");
-//
-//        HBox inputBox = new HBox(5, plusButton, messageField, sendButton);
-//        inputBox.setAlignment(Pos.CENTER);
-//        inputBox.setPadding(new Insets(5));
-//
-//        sendButton.setOnAction(e -> {
-//            sendMessage(messageField.getText());
-//            messageField.clear();
-//        });
-//
-//        messageField.setOnAction(e -> {
-//            sendMessage(messageField.getText());
-//            messageField.clear();
-//        });
-//
 //        getChildren().addAll(chatArea, inputBox);
-//    }
+        getChildren().addAll(scrollPane, inputBox);
+    }
+    
+    //창 닫힐때 연결종료해서 정상적으로 종료되는지 확인하기위해 너
+    public void setStage(Stage stage) {
+        stage.setOnCloseRequest(event -> {
+            if (chatClient != null) {
+                chatClient.sendMessage("EXIT");  // 창닫힐때 EXIT 메시지보내기 테스트
+                chatClient.closeConnection();
+            }
+        });
+    }
+    
 
 
     private void sendMessage(String message) {
@@ -98,29 +90,79 @@ public class ChatView extends VBox {
 
     public void receiveMessage(String sender, String message) {
         Platform.runLater(() -> {
-            boolean isMine = sender.equals(nickname);
-            addChatMessage(sender, message, isMine);
+            if (sender == null) {
+                Label systemMessage = new Label(message);
+                systemMessage.setStyle("-fx-text-fill: gray; -fx-font-style: italic;");
+                HBox systemBox = new HBox(systemMessage);
+                systemBox.setAlignment(Pos.CENTER);
+                chatArea.getChildren().add(systemBox);
+            } else {
+                boolean isMine = sender.equals(nickname);
+                addChatMessage(sender, message, isMine);
+            }
         });
     }
+    
 
     private void addChatMessage(String sender, String message, boolean isMine) {
-        HBox messageBox = new HBox();
-        messageBox.setPadding(new Insets(5, 10, 5, 10));
+        VBox messageContainer = new VBox();
+        messageContainer.setSpacing(2); // 간격 조절
 
-        Text messageText = new Text(sender + ": " + message);
+        // 시간 생성
+        String time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
+        Label timestamp = new Label(time);
+        timestamp.setStyle("-fx-text-fill: gray; -fx-font-size: 10px;");
+
+        // 말풍선 텍스트
+        Text messageText = new Text(message);
         TextFlow textFlow = new TextFlow(messageText);
         textFlow.setPadding(new Insets(8));
-        textFlow.setStyle("-fx-background-radius: 15px; -fx-border-radius: 15px; -fx-padding: 8px;");
+        textFlow.setMaxWidth(300);
+        textFlow.setLineSpacing(1.5);
+
+        HBox messageBox = new HBox();
+        messageBox.setPadding(new Insets(0, 10, 0, 10));
 
         if (isMine) {
+            // 내 메시지: 오른쪽 정렬
             messageBox.setAlignment(Pos.CENTER_RIGHT);
-            textFlow.setStyle("-fx-background-color: #B3E5FC; -fx-background-radius: 15px; -fx-border-radius: 15px; -fx-padding: 8px;");
+            textFlow.setStyle("-fx-background-color: #B3E5FC; -fx-background-radius: 15px;");
+            messageBox.getChildren().add(textFlow);
+
+            HBox timeBox = new HBox(timestamp);
+            timeBox.setAlignment(Pos.CENTER_RIGHT);
+            timeBox.setPadding(new Insets(0, 12, 5, 12));
+
+            HBox timeAndMessage = new HBox(timestamp, textFlow);
+            timeAndMessage.setAlignment(Pos.CENTER_RIGHT);
+            timeAndMessage.setSpacing(5);
+
+            messageContainer.getChildren().addAll(timeAndMessage);
+            messageContainer.setAlignment(Pos.CENTER_RIGHT);
+
         } else {
+            // 상대방 메시지: 닉네임, 말풍선, 시간
+            Label nameLabel = new Label(sender);
+            nameLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: black; -fx-font-size: 13px;");
+
             messageBox.setAlignment(Pos.CENTER_LEFT);
-            textFlow.setStyle("-fx-background-color: #DFE3E6; -fx-background-radius: 15px; -fx-border-radius: 15px; -fx-padding: 8px;");
+            textFlow.setStyle("-fx-background-color: #DFE3E6; -fx-background-radius: 15px;");
+            messageBox.getChildren().add(textFlow);
+
+            HBox timeBox = new HBox(timestamp);
+            timeBox.setAlignment(Pos.CENTER_LEFT);
+            timeBox.setPadding(new Insets(0, 12, 5, 12));
+
+            HBox timeAndMessage = new HBox(textFlow, timestamp);
+            timeAndMessage.setAlignment(Pos.CENTER_LEFT);
+            timeAndMessage.setSpacing(5);
+
+            messageContainer.getChildren().addAll(nameLabel, timeAndMessage);
+            messageContainer.setAlignment(Pos.CENTER_LEFT);
         }
 
-        messageBox.getChildren().add(textFlow);
-        chatArea.getChildren().add(messageBox);
+        chatArea.getChildren().add(messageContainer);
     }
+
+
 }
