@@ -5,7 +5,6 @@ package modules.chat;
 
 import java.io.*;
 import java.net.*;
-
 import javafx.application.Platform;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
@@ -37,7 +36,7 @@ public class ChatClient {
 
     public void sendMessage(String message) {
         if (out != null && !message.trim().isEmpty()) {
-            out.println(message); // 닉네임 포함 메시지 전송
+            out.println( message); // 닉네임 포함 메시지 전송
         }
     }
 

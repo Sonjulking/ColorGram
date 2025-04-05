@@ -7,6 +7,9 @@ public class UserVO {
     private String userPassword;
     private String userEmail;
 
+
+
+
     public UserVO() {
         super();
     }
@@ -16,7 +19,9 @@ public class UserVO {
         this.userPassword = userPassword;
     }
 
-    //닉네임 가져오기 TODO : 이거 쓰는거 맞나요?
+
+
+    //닉네임 가져오기
     public UserVO(String userNickname, String userId, String userPassword) {
         super();
         this.userNickname = userNickname;
