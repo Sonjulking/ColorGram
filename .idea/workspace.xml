@@ -5,31 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0fa40e02-cece-4bb7-a7f2-c888644ef6ef" name="변경" comment="[merge] chat기능">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/libdecora_sse.dylib" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/libfxplugins.dylib" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/libglass.dylib" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/libglib-lite.dylib" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/libgstreamer-lite.dylib" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/libjavafx_font.dylib" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/libjavafx_iio.dylib" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/libjfxmedia.dylib" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/libjfxmedia_avf.dylib" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/libjfxwebkit.dylib" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/libprism_common.dylib" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/libprism_es2.dylib" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/libprism_sw.dylib" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/javafx-swt.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-swt.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/javafx.base.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx.base.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/javafx.controls.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx.controls.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/javafx.fxml.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx.fxml.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/javafx.graphics.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx.graphics.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/javafx.media.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx.media.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/javafx.swing.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx.swing.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/javafx.web.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx.web.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/database/ConnectionProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/ConnectionProvider.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/player/PlayerListView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/player/PlayerListView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/player/PlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/player/PlayerView.java" afterDir="false" />
     </list>
@@ -101,10 +78,10 @@
     &quot;accountId&quot;: &quot;d3e6c104-74cd-40f0-9cf8-be13c0ee53ff&quot;
   }
 }</component>
-  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
-  <component name="KubernetesApiProvider"><![CDATA[{
-  "isMigrated": true
-}]]></component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -118,7 +95,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "DevForMac",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/kkc/project/kosta/lib",
     "node.js.detected.package.eslint": "true",
@@ -183,6 +160,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="애플리케이션.Main" />
         <item itemvalue="애플리케이션.Main" />
         <item itemvalue="애플리케이션.Main" />
         <item itemvalue="애플리케이션.Main" />

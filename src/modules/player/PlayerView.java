@@ -34,8 +34,8 @@ public class PlayerView extends VBox {
     private final Rectangle borderRect = new Rectangle(200, 200); // 테두리
 
     // 선택된 색을 저장할 변수
-    private Color leftColor = Color.RED;
-    private Color rightColor = Color.YELLOW;
+    private Color leftColor = Color.web("#fc4949");
+    private Color rightColor = Color.web("#f0d362");
 
     // 색상 선택 버튼
     private final Button redBtn = new Button();
@@ -43,6 +43,10 @@ public class PlayerView extends VBox {
     private final Button yellowBtn = new Button();
     private final Button purpleBtn = new Button();
     private final ImageView albumImage = new ImageView(new Image("assets/player/empty.png"));
+    //색상 선택 슬라이더
+    private Slider redGreenSlider;
+    private Slider yellowPurpleSlider;
+
 
     private File currentFile; // 현재 재생 중인 파일
 
@@ -79,6 +83,27 @@ public class PlayerView extends VBox {
         // 색상 버튼 UI
         HBox colorButtons = createColorButtonBox();
 
+
+        // 색상 조절 슬라이더 초기화
+        redGreenSlider = new Slider(0, 1, 0.5);
+        yellowPurpleSlider = new Slider(0, 1, 0.5);
+        redGreenSlider.setShowTickMarks(true);
+        yellowPurpleSlider.setShowTickMarks(true);
+        redGreenSlider.setPrefWidth(115); // 슬라이더 너비
+        yellowPurpleSlider.setPrefWidth(115);
+        // 슬라이더 값 변경 시 테두리 색상 갱신
+        redGreenSlider.valueProperty().addListener((obs, oldVal, newVal) -> updateGradient());
+        yellowPurpleSlider.valueProperty().addListener((obs, oldVal, newVal) -> updateGradient());
+
+
+        // 색상 조절 슬라이더 묶음
+        HBox colorSliders = new HBox(
+                40, // 슬라이더 그룹 간격
+                createColorBox("", "", redBtn, greenBtn, redGreenSlider),
+                createColorBox("", "", yellowBtn, purpleBtn, yellowPurpleSlider)
+        );
+        colorSliders.setAlignment(Pos.CENTER);
+
         // 재생바
         progressBar.setPrefWidth(300);
 
@@ -113,6 +138,7 @@ public class PlayerView extends VBox {
                 albumBox,
                 titleLabel,
                 colorButtons,
+                colorSliders,
                 progressBar,
                 controlButtons
         );
@@ -120,35 +146,39 @@ public class PlayerView extends VBox {
 
     private HBox createColorButtonBox() {
 
-        // 버튼 스타일
-        redBtn.setStyle("-fx-background-color: red; -fx-min-width: 40px; -fx-min-height: 40px; -fx-border-color: rgba(0, 0,0, 0.25); -fx-border-width: 2px;");
-        greenBtn.setStyle("-fx-background-color: green; -fx-min-width: 40px; -fx-min-height: 40px; -fx-border-color: rgba(0, 0,0, 0.25); -fx-border-width: 2px;");
-        yellowBtn.setStyle("-fx-background-color: yellow; -fx-min-width: 40px; -fx-min-height: 40px;-fx-border-color: rgba(0, 0,0, 0.25); -fx-border-width: 2px;");
-        purpleBtn.setStyle("-fx-background-color: darkblue; -fx-min-width: 40px; -fx-min-height: 40px;-fx-border-color: rgba(0, 0,0, 0.25); -fx-border-width: 2px;");
+        // 버튼 스타일 적용
+        redBtn.setStyle("-fx-background-color: #fc4949; -fx-min-width: 40px; -fx-min-height: 40px; -fx-border-color: rgba(0, 0, 0, 0.25); -fx-border-width: 2px;");
+        greenBtn.setStyle("-fx-background-color: #8cdb86; -fx-min-width: 40px; -fx-min-height: 40px; -fx-border-color: rgba(0, 0, 0, 0.25); -fx-border-width: 2px;");
+        yellowBtn.setStyle("-fx-background-color: #f0d362; -fx-min-width: 40px; -fx-min-height: 40px; -fx-border-color: rgba(0, 0, 0, 0.25); -fx-border-width: 2px;");
+        purpleBtn.setStyle("-fx-background-color: #39a2f7; -fx-min-width: 40px; -fx-min-height: 40px; -fx-border-color: rgba(0, 0, 0, 0.25); -fx-border-width: 2px;");
 
         // 클릭 이벤트
         redBtn.setOnAction(e -> {
-            leftColor = Color.RED;
-            updateGradient();
+            redGreenSlider.setValue(0); // 빨강 쪽으로 이동
+   /*         leftColor = Color.web("#fc4949");
+            updateGradient();*/
         });
         greenBtn.setOnAction(e -> {
-            leftColor = Color.GREEN;
-            updateGradient();
+            redGreenSlider.setValue(1); // 초록 쪽으로 이동
+     /*       leftColor = Color.web("#8cdb86");
+            updateGradient();*/
         });
         yellowBtn.setOnAction(e -> {
-            rightColor = Color.YELLOW;
-            updateGradient();
+            yellowPurpleSlider.setValue(0); // 노랑
+       /*     rightColor = Color.web("#f0d362");
+            updateGradient();*/
         });
         purpleBtn.setOnAction(e -> {
-            rightColor = Color.DARKBLUE;
-            updateGradient();
+            yellowPurpleSlider.setValue(1); // 파랑
+ /*           rightColor = Color.web("#39a2f7");
+            updateGradient();*/
         });
 
         // 좌/우 박스
-        VBox leftBox = new VBox(5, new Label(""), new HBox(5, redBtn, greenBtn));
+        VBox leftBox = new VBox(5, new Label(""), new HBox(40, redBtn, greenBtn));
         leftBox.setAlignment(Pos.CENTER);
 
-        VBox rightBox = new VBox(5, new Label(""), new HBox(5, yellowBtn, purpleBtn));
+        VBox rightBox = new VBox(5, new Label(""), new HBox(40, yellowBtn, purpleBtn));
         rightBox.setAlignment(Pos.CENTER);
 
 
@@ -161,26 +191,100 @@ public class PlayerView extends VBox {
         return box;
     }
 
+    // 슬라이더와  + 버튼
+    private VBox createColorBox(
+            String label1,
+            String label2,
+            Button leftBtn,
+            Button rightBtn,
+            Slider slider
+    ) {
+        Label l1 = new Label(label1);
+        Label l2 = new Label(label2);
+
+        // 버튼 두 개를 나란히
+        HBox buttons = new HBox(40, leftBtn, rightBtn);
+        buttons.setAlignment(Pos.CENTER);
+
+
+        // 트랙용 Rectangle (두꺼운 바)
+        Rectangle gradientTrack = new Rectangle(115, 12); // ← 여기서 두께 조절 (12px)
+        gradientTrack.setArcWidth(20);
+        gradientTrack.setArcHeight(20);
+
+        // 색상 구분
+        if (slider == redGreenSlider) {
+            gradientTrack.setFill(new LinearGradient(
+                    0, 0, 1, 0, true, CycleMethod.NO_CYCLE,
+                    new Stop(0, Color.web("#fc4949")),
+                    new Stop(1, Color.web("#8cdb86"))
+            ));
+        } else {
+            gradientTrack.setFill(new LinearGradient(
+                    0, 0, 1, 0, true, CycleMethod.NO_CYCLE,
+                    new Stop(0, Color.web("#f0d362")),
+                    new Stop(1, Color.web("#39a2f7"))
+            ));
+        }
+
+        // 겹치기
+        StackPane sliderStack = new StackPane(slider);
+        sliderStack.setAlignment(Pos.CENTER_LEFT);
+
+        VBox box = new VBox(
+                5,
+                new HBox(5, l1, l2),
+                buttons,
+                sliderStack
+        );
+        box.setAlignment(Pos.CENTER);
+        return box;
+    }
+
     private void updateGradient() {
-        //테두리색깔
-        //setStroke : 테두리 색상
+        // 기본 색상 정의
+        Color red = Color.web("#fc4949");
+        Color green = Color.web("#8cdb86");
+        Color yellow = Color.web("#f0d362");
+        Color purple = Color.web("#39a2f7");
 
- /*       borderRect.setStroke(new LinearGradient(
-                0, 0,             // 시작점 X, Y (startX, startY)
-                1, 0,             // 끝점 X, Y (endX, endY)
-                true,             // proportional
-                CycleMethod.NO_CYCLE, //색상 반복 안하기
-                new Stop(0, leftColor), // 그라디언트 시작 지점 색
-                new Stop(1, rightColor) // 그라디언트 끝 지점 색
-        ));*/
+        // 슬라이더 값이 존재하면 보간, 없으면 기본값 사용
+        double redGreenValue = redGreenSlider != null ? redGreenSlider.getValue() : 0;
+        double yellowPurpleValue = yellowPurpleSlider != null ? yellowPurpleSlider.getValue() : 0;
 
+        // 색 보간
+        leftColor = red.interpolate(green, redGreenValue);
+        rightColor = yellow.interpolate(purple, yellowPurpleValue);
+
+        // 테두리 색상 적용
         borderRect.setStroke(new LinearGradient(
+                0, 0,
+                1, 0,
+                true,
+                CycleMethod.NO_CYCLE,
+                new Stop(0.0, leftColor),
+                new Stop(0.35, leftColor),
+                new Stop(0.65, rightColor),
+                new Stop(1.0, rightColor)
+        ));
+
+
+//        borderRect.setStroke(new LinearGradient(
+//                0, 0,             // 시작점 X, Y (startX, startY)
+//                1, 0,             // 끝점 X, Y (endX, endY)
+//                true,             // proportional
+//                CycleMethod.NO_CYCLE, //색상 반복 안하기
+//                new Stop(0, leftColor), // 그라디언트 시작 지점 색
+//                new Stop(1, rightColor) // 그라디언트 끝 지점 색
+//        ));
+
+/*        borderRect.setStroke(new LinearGradient(
                 0, 0, 1, 0, true, CycleMethod.NO_CYCLE,
                 new Stop(0.0, leftColor),      // 왼쪽 전체
                 new Stop(0.499, leftColor),    // 거의 중간까지 왼쪽 색
                 new Stop(0.5, rightColor),     // 딱 중간에서 오른쪽 색
                 new Stop(1.0, rightColor)      // 오른쪽 끝까지
-        ));
+        ));*/
 
     }
 
