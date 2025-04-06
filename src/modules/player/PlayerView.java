@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javafx.collections.MapChangeListener;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -15,6 +16,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -52,6 +54,11 @@ public class PlayerView extends VBox {
 
     //call back (나중에 실행될 함수(코드)를 미리 등록)  저장하는 변수
     private Runnable onColorUpdated;
+
+    private final Button playBtn;//재생버튼
+    private final Slider volumeSlider = new Slider(0, 1, 0.5); // 기본 볼륨 50%
+    private final Button volumeBtn = new Button("🔊");
+    private final Popup volumePopup = new Popup();
 
     public PlayerView(Stage stage) {
         //가운데 정렬
@@ -108,14 +115,25 @@ public class PlayerView extends VBox {
         progressBar.setPrefWidth(300);
 
         // 컨트롤 버튼
-        Button playBtn = new Button("▶");
+        playBtn = new Button("▶");
         Button prevBtn = new Button("⏮");
         Button nextBtn = new Button("⏭");
         Button openBtn = new Button("📂");
 
+
         playBtn.setOnAction(e -> {
-            if (mediaPlayer != null) mediaPlayer.play();
+            if (mediaPlayer != null) {
+                MediaPlayer.Status status = mediaPlayer.getStatus();
+                if (status == MediaPlayer.Status.PLAYING) {
+                    mediaPlayer.pause();
+                    playBtn.setText("▶");
+                } else {
+                    mediaPlayer.play();
+                    playBtn.setText("⏸");
+                }
+            }
         });
+
         prevBtn.setOnAction(e -> {
             if (mediaPlayer != null) mediaPlayer.seek(Duration.ZERO);
         });
@@ -128,10 +146,43 @@ public class PlayerView extends VBox {
 
         //색깔 저장 버튼
         Button saveColorBtn = new Button("🎨 저장");
+        // 볼륨 슬라이더 UI
+        volumeSlider.setOrientation(Orientation.VERTICAL); // 세로 슬라이더
+        volumeSlider.setPrefHeight(100);
+        volumeSlider.setShowTickMarks(true);
+        volumeSlider.setMajorTickUnit(0.5);
+        volumeSlider.setMinorTickCount(4);
+        volumeSlider.setBlockIncrement(0.1);
+
+// 슬라이더가 변경될 때 볼륨 조절
+        volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (mediaPlayer != null) {
+                mediaPlayer.setVolume(newVal.doubleValue());
+            }
+        });
+
+// 팝업에 슬라이더 넣기
+        VBox volumeBox = new VBox(volumeSlider);
+        volumeBox.setPadding(new Insets(10));
+        volumeBox.setStyle("-fx-background-color: white; -fx-border-color: gray; -fx-border-width: 1px;");
+        volumePopup.getContent().add(volumeBox);
+
+        // 버튼 클릭 시 팝업 토글
+        volumeBtn.setOnAction(e -> {
+            if (volumePopup.isShowing()) {
+                volumePopup.hide();
+            } else {
+                // 버튼 위치 기준으로 팝업 띄움
+                double x = volumeBtn.localToScreen(volumeBtn.getBoundsInLocal()).getMinX();
+                double y = volumeBtn.localToScreen(volumeBtn.getBoundsInLocal()).getMinY();
+                volumePopup.show(volumeBtn, x + 20, y - 110);
+            }
+        });
+
 
         //
         saveColorBtn.setOnAction(e -> saveColorsToFile(stage));
-        HBox controlButtons = new HBox(15, openBtn, prevBtn, playBtn, nextBtn, saveColorBtn);
+        HBox controlButtons = new HBox(15, openBtn, prevBtn, playBtn, nextBtn, saveColorBtn,volumeBtn);
         controlButtons.setAlignment(Pos.CENTER);
 
         getChildren().addAll(
@@ -338,7 +389,9 @@ public class PlayerView extends VBox {
                 }
             });
 
-            //미디어가 준비되면은 프로그레스바 최대갑 설정
+            //볼륨 조절
+            mediaPlayer.setVolume(volumeSlider.getValue());
+            //미디어가 준비되면은 프로그레스바 최대값 설정
             mediaPlayer.setOnReady(() -> progressBar.setMax(media.getDuration().toSeconds()));
 
             //현재 재생 시간에 따라 프로그레스 바 업데이트
@@ -355,6 +408,7 @@ public class PlayerView extends VBox {
 
             //마우스로 드래그하면 재생시간 재설정
             progressBar.setOnMouseDragged(e -> mediaPlayer.seek(Duration.seconds(progressBar.getValue())));
+            mediaPlayer.setOnEndOfMedia(() -> playBtn.setText("▶"));
 
         }
     }
@@ -398,8 +452,11 @@ public class PlayerView extends VBox {
             }
         });
 
+        mediaPlayer.setVolume(volumeSlider.getValue());
+
         progressBar.setOnMousePressed(e -> mediaPlayer.seek(Duration.seconds(progressBar.getValue())));
         progressBar.setOnMouseDragged(e -> mediaPlayer.seek(Duration.seconds(progressBar.getValue())));
+        mediaPlayer.setOnEndOfMedia(() -> playBtn.setText("▶"));
 
         mediaPlayer.play();
     }
