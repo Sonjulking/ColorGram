@@ -1,12 +1,39 @@
 package modules.user;
 
 import database.ConnectionProvider;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class UserDAO {
+
+
+
+    // 로그인 확인
+    public boolean selectUserLogin(String id, String password) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ConnectionProvider.getConnection();
+            if (conn == null) return false;
+
+            String sql = "SELECT * FROM users WHERE user_id = ? AND user_password = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            pstmt.setString(2, password);
+
+            rs = pstmt.executeQuery();
+            return rs.next();
+        } catch (Exception e) {
+            System.out.println("예외 발생: " + e.getMessage());
+            return false;
+        } finally {
+            ConnectionProvider.close(conn, pstmt, rs);
+        }
+    }
+
     // 사용자 닉네임 가져오기
     public String getNicknameById(String id) {
         Connection conn = null;
@@ -34,7 +61,48 @@ public class UserDAO {
         return nickname;
     }
 
+
+
+
+
+
+
+
+
+
     // 회원가입 메소드
+
+//    public boolean insertUser(UserVO user) {
+//        Connection conn = null;
+//        PreparedStatement pstmt = null;
+//
+//        try {
+//            conn = ConnectionProvider.getConnection();
+//            if (conn == null) {
+//                System.out.println("[디버깅] DB 연결 실패");
+//                return false;
+//            }
+//
+//            String sql = "INSERT INTO users (user_nickname, user_id, user_password, user_email) VALUES (?, ?, ?, ?)";
+//            pstmt = conn.prepareStatement(sql);
+//            pstmt.setString(1, user.getUserNickname());
+//            pstmt.setString(2, user.getUserId());
+//            pstmt.setString(3, user.getUserPassword());
+//            pstmt.setString(4, user.getUserEmail());
+//
+//            int rowsInserted = pstmt.executeUpdate();
+//            System.out.println("[디버깅] 회원가입 SQL 실행 완료, 삽입된 행 수: " + rowsInserted);
+//
+//            return rowsInserted > 0;
+//        } catch (Exception e) {
+//            System.out.println("[예외 발생] " + e.getMessage());
+//            e.printStackTrace();
+//            return false;
+//        } finally {
+//            ConnectionProvider.close(conn, pstmt, null);
+//        }
+//    }
+
     public boolean insertUser(UserVO user) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -75,7 +143,7 @@ public class UserDAO {
         }
     }
 
-    // 회원 삭제 (탈퇴) 메소드
+    // 회원 삭제 메소드
     public boolean deleteUser(String id) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -104,36 +172,36 @@ public class UserDAO {
     }
 
     // 로그인 확인
-    public boolean selectUserLogin(String id, String password) {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-
-        try {
-            conn = ConnectionProvider.getConnection();
-
-            // 연결 실패 시 처리
-            if (conn == null) {
-                System.out.println("데이터베이스 연결 실패");
-                return false;
-            }
-
-            String sql = "SELECT * FROM users WHERE user_id = ? AND user_password = ?";
-            pstmt = conn.prepareStatement(sql);
-
-            pstmt.setString(1, id);
-            pstmt.setString(2, password);
-
-            rs = pstmt.executeQuery();
-
-            return rs.next(); // 결과가 있으면 true, 없으면 false
-        } catch (Exception e) {
-            System.out.println("예외 발생: " + e.getMessage());
-            return false;
-        } finally {
-            ConnectionProvider.close(conn, pstmt, rs);
-        }
-    }
+//    public boolean selectUserLogin(String id, String password) {
+//        Connection conn = null;
+//        PreparedStatement pstmt = null;
+//        ResultSet rs = null;
+//
+//        try {
+//            conn = ConnectionProvider.getConnection();
+//
+//            // 연결 실패 시 처리
+//            if (conn == null) {
+//                System.out.println("데이터베이스 연결 실패");
+//                return false;
+//            }
+//
+//            String sql = "SELECT * FROM users WHERE user_id = ? AND user_password = ?";
+//            pstmt = conn.prepareStatement(sql);
+//
+//            pstmt.setString(1, id);
+//            pstmt.setString(2, password);
+//
+//            rs = pstmt.executeQuery();
+//
+//            return rs.next(); // 결과가 있으면 true, 없으면 false
+//        } catch (Exception e) {
+//            System.out.println("예외 발생: " + e.getMessage());
+//            return false;
+//        } finally {
+//            ConnectionProvider.close(conn, pstmt, rs);
+//        }
+//    }
 
     // 사용자 정보 조회 메소드
     public UserVO selectUser(String id) {
@@ -174,6 +242,7 @@ public class UserDAO {
             ConnectionProvider.close(conn, pstmt, rs);
         }
     }
+
 
 
     // 닉네임 업데이트
@@ -354,6 +423,9 @@ public class UserDAO {
     }
 
     // 아이디 중복 검사
+
+
+
     public boolean isUserIdDupe(String id) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -420,5 +492,12 @@ public class UserDAO {
             ConnectionProvider.close(conn, pstmt, rs);
         }
     }
+
+
+
+
+
+
+
 
 }

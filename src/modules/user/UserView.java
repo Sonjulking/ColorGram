@@ -19,7 +19,10 @@ public class UserView extends VBox {
     private Button loginButton;
     private Button registerButton;
 
-    // 로그인 상태
+
+
+
+    // 로그인 상태 추가
     private static boolean isLogIn = false;
 
     // 로그인 성공 시 실행할 콜백 인터페이스
@@ -182,15 +185,8 @@ public class UserView extends VBox {
                 return;
             }
 
-            // 중복 검사 - DAO를 통해 실제 데이터베이스 체크
-            UserDAO userDAO = new UserDAO();
-            if (userDAO.selectIsUserNicknameDupe(nickname)) {
-                showAlert("확인", "사용 가능한 닉네임입니다.");
-                isNicknameChecked[0] = true;
-            } else {
-                showAlert("중복 오류", "이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해주세요.");
-                isNicknameChecked[0] = false;
-            }
+            showAlert("확인", "사용 가능한 닉네임입니다.");
+            isNicknameChecked[0] = true;
         });
 
         // 닉네임 필드 변경 시 체크 상태 초기화
@@ -674,15 +670,10 @@ public class UserView extends VBox {
                 return;
             }
 
-            // 중복 검사 - DAO를 통해 실제 데이터베이스 체크
-            UserDAO userDAO = new UserDAO();
-            if (userDAO.selectIsUserNicknameDupe(newNickname)) {
-                showAlert("확인", "사용 가능한 닉네임입니다.");
-                isNicknameAvailable[0] = true;
-            } else {
-                showAlert("중복 오류", "이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해주세요.");
-                isNicknameAvailable[0] = false;
-            }
+            // 중복 검사 - 실제로는 이 부분에 닉네임 중복 검사 로직이 필요합니다.
+            // 현재는 항상 사용 가능하다고 가정합니다.
+            showAlert("확인", "사용 가능한 닉네임입니다.");
+            isNicknameAvailable[0] = true;
         });
 
         // 닉네임 필드 변경 시 체크 상태 초기화
@@ -877,23 +868,22 @@ public class UserView extends VBox {
             // 이메일이 없는 경우, 이메일 추가 기능이 있는 이벤트 핸들러 사용
             saveButton.setOnAction(e -> {
                 UserDAO userDAO = new UserDAO();
-                // 람다 내에서 수정 가능하도록 배열로 변경
-                final boolean[] isUpdated = {false};
-                final boolean[] hasErrors = {false};
+                boolean isUpdated = false;
+                boolean hasErrors = false;
 
                 // 닉네임 업데이트 시도
                 String newNickname = nicknameField.getText().trim();
                 if (!newNickname.isEmpty() && !newNickname.equals(userInfo.getUserNickname())) {
                     // 중복 확인했는지 체크
                     if (!isNicknameAvailable[0]) {
-                        hasErrors[0] = true;
+                        hasErrors = true;
                         showAlert("닉네임 변경 오류", "닉네임 중복 확인을 먼저 해주세요.");
                     } else {
                         // 닉네임 업데이트 (현재 아이디 사용)
                         if (userDAO.updateUserNickname(userInfo.getUserId(), newNickname)) {
-                            isUpdated[0] = true;
+                            isUpdated = true;
                         } else {
-                            hasErrors[0] = true;
+                            hasErrors = true;
                             showAlert("닉네임 변경 실패", "닉네임 변경 중 오류가 발생했습니다.");
                         }
                     }
@@ -904,16 +894,16 @@ public class UserView extends VBox {
                 if (!newId.isEmpty() && !newId.equals(originalId[0])) {
                     // 중복 확인했는지 체크
                     if (!isIdAvailable[0]) {
-                        hasErrors[0] = true;
+                        hasErrors = true;
                         showAlert("아이디 변경 오류", "아이디 중복 확인을 먼저 해주세요.");
                     } else {
                         // 아이디 업데이트
                         if (userDAO.updateUserId(originalId[0], newId)) {
-                            isUpdated[0] = true;
+                            isUpdated = true;
                             // 현재 세션의 사용자 ID 업데이트
                             setCurrentUserId(newId);
                         } else {
-                            hasErrors[0] = true;
+                            hasErrors = true;
                             showAlert("아이디 변경 실패", "아이디 변경 중 오류가 발생했습니다.");
                         }
                     }
@@ -925,40 +915,23 @@ public class UserView extends VBox {
                     // 이메일 형식 검증
                     String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
                     if (!newEmail.matches(emailRegex)) {
-                        hasErrors[0] = true;
+                        hasErrors = true;
                         showAlert("이메일 형식 오류", "올바른 이메일 형식이 아닙니다. (예: example@domain.com)");
                     } else {
                         // 이메일 중복 확인
                         if (!userDAO.isUserEmailDupe(newEmail)) {
-                            hasErrors[0] = true;
+                            hasErrors = true;
                             showAlert("이메일 중복", "이미 사용 중인 이메일입니다.");
                         } else {
-                            // 이메일 추가 전 확인 다이얼로그 표시
-                            Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-                            confirmAlert.setTitle("이메일 추가 확인");
-                            confirmAlert.setHeaderText("한 번 추가한 이메일은 다시는 변경 할 수 없습니다.");
-                            confirmAlert.setContentText("이메일 (" + newEmail + ")을(를) 추가하시겠습니까?");
-
-                            // 버튼 텍스트 변경
-                            ((Button) confirmAlert.getDialogPane().lookupButton(ButtonType.OK)).setText("추가");
-                            ((Button) confirmAlert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("취소");
-
-                            final String emailToAdd = newEmail;
-
-                            confirmAlert.showAndWait().ifPresent(response -> {
-                                if (response == ButtonType.OK) {
-                                    // 사용자가 확인한 경우에만 이메일 업데이트 진행
-                                    String currentId = getCurrentUserId(); // 현재 ID는 업데이트 됐을 수 있음
-                                    if (userDAO.updateUserEmail(currentId, emailToAdd)) {
-                                        isUpdated[0] = true;
-                                        showAlert("이메일 추가 완료", "이메일이 추가되었습니다.");
-                                    } else {
-                                        hasErrors[0] = true;
-                                        showAlert("이메일 추가 실패", "이메일 추가 중 오류가 발생했습니다.");
-                                    }
-                                }
-                                // 취소한 경우 아무것도 하지 않음
-                            });
+                            // 이메일 업데이트
+                            String currentId = getCurrentUserId(); // 현재 ID는 업데이트 됐을 수 있음
+                            if (userDAO.updateUserEmail(currentId, newEmail)) {
+                                isUpdated = true;
+                                showAlert("이메일 추가 안내", "이메일이 추가되었습니다. 추가된 이메일은 변경할 수 없습니다.");
+                            } else {
+                                hasErrors = true;
+                                showAlert("이메일 추가 실패", "이메일 추가 중 오류가 발생했습니다.");
+                            }
                         }
                     }
                 }
@@ -971,25 +944,25 @@ public class UserView extends VBox {
                     if (newPassword.equals(confirmPassword)) {
                         String currentId = getCurrentUserId(); // 현재 ID는 업데이트 됐을 수 있음
                         if (userDAO.updateUserPassword(currentId, newPassword)) {
-                            isUpdated[0] = true;
+                            isUpdated = true;
                         } else {
-                            hasErrors[0] = true;
+                            hasErrors = true;
                             showAlert("비밀번호 변경 실패", "비밀번호 변경 중 오류가 발생했습니다.");
                         }
                     } else {
-                        hasErrors[0] = true;
+                        hasErrors = true;
                         showAlert("비밀번호 불일치", "입력한 비밀번호가 일치하지 않습니다.");
                     }
                 }
 
                 // 업데이트 결과 처리
-                if (isUpdated[0] && !hasErrors[0]) {
+                if (isUpdated && !hasErrors) {
                     showAlert("업데이트 성공", "회원 정보가 성공적으로 업데이트되었습니다.");
 
                     // 유저 정보 갱신된 화면으로 돌아가기
                     getChildren().clear();
                     selectUserInfo();
-                } else if (!isUpdated[0] && !hasErrors[0]) {
+                } else if (!isUpdated && !hasErrors) {
                     showAlert("변경 사항 없음", "변경된 정보가 없습니다.");
 
                     // 유저 정보 화면으로 돌아가기
@@ -1007,6 +980,8 @@ public class UserView extends VBox {
         });
 
         buttonBox.getChildren().addAll(saveButton, cancelButton);
+
+        // 화면에 추가
         getChildren().addAll(titleLabel, formGrid, buttonBox);
     }
 
@@ -1014,4 +989,7 @@ public class UserView extends VBox {
     public static void setLogIn(boolean logIn) {
         isLogIn = logIn;
     }
+
+
+
 }

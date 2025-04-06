@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
 import modules.board.BoardListView;
 import modules.board.BoardView;
 import modules.chat.ChatView;
@@ -26,8 +27,16 @@ public class Main extends Application {
     // 뒤로가기 버튼을 위한 스택
     private final Stack<Pane> viewHistory = new Stack<>();
 
+   private Stage primaryStage; // setStage() 호출용
+    
+    private ChatView chatView; // 전역으로 한 번만 만들어서 재사용
+    
     @Override
     public void start(Stage stage) {
+    	
+   	    this.primaryStage = stage; //  저장해둬야 setStage에 전달 가능.  창 정보 저장
+
+    	
         // 상단 토글버튼
         ToggleGroup toggleGroup = new ToggleGroup(); // 토글 그룹
         ToggleButton songBtn = new ToggleButton("노래");
@@ -109,10 +118,10 @@ public class Main extends Application {
         chatBtn.setOnAction(e -> {
             viewHistory.push((Pane) root.getCenter()); // 현재 화면 저장
 
-            if (!UserView.isLogIn()) {
+            if (!UserView.isLogIn()) { 
                 // 로그인 상태가 아니면 로그인 화면 표시
                 UserView userView = new UserView();
-
+                
                 userView.setOnLoginSuccess(() -> {
                     openChatView(root);
                 });
@@ -173,20 +182,28 @@ public class Main extends Application {
 
     private void showChatView(BorderPane root, String nickname) {
         ChatView chatView = new ChatView(nickname);
+        chatView.setStage(primaryStage); // 닫을 때 연결 종료 되게 함
         root.setCenter(chatView);
     }
 
     // 닉네임을 가져와서 ChatView를 여는 메소드 분리
     private void openChatView(BorderPane root) {
-        String loggedInUserId = UserView.getCurrentUserId();
-        UserDAO userDAO = new UserDAO();
-        String nickname = userDAO.getNicknameById(loggedInUserId);
+        if (chatView == null) {
+            String loggedInUserId = UserView.getCurrentUserId();
+            UserDAO userDAO = new UserDAO();
+            String nickname = userDAO.getNicknameById(loggedInUserId);
 
-        if (nickname != null && !nickname.isEmpty()) {
-            showChatView(root, nickname);
-        } else {
-            System.out.println("닉네임을 가져오는 데 실패했습니다.");
+            if (nickname != null && !nickname.isEmpty()) {
+                chatView = new ChatView(nickname);
+                chatView.setStage(primaryStage); // 연결 종료 핸들링
+            } else {
+                System.out.println("닉네임을 가져오는 데 실패했습니다.");
+                return;
+            }
         }
+
+        // 화면 전환만 함
+        root.setCenter(chatView);
     }
 
     public static void main(String[] args) {
