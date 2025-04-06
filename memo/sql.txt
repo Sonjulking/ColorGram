@@ -1,0 +1,28 @@
+CREATE TABLE board (
+    board_num        NUMBER PRIMARY KEY,
+    board_type       VARCHAR2(50),
+    board_writer_num NUMBER,
+    board_title      VARCHAR2(100),
+    board_content    VARCHAR2(3000),
+    board_create_time DATE DEFAULT SYSDATE,
+    board_update_time DATE,
+    board_view_cnt   NUMBER DEFAULT 0,
+    board_like_cnt   NUMBER DEFAULT 0,
+    board_is_deleted CHAR(1) DEFAULT 'N',
+    board_deleted_time DATE,
+    CONSTRAINT fk_board_writer FOREIGN KEY (board_writer_num)
+        REFERENCES users (user_num)
+);
+
+
+CREATE TABLE users (
+    user_no NUMBER PRIMARY KEY,
+    user_nickname VARCHAR2(100) NOT NULL,
+    user_id VARCHAR2(100) NOT NULL UNIQUE,
+    user_password VARCHAR2(100) NOT NULL,
+    user_email VARCHAR2(100) UNIQUE
+);
+
+회원번호를 자동으로 지정하는 시퀀스
+ex) 첫번째 회원은 1번, 두번째는 2번...
+CREATE SEQUENCE userno_seq START WITH 1 INCREMENT BY 1;

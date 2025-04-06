@@ -19,6 +19,5 @@ git pull origin master
 
 :q
 
-hhh
 
 
