@@ -61,16 +61,33 @@ public class PlayerListView extends VBox {
         Button redBtn = createColorButton("#fc4949", () -> redGreenSlider.setValue(0));
         Button greenBtn = createColorButton("#8cdb86", () -> redGreenSlider.setValue(1));
         Button yellowBtn = createColorButton("#f0d362", () -> yellowPurpleSlider.setValue(0));
-        Button blueBtn = createColorButton("#39a2f7", () -> yellowPurpleSlider.setValue(1));
+        Button purpleBtn = createColorButton("#39a2f7", () -> yellowPurpleSlider.setValue(1));
 
         //슬라이더 크기 설정
         redGreenSlider.setPrefWidth(100);
         yellowPurpleSlider.setPrefWidth(100);
+        // 버튼 스타일 적용
+        redBtn.setStyle("-fx-background-color: #fc4949; -fx-min-width: 40px; -fx-min-height: 40px; -fx-border-color: rgba(0, 0, 0, 0.25); -fx-border-width: 2px;");
+        greenBtn.setStyle("-fx-background-color: #8cdb86; -fx-min-width: 40px; -fx-min-height: 40px; -fx-border-color: rgba(0, 0, 0, 0.25); -fx-border-width: 2px;");
+        yellowBtn.setStyle("-fx-background-color: #f0d362; -fx-min-width: 40px; -fx-min-height: 40px; -fx-border-color: rgba(0, 0, 0, 0.25); -fx-border-width: 2px;");
+        purpleBtn.setStyle("-fx-background-color: #39a2f7; -fx-min-width: 40px; -fx-min-height: 40px; -fx-border-color: rgba(0, 0, 0, 0.25); -fx-border-width: 2px;");
 
-        VBox redGreenBox = new VBox(5, new HBox(10, redBtn, greenBtn), redGreenSlider);
-        VBox yellowBlueBox = new VBox(5, new HBox(10, yellowBtn, blueBtn), yellowPurpleSlider);
+        HBox buttonRow = new HBox(10, redBtn, greenBtn);
+        buttonRow.setAlignment(Pos.CENTER);
+
+        VBox redGreenBox = new VBox(5, buttonRow, redGreenSlider);
+        redGreenBox.setAlignment(Pos.CENTER);
+
+
+        HBox buttonRow2 = new HBox(10, yellowBtn, purpleBtn);
+        buttonRow2.setAlignment(Pos.CENTER);
+
+        VBox yellowBlueBox = new VBox(5, buttonRow2, yellowPurpleSlider);
+        yellowBlueBox.setAlignment(Pos.CENTER);
+
+
         HBox sliderRow = new HBox(40, redGreenBox, yellowBlueBox);
-
+        sliderRow.setSpacing(80); // 두 박스 사이 간격 벌리기!
         //obs : 변화 감지하는 객체
         redGreenSlider.valueProperty().addListener((obs, oldVal, newVal) -> refreshFilteredList());
         yellowPurpleSlider.valueProperty().addListener((obs, oldVal, newVal) -> refreshFilteredList());
