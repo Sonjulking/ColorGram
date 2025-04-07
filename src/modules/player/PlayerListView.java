@@ -37,7 +37,7 @@ public class PlayerListView extends VBox {
         setSpacing(10);
         setPadding(new javafx.geometry.Insets(10));
 
-        Button folderSelectBtn = new Button("폴더 선택");
+        Button folderSelectBtn = new Button("📂");
 
         File lastDir = loadLastFolder();
         if (lastDir != null) {

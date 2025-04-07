@@ -135,17 +135,25 @@ public class PlayerView extends VBox {
 
 
         playBtn.setOnAction(e -> {
-            if (mediaPlayer != null) {
-                MediaPlayer.Status status = mediaPlayer.getStatus();
-                if (status == MediaPlayer.Status.PLAYING) {
-                    mediaPlayer.pause();
-                    playBtn.setText("▶");
-                } else {
-                    mediaPlayer.play();
-                    playBtn.setText("⏸");
-                }
+            if (mediaPlayer == null) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("알림");
+                alert.setHeaderText(null);
+                alert.setContentText("재생할 음악 파일이 없습니다.\n파일을 먼저 선택해주세요!");
+                alert.showAndWait();
+                return;
+            }
+
+            MediaPlayer.Status status = mediaPlayer.getStatus();
+            if (status == MediaPlayer.Status.PLAYING) {
+                mediaPlayer.pause();
+                playBtn.setText("▶");
+            } else {
+                mediaPlayer.play();
+                playBtn.setText("⏸");
             }
         });
+
 
         // prevBtn과 nextBtn 이벤트 핸들러 수정
         prevBtn.setOnAction(e -> {
@@ -567,6 +575,12 @@ public class PlayerView extends VBox {
             onColorUpdated.run(); // 콜백 실행
         }
 
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("알림");
+        alert.setHeaderText(null);
+        alert.setContentText("색상 정보가 저장 되었습니다.");
+        alert.showAndWait();
 
     }
 
