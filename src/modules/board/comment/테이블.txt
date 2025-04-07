@@ -1,0 +1,28 @@
+CREATE TABLE comments (
+    comment_num NUMBER PRIMARY KEY,
+    comment_like_cnt NUMBER DEFAULT 0 NOT NULL,
+    comment_board_num NUMBER NOT NULL,
+    comment_writer_num NUMBER NOT NULL,
+    comment_content VARCHAR2(2000) NOT NULL,
+    comment_create_time DATE DEFAULT sysdate NOT NULL,
+    comment_update_time DATE,
+    comment_is_deleted CHAR(1) DEFAULT 'N' NOT NULL,
+    comment_deleted_time DATE,
+    CONSTRAINT fk_comment_board FOREIGN KEY (comment_board_num) REFERENCES board(board_num),
+    CONSTRAINT fk_comment_writer FOREIGN KEY (comment_writer_num) REFERENCES users(user_no)
+);
+
+-- 댓글 번호 시퀀스
+CREATE SEQUENCE comments_seq START WITH 1 INCREMENT BY 1 ;
+
+--추천수를 기록하는 테이블
+CREATE TABLE comment_likes (
+    user_no NUMBER NOT NULL,
+    comment_num NUMBER NOT NULL,
+    like_time DATE DEFAULT SYSDATE,
+    PRIMARY KEY (user_no, comment_num),
+    CONSTRAINT fk_comment_likes_user FOREIGN KEY (user_no) REFERENCES users(user_no),
+    CONSTRAINT fk_comment_likes_comment FOREIGN KEY (comment_num) REFERENCES comments(comment_num)
+);
+
+

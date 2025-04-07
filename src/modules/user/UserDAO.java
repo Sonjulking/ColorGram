@@ -1,7 +1,11 @@
 package modules.user;
 
 import database.ConnectionProvider;
+
 import modules.board.BoardWriteView;
+
+import database.dao.BoardDAO;
+import modules.board.comment.CommentDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -104,7 +108,7 @@ public class UserDAO {
         return nickname;
     }
 
-    // 회원가입 메소드
+    // 회원가입 메서드
     public boolean insertUser(UserVO user) {
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -145,24 +149,36 @@ public class UserDAO {
         }
     }
 
-    // 회원 삭제 메소드
     public boolean deleteUser(String id) {
         Connection conn = null;
         PreparedStatement pstmt = null;
-
+        
         try {
+            // 사용자 정보 조회
+            UserVO user = selectUser(id);
+            if (user == null) return false;
+            
+            int userNo = user.getUserNo();
+            
+            // 1. 댓글 좋아요 기록 삭제
+            CommentDAO commentDAO = new CommentDAO();
+            commentDAO.deleteCommentLikesByUser(userNo);
+            
+            // 2. 댓글 작성자 업데이트
+            commentDAO.updateCommentsForDeletedUser(userNo);
+            
+            // 3. 게시글 작성자 업데이트
+            BoardDAO boardDAO = new BoardDAO();
+            boardDAO.updateBoardsForDeletedUser(userNo);
+            
+            // 4. 사용자 삭제
             conn = ConnectionProvider.getConnection();
-
-            // 연결 실패 시 처리
-            if (conn == null) {
-                System.out.println("데이터베이스 연결 실패");
-                return false;
-            }
-
+            if (conn == null) return false;
+            
             String sql = "DELETE FROM users WHERE user_id = ?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, id);
-
+            
             int result = pstmt.executeUpdate();
             return result > 0;
         } catch (Exception e) {
@@ -358,7 +374,7 @@ public class UserDAO {
     }
 
     // 닉네임 중복 검사
-    public boolean selectIsUserNicknameDupe(String nickname) {
+    public boolean IsUserNicknameDupe(String nickname) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.List;
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;
@@ -66,6 +67,29 @@ public class ChatClient {
         }
     }
 
+//    private void receiveMessages() {
+//        String message;
+//        try {
+//            while ((message = in.readLine()) != null) {
+//                String finalMessage = message;
+//
+//                Platform.runLater(() -> {
+//                    if (finalMessage.startsWith(" * ")) {
+//                        chatView.receiveMessage(null, finalMessage.trim());
+//                    } else {
+//                        int colonIndex = finalMessage.indexOf(":");
+//                        if (colonIndex != -1) {
+//                            String sender = finalMessage.substring(0, colonIndex);
+//                            String msg = finalMessage.substring(colonIndex + 1).trim();
+//                            chatView.receiveMessage(sender, msg);
+//                        }
+//                    }
+//                });
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
     private void receiveMessages() {
         String message;
         try {
@@ -73,7 +97,10 @@ public class ChatClient {
                 String finalMessage = message;
 
                 Platform.runLater(() -> {
-                    if (finalMessage.startsWith(" * ")) {
+                    if (finalMessage.startsWith("USER_LIST:")) {
+                        String[] users = finalMessage.substring(10).split(",");
+                        chatView.updateUserList(List.of(users)); // ListView 갱신
+                    } else if (finalMessage.startsWith(" * ")) {
                         chatView.receiveMessage(null, finalMessage.trim());
                     } else {
                         int colonIndex = finalMessage.indexOf(":");
@@ -89,7 +116,6 @@ public class ChatClient {
             e.printStackTrace();
         }
     }
-
 
 
  // 퇴장 메시지 스타일링
