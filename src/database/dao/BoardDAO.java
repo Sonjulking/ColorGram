@@ -212,4 +212,25 @@ public class BoardDAO {
 		}
 		return re;
 	}
+	
+	// 탈퇴한 사용자의 게시글 작성자명 변경
+	public int updateBoardsForDeletedUser(int userNo) {
+	    int result = -1;
+	    try {
+	        String sql = "UPDATE board SET board_writer_num = 0 " +
+	                "WHERE board_writer_num = ?";
+
+	        Connection conn = ConnectionProvider.getConnection();
+	        PreparedStatement pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, userNo);
+
+	        result = pstmt.executeUpdate();
+
+	        ConnectionProvider.close(conn, pstmt);
+
+	    } catch (Exception e) {
+	        System.out.println("예외발생: " + e.getMessage());
+	    }
+	    return result;
+	}
 }

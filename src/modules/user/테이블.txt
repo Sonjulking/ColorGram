@@ -7,6 +7,10 @@ CREATE TABLE users (
     user_email VARCHAR2(100) UNIQUE
 );
 
-회원번호를 자동으로 지정하는 시퀀스
-ex) 첫번째 회원은 1번, 두번째는 2번...
+--회원번호를 자동으로 지정하는 시퀀스
+--ex) 첫번째 회원은 1번, 두번째는 2번...
 CREATE SEQUENCE userno_seq START WITH 1 INCREMENT BY 1;
+
+-- 0번 사용자 추가 (탈퇴한 사용자를 표시하기 위한 특별 계정)
+INSERT INTO users (user_no, user_id, user_nickname, user_password) 
+VALUES (0, 'deleted', '(탈퇴한 유저)', 'deleted');

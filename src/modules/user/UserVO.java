@@ -7,9 +7,6 @@ public class UserVO {
     private String userPassword;
     private String userEmail;
 
-
-
-
     public UserVO() {
         super();
     }
@@ -18,8 +15,6 @@ public class UserVO {
         this.userId = userId;
         this.userPassword = userPassword;
     }
-
-
 
     //닉네임 가져오기
     public UserVO(String userNickname, String userId, String userPassword) {

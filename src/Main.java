@@ -9,10 +9,11 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 import modules.board.BoardListView;
-import modules.board.BoardView;
 import modules.chat.ChatView;
 import modules.player.PlayerListView;
 import modules.player.PlayerView;
@@ -29,12 +30,24 @@ public class Main extends Application {
 
     private Stage primaryStage; // setStage() 호출용
 
+    
     private ChatView chatView; // 전역으로 한 번만 만들어서 재사용
-
+    
+    // root를 클래스 필드로 선언
+    private BorderPane root;
+    
+    // 유저 정보 버튼을 클래스 필드로 선언하여 전역으로 접근 가능하게 함
+    private Button userInfoBtn;
+    
     @Override
     public void start(Stage stage) {
-
+        
         this.primaryStage = stage; //  저장해둬야 setStage에 전달 가능.  창 정보 저장
+
+        // root 초기화
+        root = new BorderPane();
+
+
 
 
         // 상단 토글버튼
@@ -43,8 +56,18 @@ public class Main extends Application {
         ToggleButton eqBtn = new ToggleButton("이퀄라이저");
         songBtn.setToggleGroup(toggleGroup);
         eqBtn.setToggleGroup(toggleGroup);
-        HBox toggleBox = new HBox(10, songBtn, eqBtn);// 버튼들 사이간격
-        toggleBox.setAlignment(Pos.CENTER);// 내부 버튼들 가로 세로 모두 중앙 정렬
+        userInfoBtn = new Button("로그인");
+        userInfoBtn.setStyle("-fx-background-color: #4682B4; -fx-text-fill: white;");
+        
+        
+        
+        
+        // Region으로 빈 공간 생성 (버튼 오른쪽 정렬을 위해)
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        
+        HBox toggleBox = new HBox(10, songBtn, eqBtn, spacer, userInfoBtn);// 버튼들 사이간격
+        toggleBox.setAlignment(Pos.CENTER_LEFT);// 내부 버튼들 가로는 왼쪽, 세로는 중앙 정렬
         toggleBox.setPadding(new Insets(10)); // 상하좌우 여백 10px
         // -----------------------------------
 
@@ -67,12 +90,13 @@ public class Main extends Application {
         navBar.setAlignment(Pos.CENTER); // 내부버튼들 똑같이 정중앙
         navBar.setPadding(new Insets(20));// 상하좌우 여백
 
-        BorderPane root = new BorderPane(); // root라는 이름으로 BorderPane 레이아웃 생성
+        // root 설정
         root.setTop(toggleBox); // 상단에는 토글
         root.setCenter(playerView); // 중앙에는 플레이어
         root.setBottom(navBar); // 하단에는 네비게이션 버튼(home, 커뮤니티, chat...)
 
         // 버튼 액션
+        
         // home버튼
         homeBtn.setOnAction(e -> {
             viewHistory.clear();// 뒤로가기 스택 초기화
@@ -84,6 +108,7 @@ public class Main extends Application {
             viewHistory.push((Pane) root.getCenter());
             root.setCenter(playerListView);
         });
+        
         // back버튼
         backBtn.setOnAction(e -> {
             if (!viewHistory.isEmpty()) { // 스택안에 내용있을떄만 실행
@@ -94,9 +119,37 @@ public class Main extends Application {
 
         // BoardView로 이동하는 공통 콜백 생성
         Runnable boardViewCallback = () -> {
+            // 로그인 성공 후 버튼 텍스트 업데이트
+            updateUserInfoButtonVisibility();
             showBoardView(root);
         };
-
+        
+        // 유저 정보 버튼
+        userInfoBtn.setOnAction(e -> {
+            viewHistory.push((Pane) root.getCenter()); // 현재 화면 저장
+            UserView userView = new UserView();
+            
+            // 로그인 성공 시 콜백 설정
+            userView.setOnLoginSuccess(() -> {
+                // 로그인 성공하면 버튼 텍스트를 '유저 정보'로 변경
+                updateUserInfoButtonVisibility();
+                
+                // 이전 화면으로 돌아가기
+                if (!viewHistory.isEmpty()) {
+                    Pane previousView = viewHistory.pop();
+                    root.setCenter(previousView);
+                }
+            });
+            
+            // 로그아웃 성공 시 콜백 설정
+            userView.setOnLogoutSuccess(() -> {
+                // 로그아웃 성공하면 버튼 텍스트를 '로그인'으로 변경
+                updateUserInfoButtonVisibility();
+            });
+            
+            root.setCenter(userView);
+        });
+        
         // 커뮤니티버튼
         communityBtn.setOnAction(e -> {
             viewHistory.push((Pane) root.getCenter());// 현재 화면 스택에 저장
@@ -120,10 +173,10 @@ public class Main extends Application {
         chatBtn.setOnAction(e -> {
             viewHistory.push((Pane) root.getCenter()); // 현재 화면 저장
 
-            if (!UserView.isLogIn()) {
+            if (!UserView.isLogIn()) { 
                 // 로그인 상태가 아니면 로그인 화면 표시
                 UserView userView = new UserView();
-
+                
                 userView.setOnLoginSuccess(() -> {
                     openChatView(root);
                 });
@@ -135,39 +188,24 @@ public class Main extends Application {
             }
         });
 
-
-//        chatBtn.setOnAction(e -> {
-//            viewHistory.push((Pane) root.getCenter()); // 현재 화면 저장
-//
-//            if (!UserView.isLogIn()) {
-//                // 로그인 상태가 아니면 로그인 화면 표시
-//                UserView userView = new UserView();
-//
-//                userView.setOnLoginSuccess(() -> {
-//                    String loggedInUserId = UserView.getCurrentUserId();
-//                    UserDAO userDAO = new UserDAO();
-//                    String nickname = userDAO.getNicknameById(loggedInUserId);
-//
-//                    showChatView(root, nickname);
-//                });
-//
-//                root.setCenter(userView);
-//            } else {
-//                // 로그인 상태라면 닉네임을 가져와서 채팅방으로 이동
-//                String loggedInUserId = UserView.getCurrentUserId();
-//                UserDAO userDAO = new UserDAO();
-//                String nickname = userDAO.getNicknameById(loggedInUserId);
-//
-//                showChatView(root, nickname);
-//            }
-//        });
-
         // 화면을 지정하고, 크기도 함꼐 지정
         Scene scene = new Scene(root, 400, 600);
         // window label 지정
         stage.setTitle("ColorGram");
         stage.setScene(scene); // 윈도우(창)에화면을 붙임.
         stage.show();
+        
+        // 로그인 상태에 따라 유저 정보 버튼 가시성 업데이트
+        updateUserInfoButtonVisibility();
+    }
+    
+    // 로그인 상태에 따라 유저 정보 버튼 텍스트 업데이트 메서드
+    private void updateUserInfoButtonVisibility() {
+        if (UserView.isLogIn()) {
+            userInfoBtn.setText("유저 정보");
+        } else {
+            userInfoBtn.setText("로그인");
+        }
     }
 
     // BoardView 표시 헬퍼 메소드
@@ -211,5 +249,6 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
+    
+    
 }
