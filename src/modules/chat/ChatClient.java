@@ -117,7 +117,25 @@ public class ChatClient {
         }
     }
 
+ // ChatClient.java 내부의 logout() 또는 로그아웃 버튼 클릭 핸들러에서
+    public void logout() {
+        try {
+            // 서버에게 먼저 나간다는 메시지 전송
+            if (out != null) {
+                out.println("/logout");
+                out.flush();
+            }
 
+            // 이후 스트림 및 소켓 종료
+            if (in != null) in.close();
+            if (out != null) out.close();
+            if (socket != null && !socket.isClosed()) socket.close();
+
+            System.out.println("클라이언트 로그아웃 완료");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
  // 퇴장 메시지 스타일링
     private void showExitMessage(String message) {
         Label exitLabel = new Label(message);

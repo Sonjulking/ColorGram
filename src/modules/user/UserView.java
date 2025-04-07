@@ -12,13 +12,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import modules.board.BoardWriteView;
-
+import modules.chat.ChatClient;
 public class UserView extends VBox {
 
     private TextField idField;
     private PasswordField passwordField;
     private Button loginButton;
     private Button registerButton;
+    private ChatClient chatClient;
     
     // 로그인 상태
     private static boolean isLogIn = false;
@@ -37,6 +38,17 @@ public class UserView extends VBox {
         if (isLogIn && currentUserId != null) {
             selectUserInfo();
      
+        } else {
+            setupLoginView();
+        }
+    }
+    
+    //채팅을 위한 로그아웃
+    public UserView(ChatClient chatClient) {
+        this.chatClient = chatClient;
+
+        if (isLogIn && currentUserId != null) {
+            selectUserInfo();
         } else {
             setupLoginView();
         }
@@ -430,6 +442,13 @@ public class UserView extends VBox {
             
             confirmAlert.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
+               	 // 여기서 채팅 중일 때 logout 메시지 보내기
+                    if (chatClient != null) {
+                        chatClient.logout();
+                        System.out.println("UserView: chatClient.logout() 호출됨");
+                    }
+                	
+                	
                     // 로그아웃 처리 - 콜백은 유지
                     setLogIn(false);
                     setCurrentUserId(null);

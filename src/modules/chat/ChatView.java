@@ -31,6 +31,9 @@ public class ChatView extends VBox {
         // 닉네임을 이미 알고 있으므로 바로 채팅방 표시
         showChatRoom();
     }
+    public ChatClient getChatClient() {
+        return chatClient;
+    }
     private void showChatRoom() {
         getChildren().clear();
 
@@ -162,35 +165,13 @@ public class ChatView extends VBox {
      
 
         // 클라이언트 연결
-        chatClient = new ChatClient("172.30.1.98", 4000, chatArea, nickname, this);
+        chatClient = new ChatClient("127.0.0.1", 4000, chatArea, nickname, this);
 
      // 화면 적용
         getChildren().add(layout);
 //        getChildren().addAll(topBar, chatContent);
     }
-//    private void showChatRoom() {
-//        getChildren().clear();
-//
-//        // 상단 토글 버튼
-//        Button toggleUserListBtn = new Button("☰ 접속자 목록 보기");
-//        HBox topBar = new HBox(toggleUserListBtn);
-//        topBar.setAlignment(Pos.CENTER_RIGHT);
-//        topBar.setPadding(new Insets(5));
-//
-//        // 채팅 메시지 출력 영역(ScrollPane)
-//        chatArea = new VBox(5);
-//        chatArea.setPadding(new Insets(10));
-//        chatArea.setStyle("-fx-background-color: #F5F5F5; -fx-border-color: #ddd; -fx-border-radius: 5px;");
-//        chatArea.setPrefHeight(400);
-//
-//     // ScrollPane으로 감싸기
-//        ScrollPane scrollPane = new ScrollPane(chatArea);
-//        scrollPane.setFitToWidth(true);
-//        scrollPane.setPrefHeight(400); // 고정 높이 설정
-//        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-//        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-//        scrollPane.vvalueProperty().bind(chatArea.heightProperty());
-//
+
 //        // 클라이언트 초기화
 //        chatClient = new ChatClient("127.0.0.1", 4000, chatArea, nickname, this);
 //
@@ -205,99 +186,15 @@ public class ChatView extends VBox {
 ////        ├─ HBox (topBar, toggle 버튼)
 ////        ├─ HBox (chatArea + userListView) ← 이 부분만 가로 분할
 ////        └─ HBox (messageField + sendButton) ← 무조건 하단 고정
-//        
-////      scrollPane 선언
-////      messageField, sendButton, inputBox 선언
-////      centerContent = new VBox(scrollPane, inputBox)
-////      mainContent = new HBox(centerContent)
-//    
-//        // 접속자 목록 ListView
-//        userListView = new ListView<>();
-//        userListView.setPrefWidth(150);
-////        userListView.setMaxHeight(380); // max값이 있어야 설정이 되나?
-//        userListView.setPrefHeight(400); // 채팅창과 동일한 높이로 설정하고싶음
-////        userListView.setVisible(false);  // 처음엔 안 보이게
-//        
-//     // chatContent: chatArea + (선택적으로) userListView
-//        HBox chatContent = new HBox(10, scrollPane);
-//        chatContent.setAlignment(Pos.TOP_CENTER);
-//        // 전체 화면 레이아웃 구성
-////        HBox mainContent = new HBox(10);
-////        mainContent.setAlignment(Pos.TOP_CENTER);
-//        
-////      HBox inputBox = new HBox(5, messageField, sendButton);
-////      inputBox.setAlignment(Pos.CENTER);
-////      inputBox.setPadding(new Insets(5));
-//        
-//     
-//        
-//        
-//        // 입력창
-//        TextField messageField = new TextField();
-//        messageField.setPromptText("메시지를 입력하세요.");
-//        messageField.setPrefWidth(320);
-//
-//        Button sendButton = new Button("전송");
-//        sendButton.setOnAction(e -> {
-//            sendMessage(messageField.getText());
-//            messageField.clear();
-//        });
-//
-//        messageField.setOnAction(e -> {
-//            sendMessage(messageField.getText());
-//            messageField.clear();
-//        });
-//        
-//        
-//        
-//
-//        
-//        HBox inputBox = new HBox(5, messageField, sendButton);
-//        inputBox.setAlignment(Pos.CENTER);
-//        inputBox.setPadding(new Insets(5));
-////        VBox centerContent = new VBox(10, scrollPane, inputBox);
-////        centerContent.setAlignment(Pos.CENTER);
-////        centerContent.setPrefHeight(450); // 필요 시 고정
-//        
-//        // ⭐ centerContent = scrollPane + inputBox
-//        VBox centerContent = new VBox(10, scrollPane, inputBox);
-//        centerContent.setAlignment(Pos.CENTER);
-//
-//        // ⭐ mainContent = centerContent + (optional) userListView
-//        HBox mainContent = new HBox(10, centerContent);
-//        mainContent.setAlignment(Pos.TOP_CENTER);
-//        
-//        // 토글 버튼 동작
-//        toggleUserListBtn.setOnAction(e -> {
-//            isUserListVisible = !isUserListVisible;
-//            if (isUserListVisible) {
-//                toggleUserListBtn.setText("☰ 숨기기");
-//                if (!mainContent.getChildren().contains(userListView)) {
-//                    mainContent.getChildren().add(userListView);
-//                }
-//            } else {
-//                toggleUserListBtn.setText("☰ ");
-//                mainContent.getChildren().remove(userListView);
-//            }
-//        });
-//
-////        mainContent.getChildren().add(centerContent); // 기본 채팅창만 보이게
-//
-//      
-//
-//        // 구성요소 순서대로 배치
-////        getChildren().addAll(topBar, mainContent);
-//     // 전체 레이아웃 구성
-//        getChildren().clear();
-//        getChildren().addAll(topBar, chatContent, inputBox);
-//    }
+
+
     
     //창 닫힐때 연결종료해서 정상적으로 종료되는지 확인하기위해 너
     public void setStage(Stage stage) {
         stage.setOnCloseRequest(event -> {
             if (chatClient != null) {
-                chatClient.sendMessage("EXIT");  // 창닫힐때 EXIT 메시지보내기 테스트
-                chatClient.closeConnection();
+                chatClient.logout();  // 로그아웃 메시지를 보내고 연결 종료
+                System.out.println("창 닫힘: chatClient.logout() 호출됨");
             }
         });
     }
@@ -383,6 +280,14 @@ public class ChatView extends VBox {
         }
 
         chatArea.getChildren().add(messageContainer);
+    }
+    public void logoutChat() {
+        if (chatClient != null) {
+            chatClient.logout();
+            System.out.println("ChatView: 로그아웃 처리 완료!");
+        } else {
+            System.out.println("ChatView: chatClient가 null입니다.");
+        }
     }
     
     // 접속자 리스트 갱신용 메서드
