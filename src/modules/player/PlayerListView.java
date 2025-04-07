@@ -87,9 +87,18 @@ public class PlayerListView extends VBox {
                 } else {
                     setText(file.getName());
 
-                    File imageFile = new File(file.getParent(), getBaseName(file.getName()) + ".png");
+                    File baseDir = file.getParentFile();
+                    String baseName = getBaseName(file.getName());
+
+                    File pngFile = new File(baseDir, baseName + ".png");
+                    File jpgFile = new File(baseDir, baseName + ".jpg");
+
+                    File imageFile = pngFile.exists() ? pngFile :
+                            (jpgFile.exists() ? jpgFile : null);
+
+
                     ImageView imageView = new ImageView(new Image(
-                            imageFile.exists() ? imageFile.toURI().toString() : "assets/player/empty.png",
+                            imageFile != null ? imageFile.toURI().toString() : "assets/player/empty.png",
                             40, 40, true, true
                     ));
 

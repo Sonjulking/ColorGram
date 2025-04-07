@@ -430,7 +430,7 @@ public class PlayerView extends VBox {
                         System.out.println("이미지있음");
                         albumImage.setImage(image);
                     } else {
-                        System.out.println("이미지없음");
+                        loadLocalAlbumImage(file); // ← 추가
                     }
                 }
             });
@@ -490,10 +490,13 @@ public class PlayerView extends VBox {
                 } else {
                     titleLabel.setText(file.getName());
                 }
+                titleLabel.setStyle("-fx-text-fill: black; -fx-font-size: 18px; -fx-font-weight: bold;");
                 titleLabel.setTooltip(new Tooltip(titleLabel.getText()));
 
                 if (media.getMetadata().get("image") instanceof javafx.scene.image.Image image) {
                     albumImage.setImage(image);
+                } else {
+                    loadLocalAlbumImage(file); // ← 추가
                 }
             }
         });
@@ -659,6 +662,23 @@ public class PlayerView extends VBox {
         double g = c1.getGreen() - c2.getGreen();
         double b = c1.getBlue() - c2.getBlue();
         return Math.sqrt(r * r + g * g + b * b);
+    }
+
+    //앨범아트 불러오기
+    private void loadLocalAlbumImage(File audioFile) {
+        File parentDir = audioFile.getParentFile();
+        String baseName = audioFile.getName().substring(0, audioFile.getName().lastIndexOf('.'));
+
+        File pngFile = new File(parentDir, baseName + ".png");
+        File jpgFile = new File(parentDir, baseName + ".jpg");
+
+        if (pngFile.exists()) {
+            albumImage.setImage(new Image(pngFile.toURI().toString()));
+        } else if (jpgFile.exists()) {
+            albumImage.setImage(new Image(jpgFile.toURI().toString()));
+        } else {
+            albumImage.setImage(new Image("assets/player/empty.png")); // 기본 이미지
+        }
     }
 
 
