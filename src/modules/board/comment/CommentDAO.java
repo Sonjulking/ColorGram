@@ -39,7 +39,7 @@ public class CommentDAO {
         ArrayList<CommentVO> list = new ArrayList<CommentVO>();
         try {
             String sql = "SELECT c.comment_num, c.comment_board_num, c.comment_writer_num, " +
-                    "c.comment_content, c.comment_create_time, c.comment_update_time, " +
+                    "c.comment_content, c.comment_create_time, c.comment_update_time, " + 
                     "c.comment_like_cnt, u.user_nickname " +
                     "FROM comments c " +
                     "JOIN users u ON c.comment_writer_num = u.user_no " +

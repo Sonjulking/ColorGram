@@ -162,7 +162,7 @@ public class ChatView extends VBox {
      
 
         // 클라이언트 연결
-        chatClient = new ChatClient("127.0.0.1", 4000, chatArea, nickname, this);
+        chatClient = new ChatClient("172.30.1.98", 4000, chatArea, nickname, this);
 
      // 화면 적용
         getChildren().add(layout);

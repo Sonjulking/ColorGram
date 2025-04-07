@@ -222,28 +222,6 @@ public class BoardView extends BorderPane {
         
         // 임시 해결책: 항상 모든 버튼 표시
         buttonBox.getChildren().addAll(likeButton, editButton, deleteButton, listButton);
-        
-        // 원래 코드 (주석 처리)
-        /*
-        // 모든 사용자에게 보이는 버튼
-        buttonBox.getChildren().addAll(likeButton, listButton);
-        
-        // 작성자 확인 - 작성자인 경우에만 수정/삭제 버튼 표시
-        boolean isAuthor = false;
-        
-        if (currentUser != null) {
-            System.out.println("작성자 여부 계산: " + board.getBoardWriterNum() + " == " + currentUser.getUserNo());
-            isAuthor = (board.getBoardWriterNum() == currentUser.getUserNo());
-            System.out.println("작성자 여부: " + isAuthor);
-        }
-        
-        if (isAuthor) {
-            // 좋아요와 목록 사이에 수정, 삭제 버튼 추가
-            buttonBox.getChildren().add(1, editButton);
-            buttonBox.getChildren().add(2, deleteButton);
-        }
-        */
-        
 
         // 이벤트 설정
         likeButton.setOnAction(e -> handleLike());
@@ -279,8 +257,25 @@ public class BoardView extends BorderPane {
         // 댓글 작성자 및 날짜 정보
         HBox headerBox = new HBox();
 
+        // 현재 로그인한 사용자와 댓글 작성자 비교
+        boolean isCurrentUserComment = false;
+        if (UserView.isLogIn()) {
+            String currentUserId = UserView.getCurrentUserId();
+            UserDAO userDAO = new UserDAO();
+            UserVO currentUser = userDAO.selectUser(currentUserId);
+            
+            if (currentUser != null) {
+                isCurrentUserComment = (currentUser.getUserNo() == comment.getCommentWriterNum());
+            }
+        }
+
+        // 자신이 작성한 댓글이면 닉네임을 빨간색으로 표시
         Label nicknameLabel = new Label(comment.getWriterNickname());
-        nicknameLabel.setFont(Font.font("System", FontWeight.BOLD, 12));
+        if (isCurrentUserComment) {
+            nicknameLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: red;");
+        } else {
+            nicknameLabel.setStyle("-fx-font-weight: bold;");
+        }
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
@@ -291,7 +286,21 @@ public class BoardView extends BorderPane {
         Label dateLabel = new Label(dateStr);
         dateLabel.setStyle("-fx-text-fill: #888888; -fx-font-size: 11;");
 
-        headerBox.getChildren().addAll(nicknameLabel, spacer, dateLabel);
+        // 수정된 댓글인 경우 수정 날짜 표시
+        VBox dateBox = new VBox(2);
+        dateBox.setAlignment(Pos.CENTER_RIGHT); // 날짜 박스를 오른쪽 정렬
+        dateBox.getChildren().add(dateLabel);
+        
+        if (comment.getCommentUpdateTime() != null) {
+            String updateDateStr = dateFormat.format(comment.getCommentUpdateTime());
+            Label editedLabel = new Label("*수정됨 (" + updateDateStr + ")");
+            editedLabel.setStyle("-fx-text-fill: #888888; -fx-font-size: 10;");
+            dateBox.getChildren().add(editedLabel);
+        }
+        
+        // headerBox 구성 - 닉네임은 왼쪽, 날짜는 오른쪽
+        headerBox.getChildren().addAll(nicknameLabel, spacer, dateBox);
+        headerBox.setAlignment(Pos.CENTER_LEFT); // 전체 박스는 왼쪽 정렬 유지
 
         // 댓글 내용
         Label contentLabel = new Label(comment.getCommentContent());
@@ -464,6 +473,10 @@ public class BoardView extends BorderPane {
             if (updateResult > 0) {
                 // 화면에 업데이트
                 contentLabel.setText(newContent);
+                
+                // 화면 새로고침으로 변경하여 수정 날짜가 표시되도록 함
+                loadComments(); // 전체 댓글 목록 새로고침
+                
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("알림");
                 alert.setHeaderText(null);

@@ -124,6 +124,14 @@ public class Main extends Application {
             showBoardView(root);
         };
         
+        // ChatView로 이동하는 공통 콜백 생성
+        Runnable chatViewCallback = () -> {
+            // 로그인 성공 후 버튼 텍스트 업데이트
+            updateUserInfoButtonVisibility();
+            showBoardView(root);
+        };
+        
+        
         // 유저 정보 버튼
         userInfoBtn.setOnAction(e -> {
             viewHistory.push((Pane) root.getCenter()); // 현재 화면 저장
@@ -167,28 +175,26 @@ public class Main extends Application {
                 showBoardView(root);
             }
         });
-
-
-        // 채팅 버튼
+        
+        //채팅버튼
         chatBtn.setOnAction(e -> {
-            viewHistory.push((Pane) root.getCenter()); // 현재 화면 저장
+            viewHistory.push((Pane) root.getCenter());// 현재 화면 스택에 저장
 
-            if (!UserView.isLogIn()) { 
-                // 로그인 상태가 아니면 로그인 화면 표시
+            // 로그인 상태 확인
+            if (!UserView.isLogIn()) {
+                // 로그인 상태가 아니면 UserView를 보여줌
                 UserView userView = new UserView();
-                
-                userView.setOnLoginSuccess(() -> {
-                    openChatView(root);
-                });
-
+                // UserView에서 로그인 성공 후 BoardView로 이동하기 위한 콜백 설정
+                userView.setOnLoginSuccess(chatViewCallback);
+                // 안에 내용을 boardView로 전환
                 root.setCenter(userView);
             } else {
-                // 로그인 상태라면 바로 채팅방으로 이동
-                openChatView(root);
+                // 로그인 상태면 바로 BoardView를 보여줌
+                showBoardView(root);
             }
         });
 
-        // 화면을 지정하고, 크기도 함꼐 지정
+        // 화면을 지정하고, 크기도 함께 지정
         Scene scene = new Scene(root, 400, 600);
         // window label 지정
         stage.setTitle("ColorGram");
