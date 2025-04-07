@@ -27,16 +27,16 @@ public class Main extends Application {
     // 뒤로가기 버튼을 위한 스택
     private final Stack<Pane> viewHistory = new Stack<>();
 
-   private Stage primaryStage; // setStage() 호출용
-    
+    private Stage primaryStage; // setStage() 호출용
+
     private ChatView chatView; // 전역으로 한 번만 만들어서 재사용
-    
+
     @Override
     public void start(Stage stage) {
-    	
-   	    this.primaryStage = stage; //  저장해둬야 setStage에 전달 가능.  창 정보 저장
 
-    	
+        this.primaryStage = stage; //  저장해둬야 setStage에 전달 가능.  창 정보 저장
+
+
         // 상단 토글버튼
         ToggleGroup toggleGroup = new ToggleGroup(); // 토글 그룹
         ToggleButton songBtn = new ToggleButton("노래");
@@ -52,6 +52,8 @@ public class Main extends Application {
         PlayerView playerView = new PlayerView(stage); // stage는 창(window)
         //
         PlayerListView playerListView = new PlayerListView(stage, playerView);
+
+        playerView.connectListView(playerListView); // 이 부분 추가
         //색깔 갱신시...
         playerView.setOnColorUpdated(() -> playerListView.refreshList());
         // 하단 버튼
@@ -118,10 +120,10 @@ public class Main extends Application {
         chatBtn.setOnAction(e -> {
             viewHistory.push((Pane) root.getCenter()); // 현재 화면 저장
 
-            if (!UserView.isLogIn()) { 
+            if (!UserView.isLogIn()) {
                 // 로그인 상태가 아니면 로그인 화면 표시
                 UserView userView = new UserView();
-                
+
                 userView.setOnLoginSuccess(() -> {
                     openChatView(root);
                 });

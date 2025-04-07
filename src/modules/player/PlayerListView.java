@@ -19,6 +19,7 @@ import java.util.Arrays;
 public class PlayerListView extends VBox {
 
     private final ListView<File> fileListView = new ListView<>();
+
     private File currentDirectory;
 
     public PlayerListView(Stage stage, PlayerView playerView) {
@@ -95,7 +96,7 @@ public class PlayerListView extends VBox {
                             0, 0, 1, 0, true, CycleMethod.NO_CYCLE,
                             new Stop(0.0, leftColor),
                             new Stop(0.35, leftColor),
-                            new Stop(0.65 , rightColor),
+                            new Stop(0.65, rightColor),
                             new Stop(1.0, rightColor)
                     ));
 
@@ -116,6 +117,7 @@ public class PlayerListView extends VBox {
             }
         });
 
+
         getChildren().addAll(folderSelectBtn, fileListView);
     }
 
@@ -124,7 +126,75 @@ public class PlayerListView extends VBox {
         return (dotIndex == -1) ? filename : filename.substring(0, dotIndex);
     }
 
+    //ListView getter
+    public ListView<File> getFileListView() {
+        return fileListView;
+    }
+
+    // PlayerListView.java에 추가
+    public File getNextFile() {
+        int currentIndex = fileListView.getSelectionModel().getSelectedIndex();
+        int size = fileListView.getItems().size();
+
+        if (size == 0) return null;
+
+        // 선택된 항목이 없으면 첫 번째 항목 반환
+        if (currentIndex == -1) {
+            fileListView.getSelectionModel().select(0);
+            return fileListView.getItems().get(0);
+        }
+
+        // 다음 항목이 있으면 반환
+        if (currentIndex < size - 1) {
+            fileListView.getSelectionModel().select(currentIndex + 1);
+            return fileListView.getItems().get(currentIndex + 1);
+        }
+
+        // 다음 항목이 없으면 null 반환 (또는 첫 번째 항목으로 순환)
+        // 순환하려면 아래 주석 해제
+        // fileListView.getSelectionModel().select(0);
+        // return fileListView.getItems().get(0);
+
+        return null;
+    }
+
+    public File getPreviousFile() {
+        int currentIndex = fileListView.getSelectionModel().getSelectedIndex();
+        int size = fileListView.getItems().size();
+
+        if (size == 0) return null;
+
+        // 선택된 항목이 없으면 첫 번째 항목 반환
+        if (currentIndex == -1) {
+            fileListView.getSelectionModel().select(0);
+            return fileListView.getItems().get(0);
+        }
+
+        // 이전 항목이 있으면 반환
+        if (currentIndex > 0) {
+            fileListView.getSelectionModel().select(currentIndex - 1);
+            return fileListView.getItems().get(currentIndex - 1);
+        }
+
+        // 이전 항목이 없으면 null 반환 (또는 마지막 항목으로 순환)
+        // 순환하려면 아래 주석 해제
+        // fileListView.getSelectionModel().select(size - 1);
+        // return fileListView.getItems().get(size - 1);
+
+        return null;
+    }
+
+
     public void refreshList() {
         fileListView.refresh();
+    }
+
+    public File getRandomFile() {
+        int size = fileListView.getItems().size();
+        if (size == 0) return null;
+
+        int randomIndex = new java.util.Random().nextInt(size);
+        fileListView.getSelectionModel().select(randomIndex);
+        return fileListView.getItems().get(randomIndex);
     }
 }

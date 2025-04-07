@@ -3,6 +3,7 @@ package modules.player;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import javafx.beans.value.ChangeListener;
 import javafx.collections.MapChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -39,26 +40,35 @@ public class PlayerView extends VBox {
     private Color leftColor = Color.web("#fc4949");
     private Color rightColor = Color.web("#f0d362");
 
+
     // 색상 선택 버튼
     private final Button redBtn = new Button();
     private final Button greenBtn = new Button();
     private final Button yellowBtn = new Button();
     private final Button purpleBtn = new Button();
     private final ImageView albumImage = new ImageView(new Image("assets/player/empty.png"));
+
+
     //색상 선택 슬라이더
     private Slider redGreenSlider;
     private Slider yellowPurpleSlider;
-
+    private final ChangeListener<Number> redGreenListener = (obs, oldVal, newVal) -> updateGradient();
+    private final ChangeListener<Number> yellowPurpleListener = (obs, oldVal, newVal) -> updateGradient();
 
     private File currentFile; // 현재 재생 중인 파일
 
     //call back (나중에 실행될 함수(코드)를 미리 등록)  저장하는 변수
     private Runnable onColorUpdated;
 
+    private boolean isShuffle = false; // 랜덤 재생 여부
     private final Button playBtn;//재생버튼
     private final Slider volumeSlider = new Slider(0, 1, 0.5); // 기본 볼륨 50%
     private final Button volumeBtn = new Button("🔊");
     private final Popup volumePopup = new Popup();
+    private final Button shuffleBtn = new Button("🔀"); // 랜덤 버튼
+
+
+    private PlayerListView playerListView; // 연결된 플레이어 리스트뷰
 
     public PlayerView(Stage stage) {
         //가운데 정렬
@@ -99,9 +109,12 @@ public class PlayerView extends VBox {
         redGreenSlider.setPrefWidth(115); // 슬라이더 너비
         yellowPurpleSlider.setPrefWidth(115);
         // 슬라이더 값 변경 시 테두리 색상 갱신
+        /*
         redGreenSlider.valueProperty().addListener((obs, oldVal, newVal) -> updateGradient());
         yellowPurpleSlider.valueProperty().addListener((obs, oldVal, newVal) -> updateGradient());
-
+        */
+        redGreenSlider.valueProperty().addListener(redGreenListener);
+        yellowPurpleSlider.valueProperty().addListener(yellowPurpleListener);
 
         // 색상 조절 슬라이더 묶음
         HBox colorSliders = new HBox(
@@ -115,7 +128,7 @@ public class PlayerView extends VBox {
         progressBar.setPrefWidth(300);
 
         // 컨트롤 버튼
-         playBtn = new Button("▶");
+        playBtn = new Button("▶");
         Button prevBtn = new Button("⏮");
         Button nextBtn = new Button("⏭");
         Button openBtn = new Button("📂");
@@ -134,13 +147,43 @@ public class PlayerView extends VBox {
             }
         });
 
+        // prevBtn과 nextBtn 이벤트 핸들러 수정
         prevBtn.setOnAction(e -> {
-            if (mediaPlayer != null) mediaPlayer.seek(Duration.ZERO);
-        });
-        nextBtn.setOnAction(e -> {
-            if (mediaPlayer != null) mediaPlayer.seek(mediaPlayer.getTotalDuration());
+            if (playerListView != null) {
+                // 이전 곡 재생
+                File prevFile = playerListView.getPreviousFile();
+                if (prevFile != null) {
+                    playFile(prevFile);
+                } else if (mediaPlayer != null) {
+                    // 이전 곡이 없다면 현재 곡 처음으로
+                    mediaPlayer.seek(Duration.ZERO);
+                }
+            } else if (mediaPlayer != null) {
+                mediaPlayer.seek(Duration.ZERO);
+            }
         });
 
+        nextBtn.setOnAction(e -> {
+            if (playerListView != null) {
+                File nextFile;
+                if (isShuffle) {
+                    nextFile = playerListView.getRandomFile();
+                } else {
+                    nextFile = playerListView.getNextFile();
+                }
+
+                if (nextFile != null) {
+                    playFile(nextFile);
+                } else if (mediaPlayer != null) {
+                    mediaPlayer.seek(mediaPlayer.getTotalDuration());
+                }
+            }
+        });
+
+        shuffleBtn.setOnAction(e -> {
+            isShuffle = !isShuffle;
+            shuffleBtn.setStyle(isShuffle ? "-fx-background-color: lightblue;" : ""); // 시각적 표시
+        });
         //파일 윈도우 열림
         openBtn.setOnAction(e -> openFile(stage));
 
@@ -182,8 +225,9 @@ public class PlayerView extends VBox {
 
         //
         saveColorBtn.setOnAction(e -> saveColorsToFile(stage));
-        HBox controlButtons = new HBox(15, openBtn, prevBtn, playBtn, nextBtn, saveColorBtn,volumeBtn);
+        HBox controlButtons = new HBox(15, openBtn, prevBtn, playBtn, nextBtn, shuffleBtn, saveColorBtn, volumeBtn);
         controlButtons.setAlignment(Pos.CENTER);
+
 
         getChildren().addAll(
                 albumBox,
@@ -379,6 +423,8 @@ public class PlayerView extends VBox {
                         titleLabel.setText(file.getName()); // fallback
                     }
                     titleLabel.setStyle("-fx-text-fill: black; -fx-font-size: 18px; -fx-font-weight: bold;");
+                    titleLabel.setTooltip(new Tooltip(titleLabel.getText()));
+
                     // 앨범 이미지 설정
                     if (media.getMetadata().get("image") instanceof javafx.scene.image.Image image) {
                         System.out.println("이미지있음");
@@ -408,7 +454,7 @@ public class PlayerView extends VBox {
 
             //마우스로 드래그하면 재생시간 재설정
             progressBar.setOnMouseDragged(e -> mediaPlayer.seek(Duration.seconds(progressBar.getValue())));
-            mediaPlayer.setOnEndOfMedia(() -> playBtn.setText("▶"));
+            mediaPlayer.setOnEndOfMedia(() -> playBtn.setText("⏸"));
 
         }
     }
@@ -425,6 +471,13 @@ public class PlayerView extends VBox {
         mediaPlayer = new MediaPlayer(media);
         loadColorsFromFile(file);
 
+
+        // 콜백 호출해서 ListView 갱신
+        if (onColorUpdated != null) {
+            onColorUpdated.run();
+        }
+
+
         media.getMetadata().addListener((MapChangeListener<? super String, ? super Object>) change -> {
             if (change.wasAdded()) {
                 String title = (String) media.getMetadata().get("title");
@@ -437,6 +490,7 @@ public class PlayerView extends VBox {
                 } else {
                     titleLabel.setText(file.getName());
                 }
+                titleLabel.setTooltip(new Tooltip(titleLabel.getText()));
 
                 if (media.getMetadata().get("image") instanceof javafx.scene.image.Image image) {
                     albumImage.setImage(image);
@@ -456,8 +510,18 @@ public class PlayerView extends VBox {
 
         progressBar.setOnMousePressed(e -> mediaPlayer.seek(Duration.seconds(progressBar.getValue())));
         progressBar.setOnMouseDragged(e -> mediaPlayer.seek(Duration.seconds(progressBar.getValue())));
-        mediaPlayer.setOnEndOfMedia(() -> playBtn.setText("▶"));
+        mediaPlayer.setOnEndOfMedia(() -> {
+            playBtn.setText("⏸");
 
+            if (playerListView != null) {
+                File nextFile = isShuffle ? playerListView.getRandomFile() : playerListView.getNextFile();
+                if (nextFile != null) {
+                    playFile(nextFile);
+                }
+            }
+        });
+
+        playBtn.setText("⏸");
         mediaPlayer.play();
     }
 
@@ -515,18 +579,22 @@ public class PlayerView extends VBox {
 
     //파일에서 색깔정보를 불러옴
     private void loadColorsFromFile(File musicFile) {
-
         String baseName = musicFile.getName();
         int dotIndex = baseName.lastIndexOf('.');
         if (dotIndex != -1) {
             baseName = baseName.substring(0, dotIndex);
         }
-        //musicFile.getParentFile()이 저장된 부모폴더 (디렉토리!!!)
+
         File colorFile = new File(musicFile.getParentFile(), baseName + ".txt");
 
-        //색깔파일이 있다면!
         if (colorFile.exists()) {
             try (Scanner scanner = new Scanner(colorFile)) {
+
+                // ✅ 1. 리스너 잠시 제거
+                redGreenSlider.valueProperty().removeListener(redGreenListener);
+                yellowPurpleSlider.valueProperty().removeListener(yellowPurpleListener);
+
+                // 색상 정보 읽기
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
                     if (line.startsWith("Left Color:")) {
@@ -535,9 +603,20 @@ public class PlayerView extends VBox {
                         rightColor = Color.web(line.substring("Right Color:".length()).trim());
                     }
                 }
-                // 읽은 후 테두리 반영
+
+                // ✅ 2. 슬라이더 값 직접 지정 (색상에 맞게)
+                redGreenSlider.setValue(redGreenSliderValueFromColor(leftColor));
+                yellowPurpleSlider.setValue(yellowPurpleSliderValueFromColor(rightColor));
+
+                // ✅ 3. 테두리에 색상 반영
                 updateGradient();
+
+                // ✅ 4. 리스너 다시 등록
+                redGreenSlider.valueProperty().addListener(redGreenListener);
+                yellowPurpleSlider.valueProperty().addListener(yellowPurpleListener);
+
                 System.out.println("색상 정보 로드 완료");
+
             } catch (Exception e) {
                 System.out.println("색상 정보를 불러오는 중 오류 발생: " + e.getMessage());
             }
@@ -546,8 +625,41 @@ public class PlayerView extends VBox {
         }
     }
 
+
     public void setOnColorUpdated(Runnable callback) {
         this.onColorUpdated = callback;
     }
+
+    //PlayerListVeiw랑 연결
+    public void connectListView(PlayerListView listView) {
+        this.playerListView = listView;
+    }
+
+    //슬라이더 그라데이션 그리기!
+    private double redGreenSliderValueFromColor(Color color) {
+        Color green = Color.web("#8cdb86");
+        Color red = Color.web("#fc4949");
+        return estimateMixRatio(green, red, color);  // 순서 반대로
+    }
+
+    private double yellowPurpleSliderValueFromColor(Color color) {
+        Color purple = Color.web("#39a2f7");
+        Color yellow = Color.web("#f0d362");
+        return estimateMixRatio(purple, yellow, color);  // 순서 반대로
+    }
+
+    private double estimateMixRatio(Color start, Color end, Color result) {
+        double distStart = colorDistance(result, start);
+        double distEnd = colorDistance(result, end);
+        return (distStart + distEnd == 0) ? 0 : distEnd / (distStart + distEnd);
+    }
+
+    private double colorDistance(Color c1, Color c2) {
+        double r = c1.getRed() - c2.getRed();
+        double g = c1.getGreen() - c2.getGreen();
+        double b = c1.getBlue() - c2.getBlue();
+        return Math.sqrt(r * r + g * g + b * b);
+    }
+
 
 }
