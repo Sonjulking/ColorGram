@@ -79,10 +79,32 @@ public class BoardListView extends BorderPane {
         TableColumn<BoardVO, String> typeCol = new TableColumn<>("타입");
         typeCol.setCellValueFactory(new PropertyValueFactory<>("boardType"));
         typeCol.setPrefWidth(70);
+        
+        TableColumn<BoardVO, Integer> writerCol = new TableColumn<>("글쓴이");
+        writerCol.setCellValueFactory(new PropertyValueFactory<>("boardWriterNum"));
+        writerCol.setPrefWidth(70);
 
         TableColumn<BoardVO, String> titleCol = new TableColumn<>("제목");
         titleCol.setCellValueFactory(new PropertyValueFactory<>("boardTitle"));
-        titleCol.setPrefWidth(200);
+        titleCol.setPrefWidth(100); // 8자에 맞게 너비 줄임
+
+        // 제목 글자 수 제한 및 말줄임표 처리
+        titleCol.setCellFactory(column -> new TableCell<BoardVO, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    if (item.length() > 8) {
+                        // 8자 초과 시 앞 5자 + 말줄임표
+                        setText(item.substring(0, 5) + "...");
+                    } else {
+                        setText(item);
+                    }
+                }
+            }
+        });
 
         TableColumn<BoardVO, java.sql.Date> dateCol = new TableColumn<>("작성일");
         dateCol.setCellValueFactory(new PropertyValueFactory<>("boardCreateTime"));
@@ -109,8 +131,8 @@ public class BoardListView extends BorderPane {
         likeCol.setCellValueFactory(new PropertyValueFactory<>("boardLikeCnt"));
         likeCol.setPrefWidth(50);
 
-        table.getColumns().addAll(numCol, typeCol, titleCol, dateCol, viewCol, likeCol);
-
+        table.getColumns().addAll(numCol, typeCol, writerCol, titleCol, dateCol, viewCol, likeCol);
+        
         // 테이블 행 클릭 이벤트
         table.setRowFactory(tv -> {
             TableRow<BoardVO> row = new TableRow<>();

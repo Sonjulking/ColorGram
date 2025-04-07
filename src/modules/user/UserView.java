@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import modules.board.BoardWriteView;
 
 public class UserView extends VBox {
 
@@ -35,6 +36,7 @@ public class UserView extends VBox {
     public UserView() {
         if (isLogIn && currentUserId != null) {
             selectUserInfo();
+     
         } else {
             setupLoginView();
         }

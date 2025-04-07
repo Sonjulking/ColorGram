@@ -53,7 +53,7 @@ public class BoardTest {
 	public static void insertBoard() {
 		String boardType, boardTitle, boardContent;
 		int boardWriterNum;
-		System.out.println("글 타입을 입력하세요. [music/free]");
+		System.out.println("글 타입을 입력하세요. [음악/자유]");
 		boardType = sc.next();
 		System.out.println("글쓴이를 입력하세요. ");
 		boardWriterNum = sc.nextInt();

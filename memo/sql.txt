@@ -26,3 +26,6 @@ CREATE TABLE users (
 회원번호를 자동으로 지정하는 시퀀스
 ex) 첫번째 회원은 1번, 두번째는 2번...
 CREATE SEQUENCE userno_seq START WITH 1 INCREMENT BY 1;
+
+글번호를 자동으로 지정하는 시퀀스
+CREATE SEQUENCE board_seq START WITH 1 INCREMENT BY 1;

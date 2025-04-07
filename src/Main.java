@@ -35,7 +35,6 @@ public class Main extends Application {
     public void start(Stage stage) {
     	
    	    this.primaryStage = stage; //  저장해둬야 setStage에 전달 가능.  창 정보 저장
-
     	
         // 상단 토글버튼
         ToggleGroup toggleGroup = new ToggleGroup(); // 토글 그룹
