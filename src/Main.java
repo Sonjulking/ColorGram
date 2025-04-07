@@ -173,13 +173,11 @@ public class Main extends Application {
         chatBtn.setOnAction(e -> {
             viewHistory.push((Pane) root.getCenter()); // 현재 화면 저장
 
-            if (!UserView.isLogIn()) {
+            if (!UserView.isLogIn()) { 
                 // 로그인 상태가 아니면 로그인 화면 표시
                 UserView userView = new UserView();
-
+                
                 userView.setOnLoginSuccess(() -> {
-                    // 로그인 성공 후 버튼 텍스트 업데이트
-                    updateUserInfoButtonVisibility();
                     openChatView(root);
                 });
 
