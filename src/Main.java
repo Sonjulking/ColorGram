@@ -77,11 +77,20 @@ public class Main extends Application {
         //색깔 갱신시...
         playerView.setOnColorUpdated(() -> playerListView.refreshList());
         // 하단 버튼
-        Button homeBtn = new Button("Home");
-        Button backBtn = new Button("Back"); // 아직 보류
-        Button playListBtn = new Button("Play List");
-        Button communityBtn = new Button("Community");
-        Button chatBtn = new Button("Chat");
+        Button homeBtn = new Button("   🏠\nHome");
+        Button backBtn = new Button("⬅️\n Back"); // 아직 보류
+        Button playListBtn = new Button("      🎵 \n PlayList");
+        Button communityBtn = new Button("   \uD83D\uDCDD\nBoard");
+        Button chatBtn = new Button("   💬 \n Chat");
+
+        for (Button btn : new Button[]{homeBtn, playListBtn, communityBtn, chatBtn}) {
+            btn.getStyleClass().add("nav-button");
+            btn.setWrapText(true); // 줄바꿈 허용
+            btn.setMinWidth(70);   // 최소 너비
+            btn.setPrefWidth(80);  // 적당한 너비
+            btn.setPrefHeight(60); // 버튼 높이
+        }
+
 
         HBox navBar = new HBox(20, homeBtn, playListBtn, communityBtn, chatBtn); // 버튼들 사이간격
         navBar.setAlignment(Pos.CENTER); // 내부버튼들 똑같이 정중앙
@@ -192,7 +201,8 @@ public class Main extends Application {
         });
 
         // 화면을 지정하고, 크기도 함께 지정
-        Scene scene = new Scene(root, 400, 600);
+        Scene scene = new Scene(root, 400, 650);
+        scene.getStylesheets().add(getClass().getResource("/assets/common/style.css").toExternalForm());
         // window label 지정
         stage.setTitle("ColorGram");
         stage.setScene(scene); // 윈도우(창)에화면을 붙임.
