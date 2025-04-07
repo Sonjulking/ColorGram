@@ -19,6 +19,8 @@ public class ChatView extends VBox {
     //접속리스트
     private ListView<String> userListView;
     private boolean isUserListVisible = false;
+    
+    private int roomNumber = 0;  // 기본 채팅방 번호
 
     // 닉네임을 매개변수로 받도록 수정
     public ChatView(String nickname) {
@@ -26,8 +28,6 @@ public class ChatView extends VBox {
         setPadding(new Insets(10));
         setSpacing(10);
         setAlignment(Pos.CENTER);
-        
-
         // 닉네임을 이미 알고 있으므로 바로 채팅방 표시
         showChatRoom();
     }
@@ -57,11 +57,7 @@ public class ChatView extends VBox {
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.vvalueProperty().bind(chatArea.heightProperty());//자동스크롤
-//        Platform.runLater(() -> scrollPane.setVvalue(1.0));  // 아래로 스크롤
-        // 3. 접속자 목록 ListView
-//        userListView = new ListView<>();
-//        userListView.setPrefWidth(150);
-//        userListView.setPrefHeight(400);
+
  
         userListView = new ListView<>();
         userListView.setPrefHeight(380);
@@ -82,13 +78,7 @@ public class ChatView extends VBox {
         chatContent.setAlignment(Pos.TOP_CENTER);
         chatContent.setPadding(new Insets(5));
         chatContent.setPrefHeight(380);// 높이 고정
-        
-     // 채팅 텍스트 영역 + 접속자 목록 (가로 배치)
-//        HBox chatContent = new HBox(10, scrollPane);
-//        chatContent.setAlignment(Pos.TOP_CENTER);
-//        chatContent.setPadding(new Insets(5));
-//        chatContent.setPrefHeight(380); // 높이 고정
-        
+  
      // 동적 비율 바인딩
         scrollPane.prefWidthProperty().bind(
             chatContent.widthProperty().multiply(
@@ -110,19 +100,7 @@ public class ChatView extends VBox {
             userListView.setVisible(isUserListVisible);
             toggleUserListBtn.setText(isUserListVisible ? "☰ 숨기기" : " ☰ ");
         });
-        // 토글 버튼으로 접속자 목록 on/off
-//        toggleUserListBtn.setOnAction(e -> {
-//            isUserListVisible = !isUserListVisible;
-//            if (isUserListVisible) {
-//                toggleUserListBtn.setText("☰ 숨기기");
-//                if (!chatContent.getChildren().contains(userListView)) {
-//                    chatContent.getChildren().add(userListView);
-//                }
-//            } else {
-//                toggleUserListBtn.setText(" ☰ ");
-//                chatContent.getChildren().remove(userListView);
-//            }
-//        });
+
         
          // 6. 하단 입력창
         TextField messageField = new TextField();
@@ -146,18 +124,6 @@ public class ChatView extends VBox {
         inputBox.setPadding(new Insets(10));
         
     
-
-    
-//        HBox inputBox = new HBox(5, messageField, sendButton);
-//        inputBox.setAlignment(Pos.CENTER);
-//        inputBox.setPadding(new Insets(5));
-
-     
-
-        // 채팅창 + 입력창 묶기
-//        VBox chatAreaWithInput = new VBox(10, scrollPane, inputBox);
-//        chatAreaWithInput.setAlignment(Pos.TOP_CENTER);
-
         // 7. 전체 배치
         VBox layout = new VBox(10, topBar, chatContent, inputBox);
         layout.setPadding(new Insets(10));
@@ -165,28 +131,38 @@ public class ChatView extends VBox {
      
 
         // 클라이언트 연결
-        chatClient = new ChatClient("127.0.0.1", 4000, chatArea, nickname, this);
+        // 여기서 roomNumber도 함께 보내기 위해, 생성 후 방 변경 메시지를 보내도록 
+        chatClient = new ChatClient("127.0.0.1", 3000, chatArea, nickname, this);
+        
 
+        // 연결 후 현재 방 번호를 서버에 알여줌
+        chatClient.changeRoom(roomNumber);
      // 화면 적용
         getChildren().add(layout);
-//        getChildren().addAll(topBar, chatContent);
+
     }
-
-//        // 클라이언트 초기화
-//        chatClient = new ChatClient("127.0.0.1", 4000, chatArea, nickname, this);
-//
-////        VBox (전체 레이아웃)구조를 바꿔줌
-////        └─ HBox (mainContent)
-////           ├─ VBox (centerContent)
-////           │  ├─ ScrollPane(chatArea)
-////           │  └─ HBox(messageField + sendButton)
-////           └─ ListView (userListView)
-////        이렇게 
-////        VBox (전체 레이아웃)
-////        ├─ HBox (topBar, toggle 버튼)
-////        ├─ HBox (chatArea + userListView) ← 이 부분만 가로 분할
-////        └─ HBox (messageField + sendButton) ← 무조건 하단 고정
-
+//채팅방 번호 벼ㅛㄴ경 메서드
+    public void changeRoom(int newRoomNumber) {
+       
+        if (this.roomNumber == 0) {
+            this.roomNumber = newRoomNumber;  
+            if (chatClient != null) {
+                chatClient.changeRoom(newRoomNumber);  
+                chatArea.getChildren().clear();
+                System.out.println("채팅방 번호가 " + newRoomNumber + "로 변경되었습니다. (입장 메시지만 발송)");
+                // 서버에서는 새 방에 입장 메시지만 전송하도록 처리
+            }
+        } else if (this.roomNumber != newRoomNumber) {  
+            int oldRoom = roomNumber;  
+           
+            chatClient.changeRoom(newRoomNumber);  
+           
+            this.roomNumber = newRoomNumber; 
+            chatArea.getChildren().clear();  
+        } else {
+            System.out.println("이미 채팅방 " + newRoomNumber + "에 있습니다.");
+        }
+    }
 
     
     //창 닫힐때 연결종료해서 정상적으로 종료되는지 확인하기위해 너

@@ -14,6 +14,7 @@ import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 import modules.board.BoardListView;
+import modules.chat.ChatRoomListView;
 import modules.chat.ChatView;
 import modules.player.PlayerListView;
 import modules.player.PlayerView;
@@ -206,13 +207,14 @@ public class Main extends Application {
                 UserView userView = new UserView();
                 
                 userView.setOnLoginSuccess(() -> {
-                    openChatView(root);
+                	 updateUserInfoButtonVisibility();
+                	 openChatRoomList(root);
                 });
 
                 root.setCenter(userView);
             } else {
                 // 로그인 상태라면 바로 채팅방으로 이동
-                openChatView(root);
+            	openChatRoomList(root);
             }
         });
 
@@ -255,24 +257,25 @@ public class Main extends Application {
         root.setCenter(chatView);
     }
 
-    // 닉네임을 가져와서 ChatView를 여는 메소드 분리
-    private void openChatView(BorderPane root) {
+
+    private void openChatRoomList(BorderPane root) {
+        // 만약 chatView가 아직 없다면 생성
         if (chatView == null) {
             String loggedInUserId = UserView.getCurrentUserId();
             UserDAO userDAO = new UserDAO();
             String nickname = userDAO.getNicknameById(loggedInUserId);
-
             if (nickname != null && !nickname.isEmpty()) {
                 chatView = new ChatView(nickname);
-                chatView.setStage(primaryStage); // 연결 종료 핸들링
+                chatView.setStage(primaryStage);
             } else {
                 System.out.println("닉네임을 가져오는 데 실패했습니다.");
                 return;
             }
         }
-
-        // 화면 전환만 함
-        root.setCenter(chatView);
+        
+        // ChatRoomListView를 생성할 때, 메인 화면의 BorderPane(root)도 함께 넘겨줍니다.
+        ChatRoomListView roomListView = new ChatRoomListView(chatView, root);
+        root.setCenter(roomListView);
     }
 
     public static void main(String[] args) {

@@ -42,7 +42,7 @@ public class ChatClient {
         }
     }
     
- // 추가: ChatView를 넘겨받는 생성자
+ // 추가 ChatView를 넘겨받는 생성자
     public ChatClient(String serverAddress, int port, VBox chatArea, String nickname, ChatView chatView) {
         this.chatArea = chatArea;
         this.nickname = nickname;
@@ -67,29 +67,7 @@ public class ChatClient {
         }
     }
 
-//    private void receiveMessages() {
-//        String message;
-//        try {
-//            while ((message = in.readLine()) != null) {
-//                String finalMessage = message;
-//
-//                Platform.runLater(() -> {
-//                    if (finalMessage.startsWith(" * ")) {
-//                        chatView.receiveMessage(null, finalMessage.trim());
-//                    } else {
-//                        int colonIndex = finalMessage.indexOf(":");
-//                        if (colonIndex != -1) {
-//                            String sender = finalMessage.substring(0, colonIndex);
-//                            String msg = finalMessage.substring(colonIndex + 1).trim();
-//                            chatView.receiveMessage(sender, msg);
-//                        }
-//                    }
-//                });
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+
     private void receiveMessages() {
         String message;
         try {
@@ -116,8 +94,17 @@ public class ChatClient {
             e.printStackTrace();
         }
     }
+    
+    public void changeRoom(int newRoomNumber) {
+  
+        if (out != null) {
+            out.println("/changeRoom " + newRoomNumber);
+            out.flush();
+            System.out.println("ChatClient: 방 변경 메시지 전송됨 -> /changeRoom " + newRoomNumber);
+        }
+    }
 
- // ChatClient.java 내부의 logout() 또는 로그아웃 버튼 클릭 핸들러에서
+ // 
     public void logout() {
         try {
             // 서버에게 먼저 나간다는 메시지 전송
@@ -126,7 +113,6 @@ public class ChatClient {
                 out.flush();
             }
 
-            // 이후 스트림 및 소켓 종료
             if (in != null) in.close();
             if (out != null) out.close();
             if (socket != null && !socket.isClosed()) socket.close();
