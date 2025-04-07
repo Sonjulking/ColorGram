@@ -130,38 +130,53 @@ public class Main extends Application {
             showBoardView(root);
         };
 
-        // ChatView로 이동하는 공통 콜백 생성
-        Runnable chatViewCallback = () -> {
-            // 로그인 성공 후 버튼 텍스트 업데이트
-            updateUserInfoButtonVisibility();
-            showBoardView(root);
-        };
-
-
         // 유저 정보 버튼
         userInfoBtn.setOnAction(e -> {
             viewHistory.push((Pane) root.getCenter()); // 현재 화면 저장
-            UserView userView = new UserView();
-
+         // 로그인 상태라면 유저 정보 화면을 띄움
+            if (UserView.isLogIn()) {
+                // 채팅 중이라면 ChatView 객체가 null이 아닌지 확인
+                if (chatView != null) {
+                    // 채팅중인 경우 ChatView에 있는 ChatClient를 UserView에 전달
+                	 UserView userView = new UserView(chatView.getChatClient());
+       //            UserView userView = new UserView();
+            
             // 로그인 성공 시 콜백 설정
             userView.setOnLoginSuccess(() -> {
                 // 로그인 성공하면 버튼 텍스트를 '유저 정보'로 변경
                 updateUserInfoButtonVisibility();
-
+                
                 // 이전 화면으로 돌아가기
                 if (!viewHistory.isEmpty()) {
                     Pane previousView = viewHistory.pop();
                     root.setCenter(previousView);
                 }
             });
-
-            // 로그아웃 성공 시 콜백 설정
-            userView.setOnLogoutSuccess(() -> {
-                // 로그아웃 성공하면 버튼 텍스트를 '로그인'으로 변경
-                updateUserInfoButtonVisibility();
-            });
-
             root.setCenter(userView);
+                } else {
+                    // 채팅창이 없는 경우 기본 생성자로 생성
+                    UserView userView = new UserView();
+                    userView.setOnLogoutSuccess(() -> {
+                        updateUserInfoButtonVisibility();
+                        if (!viewHistory.isEmpty()) {
+                            Pane previousView = viewHistory.pop();
+                            root.setCenter(previousView);
+                        }
+                    });
+                    root.setCenter(userView);
+                }
+            } else {
+                // 로그인되지 않은 경우 UserView(로그인 화면)를 그대로 사용
+                UserView userView = new UserView();
+                userView.setOnLoginSuccess(() -> {
+                    updateUserInfoButtonVisibility();
+                    if (!viewHistory.isEmpty()) {
+                        Pane previousView = viewHistory.pop();
+                        root.setCenter(previousView);
+                    }
+                });
+                root.setCenter(userView);
+            }
         });
 
         // 커뮤니티버튼
@@ -182,21 +197,22 @@ public class Main extends Application {
             }
         });
 
-        //채팅버튼
+     // 채팅 버튼
         chatBtn.setOnAction(e -> {
-            viewHistory.push((Pane) root.getCenter());// 현재 화면 스택에 저장
+            viewHistory.push((Pane) root.getCenter()); // 현재 화면 저장
 
-            // 로그인 상태 확인
-            if (!UserView.isLogIn()) {
-                // 로그인 상태가 아니면 UserView를 보여줌
+            if (!UserView.isLogIn()) { 
+                // 로그인 상태가 아니면 로그인 화면 표시
                 UserView userView = new UserView();
-                // UserView에서 로그인 성공 후 BoardView로 이동하기 위한 콜백 설정
-                userView.setOnLoginSuccess(chatViewCallback);
-                // 안에 내용을 boardView로 전환
+                
+                userView.setOnLoginSuccess(() -> {
+                    openChatView(root);
+                });
+
                 root.setCenter(userView);
             } else {
-                // 로그인 상태면 바로 BoardView를 보여줌
-                showBoardView(root);
+                // 로그인 상태라면 바로 채팅방으로 이동
+                openChatView(root);
             }
         });
 
