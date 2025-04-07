@@ -89,14 +89,16 @@ public class BoardWriteView extends BorderPane {
 		typeBox.setAlignment(Pos.CENTER_LEFT);
 
 		// 제목 입력
-		Label titleFieldLabel = new Label("제목:");
+		Label titleFieldLabel = new Label("제목: ");
+		titleFieldLabel.setMinWidth(40); // 라벨에 고정 너비 부여
 		titleField = new TextField();
 		titleField.setPrefWidth(400);
-		HBox titleBox = new HBox(10, titleFieldLabel, titleField);
+		HBox titleBox = new HBox(5, titleFieldLabel, titleField); // 간격 줄임
 		titleBox.setAlignment(Pos.CENTER_LEFT);
 
 		// 내용 입력
-		Label contentLabel = new Label("내용:");
+		Label contentLabel = new Label("내용: ");
+		contentLabel.setMinWidth(60); // 라벨에 동일한 고정 너비 부여
 		contentArea = new TextArea();
 		contentArea.setPrefHeight(300);
 		contentArea.setWrapText(true);

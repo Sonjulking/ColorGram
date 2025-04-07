@@ -13,6 +13,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import modules.user.UserDAO;
+import modules.user.UserVO;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -24,12 +26,14 @@ public class BoardListView extends BorderPane {
     private final TableView<BoardVO> boardTable;
     private final Pagination pagination;
     private final BoardDAO boardDAO;
+    private final UserDAO userDAO; // UserDAO 추가
     private List<BoardVO> boardList;
     private final int rowsPerPage = 10;
 
     public BoardListView(Consumer<Node> navigationCallback) {
         this.navigationCallback = navigationCallback;
         this.boardDAO = new BoardDAO();
+        this.userDAO = new UserDAO(); // UserDAO 초기화
 
         // 상단 제목
         Label titleLabel = new Label("게시판");
@@ -80,9 +84,40 @@ public class BoardListView extends BorderPane {
         typeCol.setCellValueFactory(new PropertyValueFactory<>("boardType"));
         typeCol.setPrefWidth(70);
         
+        // 글쓴이 컬럼 수정 - 번호 대신 닉네임 표시
         TableColumn<BoardVO, Integer> writerCol = new TableColumn<>("글쓴이");
         writerCol.setCellValueFactory(new PropertyValueFactory<>("boardWriterNum"));
-        writerCol.setPrefWidth(70);
+        writerCol.setPrefWidth(100); // 닉네임 표시를 위해 너비 증가
+        
+        // 글쓴이 컬럼의 셀 팩토리 수정
+        writerCol.setCellFactory(column -> new TableCell<BoardVO, Integer>() {
+            @Override
+            protected void updateItem(Integer writerNum, boolean empty) {
+                super.updateItem(writerNum, empty);
+                
+                if (empty || writerNum == null) {
+                    setText(null);
+                } else {
+                    try {
+                        // 작성자 번호로 사용자 정보 조회
+                        UserVO writer = userDAO.selectUserByNo(writerNum);
+                        if (writer != null) {
+                            // 닉네임이 있으면 닉네임, 없으면 ID 표시
+                            String displayName = writer.getUserNickname();
+                            if (displayName == null || displayName.isEmpty()) {
+                                displayName = writer.getUserId();
+                            }
+                            setText(displayName);
+                        } else {
+                            setText(String.valueOf(writerNum)); // 사용자 정보가 없을 경우 번호 표시
+                        }
+                    } catch (Exception e) {
+                        setText(String.valueOf(writerNum)); // 오류 시 번호 표시
+                        System.err.println("작성자 정보 조회 오류: " + e.getMessage());
+                    }
+                }
+            }
+        });
 
         TableColumn<BoardVO, String> titleCol = new TableColumn<>("제목");
         titleCol.setCellValueFactory(new PropertyValueFactory<>("boardTitle"));
