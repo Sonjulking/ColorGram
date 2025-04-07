@@ -11,6 +11,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import modules.user.UserDAO;
+import modules.user.UserVO;
+import modules.user.UserView;
 
 import java.util.function.Consumer;
 
@@ -149,8 +152,18 @@ public class BoardWriteView extends BorderPane {
                 newBoard.setBoardType(typeComboBox.getValue());
                 newBoard.setBoardContent(contentArea.getText());
                 
-                // 임시 설정 (실제로는 로그인한 사용자 정보를 사용해야 함)
-                newBoard.setBoardWriterNum(1);  // 임시 사용자 번호
+                // 현재 로그인한 사용자 정보 사용
+                String loggedInUserId = UserView.getCurrentUserId();
+                UserDAO userDAO = new UserDAO();
+                UserVO currentUser = userDAO.selectUser(loggedInUserId);
+                
+                if (currentUser != null) {
+                    newBoard.setBoardWriterNum(currentUser.getUserNo());
+                } else {
+                    showAlert("사용자 정보를 가져올 수 없습니다.");
+                    return;
+                }
+                
                 newBoard.setBoardViewCnt(0);
                 newBoard.setBoardLikeCnt(0);
                 newBoard.setBoardIsDeleted("N");
