@@ -640,7 +640,9 @@ public class PlayerView extends VBox {
                     artistLabel.setText("");
                 }
                 titleLabel.setStyle("-fx-text-fill: black; -fx-font-size: 18px; -fx-font-weight: bold;");
+
                 titleLabel.setTooltip(new Tooltip(titleLabel.getText()));
+                artistLabel.setTooltip(new Tooltip(artistLabel.getText()));
 
                 if (media.getMetadata().get("image") instanceof javafx.scene.image.Image image) {
                     albumImage.setImage(image);
