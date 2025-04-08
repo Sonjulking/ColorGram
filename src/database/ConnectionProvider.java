@@ -8,20 +8,18 @@ import java.sql.Statement;
 public class ConnectionProvider {
     public static String driver = "oracle.jdbc.driver.OracleDriver";
     public static String url = "jdbc:oracle:thin:@localhost:1521:XE";
-    public static String username = "c##madang";
-    public static String password = "madang";
+/*    public static String username = "c##madang";
+    public static String password = "madang";*/
 
-    public static Connection getConnection() {
+    public static Connection getConnection(String username, String password) {
         Connection conn = null;
         try {
             Class.forName(driver);
             conn = DriverManager.getConnection(url, username, password);
-
         } catch (Exception e) {
-            System.out.println("예외발생 : " + e.getMessage());
+            System.out.println("예외발생:" + e.getMessage());
         }
         return conn;
-
     }
 
     public static void close(Connection conn, Statement stmt, ResultSet rs) {

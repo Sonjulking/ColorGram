@@ -2,6 +2,7 @@ package modules.player;
 
 import java.io.FileWriter;
 import java.io.IOException;
+
 import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.MapChangeListener;
@@ -31,10 +32,10 @@ import java.util.Scanner;
 public class PlayerView extends VBox {
 
     // 곡 제목
-    private final Label titleLabel = new Label(""); 
+    private final Label titleLabel = new Label("");
 
     private final Label artistLabel = new Label("선택된 노래가 없습니다.");// 초기값
-    
+
     //미디어 플레이어
     private MediaPlayer mediaPlayer;
 
@@ -43,7 +44,7 @@ public class PlayerView extends VBox {
     //앨범테두리?
     private final Rectangle borderRect = new Rectangle(200, 200); // 테두리
     private final ImageView albumImage = new ImageView(new Image("assets/player/empty.png"));
-    
+
     // 선택된 색을 저장할 변수
     private Color leftColor = Color.web("#fc4949");
     private Color rightColor = Color.web("#f0d362");
@@ -54,7 +55,6 @@ public class PlayerView extends VBox {
     private final Button greenBtn = new Button();
     private final Button yellowBtn = new Button();
     private final Button purpleBtn = new Button();
-   
 
 
     //색상 선택 슬라이더
@@ -77,18 +77,18 @@ public class PlayerView extends VBox {
 
 
     private PlayerListView playerListView; // 연결된 플레이어 리스트뷰
-    
-    
- // **토글 UI 관련**  
+
+
+    // **토글 UI 관련**
     // 토글버튼 좌측에 배치
     private final ToggleButton toggleButton = new ToggleButton("♡");
     // 색상 저장 버튼 – 토글 활성 시 우측
     private final Button saveColorBtn = new Button("🎨");
-    
+
     private HBox toggleBar;
     // 색상 제어 컨트롤 토글 활성 시 보이게
     private HBox colorControlsPane;
-    
+
     private VBox infoControlArea;
 
     public PlayerView(Stage stage) {
@@ -120,15 +120,11 @@ public class PlayerView extends VBox {
 //        titleLabel.setTranslateY(20); // 살짝 올리기
         //titleLabel.setPadding(new Insets(10, 0, -35, 0));
         VBox.setMargin(albumBox, new Insets(10, 0, 0, 0));
-        
+
         // 색상 버튼 UI
         HBox colorButtons = createColorButtonBox();
 
-        
-        
-        
-        
-        
+
         //토글 영역(infoControlArea)에 들어갈 색상 조절 슬라이더, 버튼 등 미리 초기화
         redGreenSlider = new Slider(0, 1, 0.5);
         yellowPurpleSlider = new Slider(0, 1, 0.5);
@@ -145,17 +141,17 @@ public class PlayerView extends VBox {
                 createColorBox("", "", yellowBtn, purpleBtn, yellowPurpleSlider)
         );
         colorSliders.setAlignment(Pos.CENTER);
-        colorControlsPane = colorSliders; 
+        colorControlsPane = colorSliders;
         colorControlsPane.setVisible(false); // 초기에는 보이지 않음
 
         // ─────────────────────────────
-        // 토글 영역(infoControlArea) 구성  
-       
-        
+        // 토글 영역(infoControlArea) 구성
+
+
         HBox topRow = new HBox(10);
         topRow.setAlignment(Pos.CENTER_LEFT);
         topRow.getChildren().add(toggleButton);
-        HBox.setMargin(saveColorBtn, new Insets(0, 40, 0, 0));//살짝 왼쪽으로 
+        HBox.setMargin(saveColorBtn, new Insets(0, 40, 0, 0));//살짝 왼쪽으로
 
         // 확장 가능한 spacer 추가 (토글 버튼과 저장 버튼 사이의 공간을 채움)
         Region spacer = new Region();
@@ -166,10 +162,12 @@ public class PlayerView extends VBox {
         topRow.getChildren().add(saveColorBtn);
         saveColorBtn.setVisible(false);
 
-       
+
         StackPane bottomRow = new StackPane();
         bottomRow.setPrefHeight(50);  // 토글 영역의 하단 영역 높이를 고정
         artistLabel.setOpacity(1);    // 초기에는 artistLabel이 보임
+
+        artistLabel.setStyle("-fx-text-fill: black; -fx-font-size: 23px; -fx-font-weight: bold;");
         colorControlsPane.setOpacity(0);  // 색상 컨트롤은 숨김
         colorControlsPane.setVisible(false);
         bottomRow.getChildren().addAll(artistLabel, colorControlsPane);
@@ -181,10 +179,10 @@ public class PlayerView extends VBox {
         // ─────────────────────────────
         // 토글 버튼 스타일 및 이벤트 처리
         toggleButton.setStyle(
-            "-fx-background-color: transparent;" +
-            "-fx-border-color: transparent;" +
-            "-fx-font-size: 30px;" +
-            "-fx-translate-x: 30px;"  // 오른쪽으로 이동
+                "-fx-background-color: transparent;" +
+                        "-fx-border-color: transparent;" +
+                        "-fx-font-size: 30px;" +
+                        "-fx-translate-x: 30px;"  // 오른쪽으로 이동
         );
 
         toggleButton.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
@@ -238,7 +236,7 @@ public class PlayerView extends VBox {
         saveColorBtn.setOnAction(e -> saveColorsToFile(stage));
 
         // ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
-        // 재생 컨트롤 관련 UI 구성 
+        // 재생 컨트롤 관련 UI 구성
         playBtn = new Button("▶");
         Button prevBtn = new Button("⏮");
         Button nextBtn = new Button("⏭");
@@ -339,24 +337,24 @@ public class PlayerView extends VBox {
         controlButtons.setAlignment(Pos.CENTER);
         for (Button btn : new Button[]{shuffleBtn, prevBtn, playBtn, nextBtn, volumeBtn}) {
             btn.setStyle("-fx-background-color: transparent;" +
-                         "-fx-border-color: transparent;" +
-                         "-fx-padding: 0;" +
-                         "-fx-font-size: " + (int)(btn.getPrefHeight() * 0.5) + "px;");
+                    "-fx-border-color: transparent;" +
+                    "-fx-padding: 0;" +
+                    "-fx-font-size: " + (int) (btn.getPrefHeight() * 0.5) + "px;");
         }
 
         // ─────────────────────────────
         // 최종 전체 UI 레이아웃 구성:
-    
+
         getChildren().clear();
         getChildren().addAll(
-            titleLabel,
-            albumBox,
-            infoControlArea,
-            progressBar,
-            controlButtons
+                titleLabel,
+                albumBox,
+                infoControlArea,
+                progressBar,
+                controlButtons
         );
     }
-        //
+    //
 //        saveColorBtn.setOnAction(e -> saveColorsToFile(stage));
 //        saveColorBtn.setStyle("-fx-font-size: 16px; -fx-padding: 5px 15px;");
 //        HBox controlButtons = new HBox( 35 ,shuffleBtn, prevBtn, playBtn, nextBtn,  volumeBtn);
@@ -366,22 +364,22 @@ public class PlayerView extends VBox {
 //            btn.setStyle(
 //                "-fx-background-color: transparent;" +
 //                "-fx-border-color: transparent;" +
-//                "-fx-padding: 0;" + 
-//                "-fx-font-size: " + (int)(btn.getPrefHeight() * 0.5) + "px;" 
+//                "-fx-padding: 0;" +
+//                "-fx-font-size: " + (int)(btn.getPrefHeight() * 0.5) + "px;"
 //            );
 //        }
 //
 //        getChildren().addAll(
 //                albumBox,
 //                titleLabel,
-////                colorButtons,
+
+    /// /                colorButtons,
 //                colorSliders,
 //                saveColorBtn,
 //                progressBar,
 //                controlButtons
 //        );
 //    }
-
     private HBox createColorButtonBox() {
 
         // 버튼 스타일 적용
@@ -428,9 +426,7 @@ public class PlayerView extends VBox {
         box.setAlignment(Pos.CENTER);
         return box;
     }
-    
-    
- 
+
 
     // 슬라이더와  + 버튼
     private VBox createColorBox(
@@ -470,7 +466,7 @@ public class PlayerView extends VBox {
 
         // 겹치기
         StackPane sliderStack = new StackPane(slider);
-        
+
         sliderStack.setAlignment(Pos.CENTER_LEFT);
 
         VBox box = new VBox(
@@ -631,13 +627,13 @@ public class PlayerView extends VBox {
                 String artist = (String) media.getMetadata().get("artist");
 
                 if (title != null && artist != null) {
-                    titleLabel.setText(title );
+                    titleLabel.setText(title);
                 } else if (title != null) {
-                    titleLabel.setText(title );
+                    titleLabel.setText(title);
                 } else {
                     titleLabel.setText(file.getName());
                 }
-                
+
                 if (artist != null) {
                     artistLabel.setText(artist);
                 } else {
@@ -840,4 +836,5 @@ public class PlayerView extends VBox {
         } else {
             albumImage.setImage(new Image("assets/player/empty.png")); // 기본 이미지
         }
-    }}
+    }
+}

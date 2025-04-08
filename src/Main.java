@@ -1,3 +1,4 @@
+import database.Init;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -134,26 +135,26 @@ public class Main extends Application {
         // 유저 정보 버튼
         userInfoBtn.setOnAction(e -> {
             viewHistory.push((Pane) root.getCenter()); // 현재 화면 저장
-         // 로그인 상태라면 유저 정보 화면을 띄움
+            // 로그인 상태라면 유저 정보 화면을 띄움
             if (UserView.isLogIn()) {
                 // 채팅 중이라면 ChatView 객체가 null이 아닌지 확인
                 if (chatView != null) {
                     // 채팅중인 경우 ChatView에 있는 ChatClient를 UserView에 전달
-                	 UserView userView = new UserView(chatView.getChatClient());
-       //            UserView userView = new UserView();
-            
-            // 로그인 성공 시 콜백 설정
-            userView.setOnLoginSuccess(() -> {
-                // 로그인 성공하면 버튼 텍스트를 '유저 정보'로 변경
-                updateUserInfoButtonVisibility();
-                
-                // 이전 화면으로 돌아가기
-                if (!viewHistory.isEmpty()) {
-                    Pane previousView = viewHistory.pop();
-                    root.setCenter(previousView);
-                }
-            });
-            root.setCenter(userView);
+                    UserView userView = new UserView(chatView.getChatClient());
+                    //            UserView userView = new UserView();
+
+                    // 로그인 성공 시 콜백 설정
+                    userView.setOnLoginSuccess(() -> {
+                        // 로그인 성공하면 버튼 텍스트를 '유저 정보'로 변경
+                        updateUserInfoButtonVisibility();
+
+                        // 이전 화면으로 돌아가기
+                        if (!viewHistory.isEmpty()) {
+                            Pane previousView = viewHistory.pop();
+                            root.setCenter(previousView);
+                        }
+                    });
+                    root.setCenter(userView);
                 } else {
                     // 채팅창이 없는 경우 기본 생성자로 생성
                     UserView userView = new UserView();
@@ -198,23 +199,23 @@ public class Main extends Application {
             }
         });
 
-     // 채팅 버튼
+        // 채팅 버튼
         chatBtn.setOnAction(e -> {
             viewHistory.push((Pane) root.getCenter()); // 현재 화면 저장
 
-            if (!UserView.isLogIn()) { 
+            if (!UserView.isLogIn()) {
                 // 로그인 상태가 아니면 로그인 화면 표시
                 UserView userView = new UserView();
-                
+
                 userView.setOnLoginSuccess(() -> {
-                	 updateUserInfoButtonVisibility();
-                	 openChatRoomList(root);
+                    updateUserInfoButtonVisibility();
+                    openChatRoomList(root);
                 });
 
                 root.setCenter(userView);
             } else {
                 // 로그인 상태라면 바로 채팅방으로 이동
-            	openChatRoomList(root);
+                openChatRoomList(root);
             }
         });
 
@@ -272,15 +273,15 @@ public class Main extends Application {
                 return;
             }
         }
-        
+
         // ChatRoomListView를 생성할 때, 메인 화면의 BorderPane(root)도 함께 넘겨줍니다.
         ChatRoomListView roomListView = new ChatRoomListView(chatView, root);
         root.setCenter(roomListView);
     }
 
     public static void main(String[] args) {
+        Init.init();
         launch(args);
     }
-
 
 }

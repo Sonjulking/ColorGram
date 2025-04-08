@@ -20,7 +20,7 @@ public class UserDAO {
         ResultSet rs = null;
 
         try {
-            conn = ConnectionProvider.getConnection();
+            conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
             if (conn == null) return false;
 
             String sql = "SELECT * FROM users WHERE user_id = ? AND user_password = ?";
@@ -39,8 +39,8 @@ public class UserDAO {
             ConnectionProvider.close(conn, pstmt, rs);
         }
     }
-    
-    
+
+
     // 이 부분 추가했어요 -승원
     // 사용자 번호로 사용자 정보 조회 메소드
     public UserVO selectUserByNo(int userNo) {
@@ -49,8 +49,8 @@ public class UserDAO {
         ResultSet rs = null;
 
         try {
-            conn = ConnectionProvider.getConnection();
-            
+            conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
+
             // 연결 실패 시 처리
             if (conn == null) {
                 System.out.println("데이터베이스 연결 실패");
@@ -89,7 +89,7 @@ public class UserDAO {
         String nickname = null;
 
         try {
-            conn = ConnectionProvider.getConnection();
+            conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
             if (conn == null) return null;
 
             String sql = "SELECT user_nickname FROM users WHERE user_id = ?";
@@ -114,7 +114,7 @@ public class UserDAO {
         PreparedStatement pstmt = null;
 
         try {
-            conn = ConnectionProvider.getConnection();
+            conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
 
             // 연결 실패 시 처리
             if (conn == null) {
@@ -152,33 +152,33 @@ public class UserDAO {
     public boolean deleteUser(String id) {
         Connection conn = null;
         PreparedStatement pstmt = null;
-        
+
         try {
             // 사용자 정보 조회
             UserVO user = selectUser(id);
             if (user == null) return false;
-            
+
             int userNo = user.getUserNo();
-            
+
             // 1. 댓글 좋아요 기록 삭제
             CommentDAO commentDAO = new CommentDAO();
             commentDAO.deleteCommentLikesByUser(userNo);
-            
+
             // 2. 댓글 작성자 업데이트
             commentDAO.updateCommentsForDeletedUser(userNo);
-            
+
             // 3. 게시글 작성자 업데이트
             BoardDAO boardDAO = new BoardDAO();
             boardDAO.updateBoardsForDeletedUser(userNo);
-            
+
             // 4. 사용자 삭제
-            conn = ConnectionProvider.getConnection();
+            conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
             if (conn == null) return false;
-            
+
             String sql = "DELETE FROM users WHERE user_id = ?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, id);
-            
+
             int result = pstmt.executeUpdate();
             return result > 0;
         } catch (Exception e) {
@@ -196,7 +196,7 @@ public class UserDAO {
         ResultSet rs = null;
 
         try {
-            conn = ConnectionProvider.getConnection();
+            conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
 
             // 연결 실패 시 처리
             if (conn == null) {
@@ -218,7 +218,6 @@ public class UserDAO {
                 user.setUserId(rs.getString("user_id"));
                 user.setUserPassword(rs.getString("user_password"));
                 user.setUserEmail(rs.getString("user_email"));
-                System.out.println("불러왔나요~~!유저!!!");
                 return user;
             }
             return null;
@@ -236,7 +235,7 @@ public class UserDAO {
         PreparedStatement pstmt = null;
 
         try {
-            conn = ConnectionProvider.getConnection();
+            conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
 
             // 연결 실패 시 처리
             if (conn == null) {
@@ -266,7 +265,7 @@ public class UserDAO {
         PreparedStatement pstmt = null;
 
         try {
-            conn = ConnectionProvider.getConnection();
+            conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
 
             // 연결 실패 시 처리
             if (conn == null) {
@@ -304,7 +303,7 @@ public class UserDAO {
         PreparedStatement pstmt = null;
 
         try {
-            conn = ConnectionProvider.getConnection();
+            conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
 
             // 연결 실패 시 처리
             if (conn == null) {
@@ -335,7 +334,7 @@ public class UserDAO {
         ResultSet rs = null;
 
         try {
-            conn = ConnectionProvider.getConnection();
+            conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
 
             // 연결 실패 시 처리
             if (conn == null) {
@@ -380,7 +379,7 @@ public class UserDAO {
         ResultSet rs = null;
 
         try {
-            conn = ConnectionProvider.getConnection();
+            conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
 
             // 연결 실패 시 처리
             if (conn == null) {
@@ -414,7 +413,7 @@ public class UserDAO {
         ResultSet rs = null;
 
         try {
-            conn = ConnectionProvider.getConnection();
+            conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
 
             // 연결 실패 시 처리
             if (conn == null) {
@@ -448,7 +447,7 @@ public class UserDAO {
         ResultSet rs = null;
 
         try {
-            conn = ConnectionProvider.getConnection();
+            conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
 
             // 연결 실패 시 처리
             if (conn == null) {

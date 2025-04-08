@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+
 import database.ConnectionProvider;
 
 public class CommentDAO {
@@ -17,7 +18,7 @@ public class CommentDAO {
                     "comment_is_deleted, comment_deleted_time) " +
                     "VALUES(comments_seq.nextval, ?, ?, ?, sysdate, null, 'N', null)";
 
-            Connection conn = ConnectionProvider.getConnection();
+            Connection conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
             pstmt.setInt(1, comment.getCommentBoardNum());
@@ -39,14 +40,14 @@ public class CommentDAO {
         ArrayList<CommentVO> list = new ArrayList<CommentVO>();
         try {
             String sql = "SELECT c.comment_num, c.comment_board_num, c.comment_writer_num, " +
-                    "c.comment_content, c.comment_create_time, c.comment_update_time, " + 
+                    "c.comment_content, c.comment_create_time, c.comment_update_time, " +
                     "c.comment_like_cnt, u.user_nickname " +
                     "FROM comments c " +
                     "JOIN users u ON c.comment_writer_num = u.user_no " +
                     "WHERE c.comment_board_num = ? AND c.comment_is_deleted = 'N' " +
                     "ORDER BY c.comment_like_cnt DESC, c.comment_create_time ASC";
 
-            Connection conn = ConnectionProvider.getConnection();
+            Connection conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, boardNum);
 
@@ -87,7 +88,7 @@ public class CommentDAO {
                     "JOIN users u ON c.comment_writer_num = u.user_no " +
                     "WHERE c.comment_num = ? AND c.comment_is_deleted = 'N'";
 
-            Connection conn = ConnectionProvider.getConnection();
+            Connection conn = conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, commentNum);
 
@@ -124,7 +125,7 @@ public class CommentDAO {
                     "comment_update_time = sysdate " +
                     "WHERE comment_num = ? AND comment_is_deleted = 'N'";
 
-            Connection conn = ConnectionProvider.getConnection();
+            Connection conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, comment.getCommentContent());
@@ -149,7 +150,7 @@ public class CommentDAO {
                     "comment_deleted_time = sysdate " +
                     "WHERE comment_num = ? AND comment_is_deleted = 'N'";
 
-            Connection conn = ConnectionProvider.getConnection();
+            Connection conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, commentNum);
 
@@ -170,7 +171,7 @@ public class CommentDAO {
             String sql = "UPDATE comments SET comment_like_cnt = comment_like_cnt + 1 " +
                     "WHERE comment_num = ? AND comment_is_deleted = 'N'";
 
-            Connection conn = ConnectionProvider.getConnection();
+            Connection conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, commentNum);
 
@@ -183,24 +184,24 @@ public class CommentDAO {
         }
         return result;
     }
-    
+
     // 사용자가 댓글에 추천했는지 확인
     public boolean hasUserLikedComment(int userNo, int commentNum) {
         boolean hasLiked = false;
         try {
             String sql = "SELECT COUNT(*) FROM comment_likes WHERE user_no = ? AND comment_num = ?";
-            
-            Connection conn = ConnectionProvider.getConnection();
+
+            Connection conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, userNo);
             pstmt.setInt(2, commentNum);
-            
+
             ResultSet rs = pstmt.executeQuery();
-            
+
             if (rs.next()) {
                 hasLiked = rs.getInt(1) > 0;
             }
-            
+
             ConnectionProvider.close(conn, pstmt, rs);
         } catch (Exception e) {
             System.out.println("예외발생: " + e.getMessage());
@@ -214,14 +215,14 @@ public class CommentDAO {
         try {
             // 1. 추천 이력 추가
             String insertSql = "INSERT INTO comment_likes (user_no, comment_num) VALUES (?, ?)";
-            
-            Connection conn = ConnectionProvider.getConnection();
+
+            Connection conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
             PreparedStatement pstmt = conn.prepareStatement(insertSql);
             pstmt.setInt(1, userNo);
             pstmt.setInt(2, commentNum);
-            
+
             result = pstmt.executeUpdate();
-            
+
             if (result > 0) {
                 // 2. 댓글의 추천 수 증가
                 String updateSql = "UPDATE comments SET comment_like_cnt = comment_like_cnt + 1 WHERE comment_num = ?";
@@ -229,7 +230,7 @@ public class CommentDAO {
                 pstmt.setInt(1, commentNum);
                 pstmt.executeUpdate();
             }
-            
+
             ConnectionProvider.close(conn, pstmt);
         } catch (Exception e) {
             System.out.println("예외발생: " + e.getMessage());
@@ -244,14 +245,14 @@ public class CommentDAO {
         try {
             // 1. 추천 이력 제거
             String deleteSql = "DELETE FROM comment_likes WHERE user_no = ? AND comment_num = ?";
-            
-            Connection conn = ConnectionProvider.getConnection();
+
+            Connection conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
             PreparedStatement pstmt = conn.prepareStatement(deleteSql);
             pstmt.setInt(1, userNo);
             pstmt.setInt(2, commentNum);
-            
+
             result = pstmt.executeUpdate();
-            
+
             if (result > 0) {
                 // 2. 댓글의 추천 수 감소
                 String updateSql = "UPDATE comments SET comment_like_cnt = comment_like_cnt - 1 WHERE comment_num = ?";
@@ -259,7 +260,7 @@ public class CommentDAO {
                 pstmt.setInt(1, commentNum);
                 pstmt.executeUpdate();
             }
-            
+
             ConnectionProvider.close(conn, pstmt);
         } catch (Exception e) {
             System.out.println("예외발생: " + e.getMessage());
@@ -275,7 +276,7 @@ public class CommentDAO {
             String sql = "SELECT COUNT(*) FROM comments " +
                     "WHERE comment_board_num = ? AND comment_is_deleted = 'N'";
 
-            Connection conn = ConnectionProvider.getConnection();
+            Connection conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, boardNum);
 
@@ -302,7 +303,7 @@ public class CommentDAO {
                     "comment_deleted_time = sysdate " +
                     "WHERE comment_board_num = ? AND comment_is_deleted = 'N'";
 
-            Connection conn = ConnectionProvider.getConnection();
+            Connection conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, boardNum);
 
@@ -315,7 +316,7 @@ public class CommentDAO {
         }
         return result;
     }
-    
+
     // 탈퇴한 사용자의 댓글 작성자명 변경
     public int updateCommentsForDeletedUser(int userNo) {
         int result = -1;
@@ -323,7 +324,7 @@ public class CommentDAO {
             String sql = "UPDATE comments SET comment_writer_num = 0 " +
                     "WHERE comment_writer_num = ?";
 
-            Connection conn = ConnectionProvider.getConnection();
+            Connection conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, userNo);
 
@@ -335,19 +336,19 @@ public class CommentDAO {
         }
         return result;
     }
-    
+
     // 탈퇴 한 사용자의 좋아요 삭제
     public int deleteCommentLikesByUser(int userNo) {
         int result = -1;
         try {
             String sql = "DELETE FROM comment_likes WHERE user_no = ?";
-            
-            Connection conn = ConnectionProvider.getConnection();
+
+            Connection conn = ConnectionProvider.getConnection("c##colorgram", "colorgram");
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, userNo);
-            
+
             result = pstmt.executeUpdate();
-            
+
             ConnectionProvider.close(conn, pstmt);
         } catch (Exception e) {
             System.out.println("예외발생: " + e.getMessage());
