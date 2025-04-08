@@ -78,11 +78,11 @@ public class Main extends Application {
         //색깔 갱신시...
         playerView.setOnColorUpdated(() -> playerListView.refreshList());
         // 하단 버튼
-        Button homeBtn = new Button("   🏠\nHome");
+        Button homeBtn = new Button("🏠");
         Button backBtn = new Button("⬅️\n Back"); // 아직 보류
-        Button playListBtn = new Button("      🎵 \n PlayList");
-        Button communityBtn = new Button("   \uD83D\uDCDD\nBoard");
-        Button chatBtn = new Button("   💬 \n Chat");
+        Button playListBtn = new Button("\uD83D\uDCC2");
+        Button communityBtn = new Button("📝");
+        Button chatBtn = new Button("💬");
 
         for (Button btn : new Button[]{homeBtn, playListBtn, communityBtn, chatBtn}) {
             btn.getStyleClass().add("nav-button");
@@ -219,7 +219,7 @@ public class Main extends Application {
         });
 
         // 화면을 지정하고, 크기도 함께 지정
-        Scene scene = new Scene(root, 400, 650);
+        Scene scene = new Scene(root, 400, 680);
         scene.getStylesheets().add(getClass().getResource("/assets/common/style.css").toExternalForm());
         // window label 지정
         stage.setTitle("ColorGram");

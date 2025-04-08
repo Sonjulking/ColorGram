@@ -96,7 +96,8 @@ public class PlayerView extends VBox {
         // 곡 제목
         //Label titleLabel = new Label("설법 - 김세훈");
         titleLabel.setStyle("-fx-text-fill: red; -fx-font-size: 18px; -fx-font-weight: bold;");
-
+        titleLabel.setTranslateY(20); // 살짝 올리기
+        //titleLabel.setPadding(new Insets(10, 0, -35, 0));
         // 색상 버튼 UI
         HBox colorButtons = createColorButtonBox();
 
@@ -126,7 +127,10 @@ public class PlayerView extends VBox {
 
         // 재생바
         progressBar.setPrefWidth(300);
-
+    /*    progressBar.setStyle(
+                "-fx-control-inner-background: transparent;"
+        );
+*/
         // 컨트롤 버튼
         playBtn = new Button("▶");
         Button prevBtn = new Button("⏮");
@@ -196,7 +200,7 @@ public class PlayerView extends VBox {
         openBtn.setOnAction(e -> openFile(stage));
 
         //색깔 저장 버튼
-        Button saveColorBtn = new Button("🎨 저장");
+        Button saveColorBtn = new Button("🎨");
         // 볼륨 슬라이더 UI
         volumeSlider.setOrientation(Orientation.VERTICAL); // 세로 슬라이더
         volumeSlider.setPrefHeight(100);
@@ -233,7 +237,8 @@ public class PlayerView extends VBox {
 
         //
         saveColorBtn.setOnAction(e -> saveColorsToFile(stage));
-        HBox controlButtons = new HBox(15, openBtn, prevBtn, playBtn, nextBtn, shuffleBtn, saveColorBtn, volumeBtn);
+        saveColorBtn.setStyle("-fx-font-size: 16px; -fx-padding: 5px 15px;");
+        HBox controlButtons = new HBox(15, prevBtn, playBtn, nextBtn, shuffleBtn, volumeBtn);
         controlButtons.setAlignment(Pos.CENTER);
 
 
@@ -242,6 +247,7 @@ public class PlayerView extends VBox {
                 titleLabel,
                 colorButtons,
                 colorSliders,
+                saveColorBtn,
                 progressBar,
                 controlButtons
         );
@@ -534,6 +540,8 @@ public class PlayerView extends VBox {
 
         playBtn.setText("⏸");
         mediaPlayer.play();
+        System.out.println("음악재생중!");
+        titleLabel.setTooltip(new Tooltip(titleLabel.getText()));
     }
 
     //색깔 저장

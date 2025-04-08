@@ -6,7 +6,7 @@
 .nav-button {
     -fx-background-color: transparent;
     -fx-text-fill: #333;
-    -fx-font-size: 12px;
+    -fx-font-size: 25px;
     -fx-font-weight: bold;
     -fx-alignment: center;
     -fx-content-display: top; /* 텍스트를 아이콘 아래로 */
