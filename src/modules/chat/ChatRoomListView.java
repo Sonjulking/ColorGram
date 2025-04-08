@@ -22,14 +22,14 @@ public class ChatRoomListView extends VBox {
         Button room1Btn = new Button("채팅방 1");
         Button room2Btn = new Button("채팅방 2");
         Button room3Btn = new Button("채팅방 3");
-        Button room4Btn = new Button("채팅방 3");
+        Button room4Btn = new Button("채팅방 4");
 
         Button[] buttons = { room1Btn, room2Btn, room3Btn, room4Btn };
         for (Button btn : buttons) {
             btn.setMaxWidth(Double.MAX_VALUE);
             btn.setPrefHeight(80);  
             btn.setStyle(
-                "-fx-font-size: 20px;" +
+                "-fx-font-size: 20px;" + 
                 "-fx-text-fill: #000000;" +
                 "-fx-background-color: #B3E5FC" +
                 "-fx-background-radius: 25;" // 둥근모서리
