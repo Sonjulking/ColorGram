@@ -631,11 +631,17 @@ public class PlayerView extends VBox {
                 String artist = (String) media.getMetadata().get("artist");
 
                 if (title != null && artist != null) {
-                    titleLabel.setText(title + " - " + artist);
+                    titleLabel.setText(title );
                 } else if (title != null) {
-                    titleLabel.setText(title);
+                    titleLabel.setText(title );
                 } else {
                     titleLabel.setText(file.getName());
+                }
+                
+                if (artist != null) {
+                    artistLabel.setText(artist);
+                } else {
+                    artistLabel.setText("");
                 }
                 titleLabel.setStyle("-fx-text-fill: black; -fx-font-size: 18px; -fx-font-weight: bold;");
                 titleLabel.setTooltip(new Tooltip(titleLabel.getText()));
