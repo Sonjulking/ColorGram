@@ -37,8 +37,7 @@
 -  채팅
 ---
 ## 서비스 화면
-> 여기에 이미지 캡처 추가
-> 예:
+
 > ![메인화면]![image](https://github.com/user-attachments/assets/f6eb09b2-f0f0-4385-8dd2-5ca6f1ccfcb5)
 
 
