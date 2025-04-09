@@ -41,5 +41,40 @@
 ## 주요 기능
 - 음악 플레이어  
 - 색상을 통한 음악 시각화  
-- 회원램
-![image](https://github.com/user-attachments/assets/1fb7edd2-0462-4fab-ae1d-947b46bf342a)
+- 회원가입 / 로그인 / 로그아웃  
+- 게시판, 댓글 CRUD  
+- 채팅  
+
+---
+
+## 서비스 화면
+
+> <img src="https://github.com/user-attachments/assets/f6eb09b2-f0f0-4385-8dd2-5ca6f1ccfcb5" width="400"/>
+
+> <img src="https://github.com/user-attachments/assets/9e384483-9c90-4a61-b676-53c8656999d3" width="400"/>
+
+---
+
+## 폴더 구조
+
+```
+lib/
+memo/
+src/
+├── assets/
+│   ├── board/
+│   ├── chat/
+│   ├── common/
+│   ├── player/
+│   └── user/
+├── database/
+│   ├── dao/
+│   ├── vo/
+│   └── ConnectionProvider
+├── modules/
+│   ├── board/
+│   ├── chat/
+│   ├── player/
+│   └── user/
+└── Main
+```
