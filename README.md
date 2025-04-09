@@ -81,6 +81,6 @@ src/
 ---
 ## ERD 다이어그램
 <div align="left">
-  <img src="https://github.com/user-attachments/assets/b3989ca7-ebdf-427c-a01b-f96f12812216" width="300"/>
+  <img src="https://github.com/user-attachments/assets/b3989ca7-ebdf-427c-a01b-f96f12812216" width="400"/>
 </div>
 
