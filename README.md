@@ -47,7 +47,26 @@
 
 ---
 ## 폴더 구조
-![image](https://github.com/user-attachments/assets/01ffdc1e-f4b3-461e-9f65-bb2dd9a0a86d)
+lib/
+memo/
+src/
+├── assets/
+│   ├── board/
+│   ├── chat/
+│   ├── common/
+│   ├── player/
+│   └── user/
+├── database/
+│   ├── dao/
+│   ├── vo/
+│   └── ConnectionProvider
+├── modules/
+│   ├── board/
+│   ├── chat/
+│   ├── player/
+│   └── user/
+└── Main
+
 
 
 
