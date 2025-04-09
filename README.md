@@ -49,9 +49,9 @@
 
 ## 서비스 화면
 
-> <img src="https://github.com/user-attachments/assets/f6eb09b2-f0f0-4385-8dd2-5ca6f1ccfcb5" width="400"/>
+> <img src="https://github.com/user-attachments/assets/f6eb09b2-f0f0-4385-8dd2-5ca6f1ccfcb5" width="200"/>
 
-> <img src="https://github.com/user-attachments/assets/9e384483-9c90-4a61-b676-53c8656999d3" width="400"/>
+> <img src="https://github.com/user-attachments/assets/9e384483-9c90-4a61-b676-53c8656999d3" width="200"/>
 
 ---
 
