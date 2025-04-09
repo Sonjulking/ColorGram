@@ -25,7 +25,7 @@ public class ChatView extends VBox {
     private ListView<String> userListView;
     private boolean isUserListVisible = false;
     
-    private int roomNumber = 0;  // 기본 채팅방 번호
+    private int roomNumber = 1;  // 기본 채팅방 번호
     
  // 채팅방 타이틀(방 이름)을 표시할 라벨
     private Label chatRoomTitle;
