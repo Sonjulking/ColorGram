@@ -66,34 +66,50 @@ public class ChatClient {
             out.println( message); // 닉네임 포함 메시지 전송
         }
     }
-
-
-    private void receiveMessages() {
-        String message;
-        try {
-            while ((message = in.readLine()) != null) {
-                String finalMessage = message;
-
-                Platform.runLater(() -> {
-                    if (finalMessage.startsWith("USER_LIST:")) {
-                        String[] users = finalMessage.substring(10).split(",");
-                        chatView.updateUserList(List.of(users)); // ListView 갱신
-                    } else if (finalMessage.startsWith(" * ")) {
-                        chatView.receiveMessage(null, finalMessage.trim());
-                    } else {
-                        int colonIndex = finalMessage.indexOf(":");
-                        if (colonIndex != -1) {
-                            String sender = finalMessage.substring(0, colonIndex);
-                            String msg = finalMessage.substring(colonIndex + 1).trim();
-                            chatView.receiveMessage(sender, msg);
-                        }
-                    }
-                });
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    
+    // 타이핑 알림 메시지 전송 (ChatView에서 호출)
+    public void sendTypingNotification() {
+        if (out != null) {
+            // "TYPING:" 접두어와 함께 닉네임 전송 (서버에서 이를 받아 다른 클라이언트에 "TYPING_UPDATE:" 메시지로 브로드캐스트해야 함)
+            out.println("TYPING:" + nickname);
         }
     }
+    
+    // 메시지 반응(리액션) 전송 (필요 시 추가)
+    public void sendReaction(String sender, String messageTimestamp, String reaction) {
+        if (out != null) {
+            // 예: "REACTION:sender:timestamp:reaction"
+            out.println("REACTION:" + sender + ":" + messageTimestamp + ":" + reaction);
+        }
+    }
+
+
+//    private void receiveMessages() {
+//        String message;
+//        try {
+//            while ((message = in.readLine()) != null) {
+//                String finalMessage = message;
+//
+//                Platform.runLater(() -> {
+//                    if (finalMessage.startsWith("USER_LIST:")) {
+//                        String[] users = finalMessage.substring(10).split(",");
+//                        chatView.updateUserList(List.of(users)); // ListView 갱신
+//                    } else if (finalMessage.startsWith(" * ")) {
+//                        chatView.receiveMessage(null, finalMessage.trim());
+//                    } else {
+//                        int colonIndex = finalMessage.indexOf(":");
+//                        if (colonIndex != -1) {
+//                            String sender = finalMessage.substring(0, colonIndex);
+//                            String msg = finalMessage.substring(colonIndex + 1).trim();
+//                            chatView.receiveMessage(sender, msg);
+//                        }
+//                    }
+//                });
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
     
     public void changeRoom(int newRoomNumber) {
   
@@ -146,5 +162,36 @@ public class ChatClient {
         }
     }
 
+ // 서버로부터 메시지 수신
+    private void receiveMessages() {
+        String message;
+        try {
+            while ((message = in.readLine()) != null) {
+                String finalMessage = message;
+                
+                Platform.runLater(() -> {
+                    if (finalMessage.startsWith("USER_LIST:")) {
+                        String[] users = finalMessage.substring(10).split(",");
+                        chatView.updateUserList(List.of(users));
+                    } else if (finalMessage.startsWith("TYPING_UPDATE:")) {
+                        // 타이핑 인디케이터 업데이트 메시지
+                        // ChatView의 receiveMessage()에서 "TYPING_UPDATE:" 접두어를 확인하여 처리할 수 있음
+                        chatView.receiveMessage(null, finalMessage);
+                    } else if (finalMessage.startsWith(" * ")) {
+                        chatView.receiveMessage(null, finalMessage.trim());
+                    } else {
+                        int colonIndex = finalMessage.indexOf(":");
+                        if (colonIndex != -1) {
+                            String sender = finalMessage.substring(0, colonIndex);
+                            String msg = finalMessage.substring(colonIndex + 1).trim();
+                            chatView.receiveMessage(sender, msg);
+                        }
+                    }
+                });
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
