@@ -48,6 +48,7 @@
 ---
 
 ## 서비스 화면
+> <img src="https://github.com/user-attachments/assets/5dced84a-8cdb-421e-bb4f-c7028347a0cc" width="200"/>
 
 > <img src="https://github.com/user-attachments/assets/f6eb09b2-f0f0-4385-8dd2-5ca6f1ccfcb5" width="200"/>
 
