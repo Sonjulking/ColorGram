@@ -25,7 +25,7 @@ public class ChatView extends VBox {
     private ListView<String> userListView;
     private boolean isUserListVisible = false;
     
-    private int roomNumber = 1;  // 기본 채팅방 번호
+    private int roomNumber = 0;  // 기본 채팅방 번호
     
  // 채팅방 타이틀(방 이름)을 표시할 라벨
     private Label chatRoomTitle;
@@ -381,10 +381,23 @@ public class ChatView extends VBox {
     public void logoutChat() {
         if (chatClient != null) {
             chatClient.logout();
+            chatClient = null;  // 기존 인스턴스 제거
             System.out.println("ChatView: 로그아웃 처리 완료!");
         } else {
             System.out.println("ChatView: chatClient가 null입니다.");
         }
+    }
+    public void reconnect() {
+        // 기존 연결이 남아 있다면 마무리하고
+        if (chatClient != null) {
+            chatClient.logout();
+            chatClient = null;
+        }
+        // 새로운 ChatClient 객체를 생성합니다.
+        chatClient = new ChatClient("127.0.0.1", 5000, chatArea, nickname, this);
+        // 연결 후 현재 roomNumber를 서버에 알립니다.
+        chatClient.changeRoom(roomNumber);
+        System.out.println("ChatView: 새로운 연결이 생성되었습니다.");
     }
     
     // 접속자 리스트 갱신용 메서드
