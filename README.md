@@ -5,7 +5,7 @@
 ## 팀 소개 - 자벤져스
 |  이름  |          역할            |          GitHub 링크           |
 |--------|--------------------------|--------------------------------|
-| 고강찬 | 팀장, 음악 플레이어 개발 | https://github.com/bushwick97  |
+| 고강찬 | 팀장, 음악 플레이어 개발 | https://github.com/Sonjulking  |
 | 이승원 |       게시판 개발        | https://github.com/tinytinalee |
 | 엄지원 |    회원관리/댓글 개발    | https://github.com/umg1        |
 | 최산하 |        채팅 개발         | https://github.com/sanaxa      |
