@@ -199,7 +199,7 @@ public class ChatView extends VBox {
 
         // 클라이언트 연결
         // 여기서 roomNumber도 함께 보내기 위해, 생성 후 방 변경 메시지를 보내도록 
-        chatClient = new ChatClient("127.0.0.1", 3000, chatArea, nickname, this);
+        chatClient = new ChatClient("127.0.0.1", 5000, chatArea, nickname, this);
         
 
         // 연결 후 현재 방 번호를 서버에 알여줌
