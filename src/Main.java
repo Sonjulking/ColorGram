@@ -135,61 +135,24 @@ public class Main extends Application {
         // 유저 정보 버튼
         userInfoBtn.setOnAction(e -> {
             viewHistory.push((Pane) root.getCenter()); // 현재 화면 저장
-            // 로그인 상태라면 유저 정보 화면을 띄움
             if (UserView.isLogIn()) {
-            	UserView userView;
-                // 채팅 중이라면 ChatView 객체가 null이 아닌지 확인
+                UserView userView;
                 if (chatView != null) {
-                	 // 채팅 중인 경우 ChatView에 있는 ChatClient를 UserView에 전달
-                	 userView = new UserView(chatView.getChatClient());
-                    //            UserView userView = new UserView();
-
-                	 // 로그아웃 성공 시 콜백 (로그아웃 후 ChatRoomListView를 보여줌)
-                     userView.setOnLogoutSuccess(() -> {
-                        // 로그인 성공하면 버튼 텍스트를 '유저 정보'로 변경
-                        updateUserInfoButtonVisibility();
-                        // 채팅이 실행 중이었다면 logoutChat()을 호출하고, chatView를 null로 설정
-                        if (chatView != null) {
-                            chatView.logoutChat();
-                            chatView = null;
-                        }
-                     // 로그아웃 후 채팅방 리스트 화면을 보여줌
-                        openChatRoomList(root);
-                        // 이전 화면으로 돌아가기
-//                        if (!viewHistory.isEmpty()) {
-//                            Pane previousView = viewHistory.pop();
-//                            root.setCenter(previousView);
-//                        }
-                    });
-                    root.setCenter(userView);
+                    userView = new UserView(chatView.getChatClient());
                 } else {
-                	// 채팅창이 없는 경우 기본 생성자로 생성
                     userView = new UserView();
-                    userView.setOnLogoutSuccess(() -> {
-                        updateUserInfoButtonVisibility();
-                     // 채팅방 리스트로 바로 전환
-                        openChatRoomList(root);
-//                        if (chatView != null) {
-//                            chatView.logoutChat();
-//                            chatView = null;
-//                        }
-//                        if (!viewHistory.isEmpty()) {
-//                            Pane previousView = viewHistory.pop();
-//                            root.setCenter(previousView);
-//                        }
-                    });
-                    root.setCenter(userView);
-                }// 로그아웃 성공 콜백 설정 (로그아웃 시 채팅방 리스트 화면으로 전환)
-//                userView.setOnLogoutSuccess(() -> {
-//                    updateUserInfoButtonVisibility();
-//                    if (chatView != null) {
-//                        chatView.logoutChat();
-//                        chatView = null;
-//                    }
-//                 // 로그아웃 후 채팅방 리스트 화면을 보여줌
-//                    openChatRoomList(root);
-//                });
-//                root.setCenter(userView);
+                }
+                // 로그아웃 성공 시 콜백 설정: 기존 chatView 종료 및 백 스택 비우고 채팅방 리스트로 전환
+                userView.setOnLogoutSuccess(() -> {
+                    updateUserInfoButtonVisibility();
+                    if (chatView != null) {
+                        chatView.logoutChat();
+                        chatView = null;  // 확실하게 초기화
+                    }
+                    viewHistory.clear();       // 백 스택 비우기
+                    openChatRoomList(root);    // 채팅방 리스트 화면 전환
+                });
+                root.setCenter(userView);
             } else {
                 // 로그인되지 않은 경우 UserView(로그인 화면)를 그대로 사용
                 UserView userView = new UserView();
@@ -203,6 +166,110 @@ public class Main extends Application {
                 root.setCenter(userView);
             }
         });
+//        userInfoBtn.setOnAction(e -> {
+//            viewHistory.push((Pane) root.getCenter()); // 현재 f화면 저장
+//            if (UserView.isLogIn()) {
+//                UserView userView;
+//                if (chatView != null) {
+//                    userView = new UserView(chatView.getChatClient());
+//                } else {
+//                    userView = new UserView();
+//                }
+//                // 로그아웃 성공 시 콜백 설정 (로그아웃 후 채팅방 리스트 화면으로 전환)
+//                userView.setOnLogoutSuccess(() -> {
+//                    updateUserInfoButtonVisibility();
+//                    if (chatView != null) {
+//                        chatView.logoutChat();
+//                        chatView = null;  // 여기서 확실하게 null 처리
+//                    }
+//                    // 이전 화면 복원 없이 채팅방 리스트 화면으로 전환
+//                    viewHistory.clear(); 
+//                    openChatRoomList(root);
+//                });
+//                root.setCenter(userView);
+//            } else {
+//                // 로그인되지 않은 경우 UserView(로그인 화면)를 그대로 사용
+//                UserView userView = new UserView();
+//                userView.setOnLoginSuccess(() -> {
+//                    updateUserInfoButtonVisibility();
+//                    if (!viewHistory.isEmpty()) {
+//                        Pane previousView = viewHistory.pop();
+//                        root.setCenter(previousView);
+//                    }
+//                });
+//                root.setCenter(userView);
+//            }
+//        });
+//        userInfoBtn.setOnAction(e -> {
+//            viewHistory.push((Pane) root.getCenter()); // 현재 화면 저장
+//            // 로그인 상태라면 유저 정보 화면을 띄움
+//            if (UserView.isLogIn()) {
+//            	UserView userView;
+//                // 채팅 중이라면 ChatView 객체가 null이 아닌지 확인
+//                if (chatView != null) {
+//                	 // 채팅 중인 경우 ChatView에 있는 ChatClient를 UserView에 전달
+//                	 userView = new UserView(chatView.getChatClient());
+//                    //            UserView userView = new UserView();
+//
+//                	 // 로그아웃 성공 시 콜백 (로그아웃 후 ChatRoomListView를 보여줌)
+//                     userView.setOnLogoutSuccess(() -> {
+//                        // 로그인 성공하면 버튼 텍스트를 '유저 정보'로 변경
+//                        updateUserInfoButtonVisibility();
+//                        // 채팅이 실행 중이었다면 logoutChat()을 호출하고, chatView를 null로 설정
+//                        if (chatView != null) {
+//                            chatView.logoutChat();
+//                            chatView = null;
+//                        }
+//                     // 로그아웃 후 채팅방 리스트 화면을 보여줌
+//                        openChatRoomList(root);
+//                        // 이전 화면으로 돌아가기
+////                        if (!viewHistory.isEmpty()) {
+////                            Pane previousView = viewHistory.pop();
+////                            root.setCenter(previousView);
+////                        }
+//                    });
+//                    root.setCenter(userView);
+//                } else {
+//                	// 채팅창이 없는 경우 기본 생성자로 생성
+//                    userView = new UserView();
+//                    userView.setOnLogoutSuccess(() -> {
+//                        updateUserInfoButtonVisibility();
+//                     // 채팅방 리스트로 바로 전환
+//                        openChatRoomList(root);
+////                        if (chatView != null) {
+////                            chatView.logoutChat();
+////                            chatView = null;
+////                        }
+////                        if (!viewHistory.isEmpty()) {
+////                            Pane previousView = viewHistory.pop();
+////                            root.setCenter(previousView);
+////                        }
+//                    });
+//                    root.setCenter(userView);
+//                }// 로그아웃 성공 콜백 설정 (로그아웃 시 채팅방 리스트 화면으로 전환)
+////                userView.setOnLogoutSuccess(() -> {
+////                    updateUserInfoButtonVisibility();
+////                    if (chatView != null) {
+////                        chatView.logoutChat();
+////                        chatView = null;
+////                    }
+////                 // 로그아웃 후 채팅방 리스트 화면을 보여줌
+////                    openChatRoomList(root);
+////                });
+////                root.setCenter(userView);
+//            } else {
+//                // 로그인되지 않은 경우 UserView(로그인 화면)를 그대로 사용
+//                UserView userView = new UserView();
+//                userView.setOnLoginSuccess(() -> {
+//                    updateUserInfoButtonVisibility();
+//                    if (!viewHistory.isEmpty()) {
+//                        Pane previousView = viewHistory.pop();
+//                        root.setCenter(previousView);
+//                    }
+//                });
+//                root.setCenter(userView);
+//            }
+//        });
 
         // 커뮤니티버튼
         communityBtn.setOnAction(e -> {
@@ -283,25 +350,23 @@ public class Main extends Application {
 
 
     private void openChatRoomList(BorderPane root) {
-        // 만약 chatView가 아직 없다면 생성
-        if (chatView == null) {
-            String loggedInUserId = UserView.getCurrentUserId();
-            UserDAO userDAO = new UserDAO();
-            String nickname = userDAO.getNicknameById(loggedInUserId);
-            if (nickname != null && !nickname.isEmpty()) {
-                chatView = new ChatView(nickname);
-                chatView.setStage(primaryStage);
-            } else {
-                System.out.println("닉네임을 가져오는 데 실패했습니다.");
-                return;
-            }
+        // 백 스택도 여기서 한번 더 정리(선택 사항)
+        viewHistory.clear();
+        
+        String loggedInUserId = UserView.getCurrentUserId();
+        UserDAO userDAO = new UserDAO();
+        String nickname = userDAO.getNicknameById(loggedInUserId);
+        if (nickname != null && !nickname.isEmpty()) {
+            // 항상 새 ChatView 인스턴스 생성
+            chatView = new ChatView(nickname);
+            chatView.setStage(primaryStage);
+        } else {
+            System.out.println("닉네임을 가져오는 데 실패했습니다.");
+            return;
         }
-
-        // ChatRoomListView를 생성할 때, 메인 화면의 BorderPane(root)도 함께 넘겨줍니다.
         ChatRoomListView roomListView = new ChatRoomListView(chatView, root);
         root.setCenter(roomListView);
     }
-
     public static void main(String[] args) {
         Init.init();
         launch(args);
