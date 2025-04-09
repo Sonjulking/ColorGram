@@ -1,6 +1,6 @@
 # Colorgram
 > 자바 웹 개발자 국비지원 과정 팀 프로젝트
-> 팀 **자벤져스**의 협업으로 완성된 컬러 기반 이미지 갤러리 웹 애플리케이션
+> 음악의 시각화와, 소통을 위한 JavaFX 프로젝트
 ---
 ## 팀 소개 - 자벤져스
 |  이름  |          역할            |          GitHub 링크           |
@@ -11,56 +11,42 @@
 | 최산하 |        채팅 개발         | https://github.com/sanaxa      |
 ---
 ## 프로젝트 기간
-- **2025.03.01 ~ 2025.04.05** (총 5주)
+- **2025.04.02  ~ 2025.04.09** (총 7일)
 ---
 ## 프로젝트 개요
-### **Colorgram**은 사용자가 이미지를 업로드하면 주요 색상을 추출하고,
-### 해당 색상 기반으로 이미지를 분류하여 갤러리 형태로 볼 수 있는 웹 서비스입니다.
+### **Colorgram**은 음악의 분위기와 템포를 색깔로 설정하여
+## 해당 색상 기반으로 음악을 분류할 수 있습니다.
+## 또한 음악을 듣는 사용자간의 소통을 증진하기 위한 JavaFX 프로젝트입니다.
+
+
 ---
 ## 사용 기술 스택
-### Backend
-- Java 11
-- Spring Boot
-- Spring Security
-- Spring Data JPA
-- MySQL
-### Frontend
-- HTML/CSS/JavaScript
-- Thymeleaf
-- Bootstrap
+- Java 21
+- Java FX
+- Oracle
 ### 협업 & 배포
-- Git & GitHub
-- Notion, Figma
-- AWS EC2
-- Docker
+- Git
+- Notion
+- Slack
 ---
 ## 주요 기능
-- [x] 회원가입 / 로그인 / 로그아웃
-- [x] 이미지 업로드 및 색상 추출
-- [x] 갤러리 뷰 및 색상 필터링
-- [x] 관리자 페이지
-- [x] 반응형 웹 UI
+-  음악 플레이어
+-  색상을 통한 음악 시각화
+-  회원가입 / 로그인 / 로그아웃
+-  게시판, 댓글 CRUD
+-  채팅
 ---
 ## 서비스 화면
 > 여기에 이미지 캡처 추가
 > 예:
-> ![메인화면](images/main_page.png)
-> ![컬러추출](images/color_extraction.png)
+> ![메인화면](![image](https://github.com/user-attachments/assets/f6eb09b2-f0f0-4385-8dd2-5ca6f1ccfcb5)
+)
+
+> ![컬러추출](![image](https://github.com/user-attachments/assets/9e384483-9c90-4a61-b676-53c8656999d3)
+)
 ---
 ## 폴더 구조
-```bash
-:파일_폴더: colorgram
-├── src
-│   ├── main
-│   │   ├── java/com/colorgram
-│   │   │   ├── controller
-│   │   │   ├── service
-│   │   │   ├── repository
-│   │   │   └── domain
-│   │   └── resources
-│   │       ├── templates
-│   │       ├── static
-│   │       └── application.yml
+![image](https://github.com/user-attachments/assets/01ffdc1e-f4b3-461e-9f65-bb2dd9a0a86d)
 
 
 
