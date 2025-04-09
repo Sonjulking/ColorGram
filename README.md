@@ -39,11 +39,11 @@
 ## 서비스 화면
 > 여기에 이미지 캡처 추가
 > 예:
-> ![메인화면](![image](https://github.com/user-attachments/assets/f6eb09b2-f0f0-4385-8dd2-5ca6f1ccfcb5)
-)
+> ![메인화면]![image](https://github.com/user-attachments/assets/f6eb09b2-f0f0-4385-8dd2-5ca6f1ccfcb5)
 
-> ![컬러추출](![image](https://github.com/user-attachments/assets/9e384483-9c90-4a61-b676-53c8656999d3)
-)
+
+> ![컬러추출]![image](https://github.com/user-attachments/assets/9e384483-9c90-4a61-b676-53c8656999d3)
+
 ---
 ## 폴더 구조
 ![image](https://github.com/user-attachments/assets/01ffdc1e-f4b3-461e-9f65-bb2dd9a0a86d)
