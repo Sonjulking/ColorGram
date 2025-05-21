@@ -258,7 +258,7 @@ public class PlayerListView extends VBox {
         }
 
         File[] audioFiles = currentDirectory.listFiles(file -> file.getName().endsWith(".mp3") || file.getName().endsWith(".wav"));
-        //중간색 출력
+        //슬라이더만큼 색깔출력.
         Color targetLeft = interpolate(Color.web("#fc4949"), Color.web("#8cdb86"), redGreenSlider.getValue());
         Color targetRight = interpolate(Color.web("#f0d362"), Color.web("#39a2f7"), yellowPurpleSlider.getValue());
 
@@ -270,14 +270,11 @@ public class PlayerListView extends VBox {
                                       double leftDist = colorDistance(targetLeft, colors[0]);
                                       //오른쪽 컬러간 길이
                                       double rightDist = colorDistance(targetRight, colors[1]);
-
                                       //두 거리의 합이 작을 수록 슬라이더와 비슷한 색
                                       return leftDist + rightDist;
                                   }))
                                   .collect(Collectors.toList()); //정렬된 스트림을 리스트로 변환
-
         fileListView.getItems().setAll(sorted); //정렬된 리스트를 화면에 보여지는 ListView에 적용
-
     }
 
     //중간색!!

@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="colorgram:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fa40e02-cece-4bb7-a7f2-c888644ef6ef" name="변경" comment="[feat] SortMusic">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+    <list default="true" id="0fa40e02-cece-4bb7-a7f2-c888644ef6ef" name="변경" comment="실행파일">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/player/PlayerListView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/player/PlayerListView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,6 +80,10 @@
     &quot;accountId&quot;: &quot;63900dc8-3c24-43b3-aa28-61e4839d5a46&quot;
   }
 }</component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -92,16 +99,16 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/bushw/OneDrive/Desktop/color_gram (3)/src/modules/user/UserVO.java",
+    "last_opened_file_path": "C:/kkc/project/kosta/ColorGram",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "모듈",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
+    "project.structure.last.edited": "아티팩트",
+    "project.structure.proportion": "0.15429688",
+    "project.structure.side.proportion": "0.27816093",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "two.files.diff.last.used.file": "C:/Users/bushw/OneDrive/Desktop/color_gram (3)/src/modules/user/UserVO.java",
     "vue.rearranger.settings.migration": "true",
     "애플리케이션.Main.executor": "Run"
@@ -126,6 +133,9 @@
       <recent name="C:\kkc\project\color_gram\src\database\dao" />
       <recent name="C:\kkc\project\color_gram\src\modules\chat" />
       <recent name="C:\kkc\project\color_gram\src\modules\user" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="database" />
     </key>
   </component>
   <component name="RunManager">
@@ -158,7 +168,6 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="애플리케이션.Main" />
         <item itemvalue="애플리케이션.Main" />
       </list>
     </recent_temporary>
@@ -202,7 +211,20 @@
       <workItem from="1743947641002" duration="203000" />
       <workItem from="1743947860271" duration="638000" />
       <workItem from="1743983922461" duration="13503000" />
-      <workItem from="1743999893116" duration="3225000" />
+      <workItem from="1743999893116" duration="8864000" />
+      <workItem from="1744009745426" duration="7191000" />
+      <workItem from="1744024635010" duration="2740000" />
+      <workItem from="1744069305337" duration="11196000" />
+      <workItem from="1744089085687" duration="5299000" />
+      <workItem from="1744097936223" duration="1778000" />
+      <workItem from="1744101989266" duration="448000" />
+      <workItem from="1744156576694" duration="6496000" />
+      <workItem from="1744177208469" duration="4088000" />
+      <workItem from="1744244027301" duration="2822000" />
+      <workItem from="1744246908380" duration="1309000" />
+      <workItem from="1744614841482" duration="804000" />
+      <workItem from="1744675183398" duration="25000" />
+      <workItem from="1747633354611" duration="6672000" />
     </task>
     <task id="LOCAL-00001" summary="testCommit;">
       <option name="closed" value="true" />
@@ -324,7 +346,111 @@
       <option name="project" value="LOCAL" />
       <updated>1743991831193</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="[feat] ListSave_250407">
+      <option name="closed" value="true" />
+      <created>1744003410005</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1744003410005</updated>
+    </task>
+    <task id="LOCAL-00017" summary="[feat] 앨범이미지 수정_250407">
+      <option name="closed" value="true" />
+      <created>1744005428546</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1744005428546</updated>
+    </task>
+    <task id="LOCAL-00018" summary="[fix] 이퀄라이저 버튼 삭제, 검색버튼 정렬_250407">
+      <option name="closed" value="true" />
+      <created>1744011222438</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1744011222438</updated>
+    </task>
+    <task id="LOCAL-00019" summary="[fix] UI 수정_250407">
+      <option name="closed" value="true" />
+      <created>1744013081565</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1744013081565</updated>
+    </task>
+    <task id="LOCAL-00020" summary="[fix] ui수정_250407">
+      <option name="closed" value="true" />
+      <created>1744013780167</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1744013780167</updated>
+    </task>
+    <task id="LOCAL-00021" summary="[fix] UI수정_250408">
+      <option name="closed" value="true" />
+      <created>1744070627803</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1744070627803</updated>
+    </task>
+    <task id="LOCAL-00022" summary="[feat] exe파일 생성_250408">
+      <option name="closed" value="true" />
+      <created>1744095722227</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1744095722227</updated>
+    </task>
+    <task id="LOCAL-00023" summary="[fix] 글자 크기 조정_250408">
+      <option name="closed" value="true" />
+      <created>1744102063125</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1744102063125</updated>
+    </task>
+    <task id="LOCAL-00024" summary="실행파일, 발표자료">
+      <option name="closed" value="true" />
+      <created>1744244418568</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1744244418569</updated>
+    </task>
+    <task id="LOCAL-00025" summary="실행파일, 발표자료">
+      <option name="closed" value="true" />
+      <created>1744245409475</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1744245409475</updated>
+    </task>
+    <task id="LOCAL-00026" summary="실행파일, 발표자료">
+      <option name="closed" value="true" />
+      <created>1744245538515</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1744245538515</updated>
+    </task>
+    <task id="LOCAL-00027" summary="실행파일">
+      <option name="closed" value="true" />
+      <created>1744614980370</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1744614980370</updated>
+    </task>
+    <task id="LOCAL-00028" summary="실행파일">
+      <option name="closed" value="true" />
+      <created>1747643546622</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1747643546622</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -390,6 +516,19 @@
     <MESSAGE value="[feat] 플레이어 슬라이더 추가_250404" />
     <MESSAGE value="[docs] sql.txt 추가_250406" />
     <MESSAGE value="[feat]긴제목 툴팁처리, 다음곡, 이전곡, 랜덤재생 기능_250407" />
-    <option name="LAST_COMMIT_MESSAGE" value="[feat]긴제목 툴팁처리, 다음곡, 이전곡, 랜덤재생 기능_250407" />
+    <MESSAGE value="[feat] ListSave_250407" />
+    <MESSAGE value="[feat] 앨범이미지 수정_250407" />
+    <MESSAGE value="[fix] 이퀄라이저 버튼 삭제, 검색버튼 정렬_250407" />
+    <MESSAGE value="[fix] UI 수정_250407" />
+    <MESSAGE value="[fix] ui수정_250407" />
+    <MESSAGE value="[fix] UI수정_250408" />
+    <MESSAGE value="[feat] exe파일 생성_250408" />
+    <MESSAGE value="[fix] 글자 크기 조정_250408" />
+    <MESSAGE value="실행파일, 발표자료" />
+    <MESSAGE value="실행파일" />
+    <option name="LAST_COMMIT_MESSAGE" value="실행파일" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/ColorGram$Main.ic" NAME="Main 커버리지 결과" MODIFIED="1744007623960" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
   </component>
 </project>
